@@ -1,6 +1,7 @@
 #ifndef _SORT_H
 #define _SORT_H
 
+#include <stdbool.h>
 #include <stddef.h>
 
 typedef int (*COMPARE_FUNC) (void *first, void *second);

@@ -1,5 +1,6 @@
 #include "sorting.h"
 
+#include <assert.h>
 #include <string.h>
 
 /**
@@ -18,6 +19,24 @@ static void swap(void *base, size_t i, size_t j, size_t size) {
 }
 
 /**
+ * Check if the provided array is sorted.
+ *
+ * @param base A pointer to the first element of the array to be sorted.
+ * @param n The number of elements in the array pointed by base.
+ * @param size The size in bytes of each element in the array.
+ * @param compare Pointer to a function that compares two elements.
+ */
+bool sorted(void *base, size_t n, size_t size, COMPARE_FUNC compare) {
+    for (size_t i = 0; i < n - 1; i++) {
+        if (compare(base + i * size, base + (i + 1) * size) > 0) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+/**
  * Sort an array using insertion sort.
  *
  * @param base A pointer to the first element of the array to be sorted.
@@ -32,5 +51,9 @@ void insertion_sort(void *base, size_t n, size_t size, COMPARE_FUNC compare) {
             swap(base, j, j - 1, size);
             j--;
         }
+        // Invariant: The elements up until i must be sorted.
+        assert(sorted(base, i, size, compare));
     }
+    // Assertion: The array must be sorted.
+    assert(sorted(base, n, size, compare));
 }
