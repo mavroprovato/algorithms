@@ -3,8 +3,8 @@
 
 #include <stddef.h>
 
-typedef int (*COMPARE_FUNC) (int first, int second);
+typedef int (*COMPARE_FUNC) (void *first, void *second);
 
-void insertion_sort(int *base, size_t n, size_t size, COMPARE_FUNC compare);
+void insertion_sort(void *base, size_t n, size_t size, COMPARE_FUNC compare);
 
 #endif // _SORT_H
