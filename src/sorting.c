@@ -1,12 +1,13 @@
 #include "sorting.h"
 
 #include <assert.h>
+#include <stdio.h>
 #include <string.h>
 
 /**
  * Swap the elements i-th an j-th of an array.
  *
- * @param base A pointer to the first element of the array to be sorted.
+ * @param base A pointer to the first element of the array.
  * @param i The index of the first element to swap.
  * @param j The index of the first element to swap.
  * @param size The size in bytes of each element in the array.
@@ -53,6 +54,34 @@ void insertion_sort(void *base, size_t n, size_t size, COMPARE_FUNC compare) {
         }
         // Invariant: The elements up until i must be sorted.
         assert(sorted(base, i, size, compare));
+    }
+    // Assertion: The array must be sorted.
+    assert(sorted(base, n, size, compare));
+}
+
+/**
+ * Sort an array using bubble sort.
+ *
+ * @param base A pointer to the first element of the array to be sorted.
+ * @param n The number of elements in the array pointed by base.
+ * @param size The size in bytes of each element in the array.
+ * @param compare Pointer to a function that compares two elements.
+ */
+void bubble_sort(void *base, size_t n, size_t size, COMPARE_FUNC compare) {
+    for (size_t i = 1; i < n; i++) {
+        bool swapped = false;
+        for (size_t j = n - 1; j >= i; j--) {
+            if (compare(base + (j - 1) * size, base + j * size) > 0) {
+                swap(base, j, j - 1, size);
+                swapped = true;
+            }
+        }
+
+        // Invariant: The elements up until i must be sorted.
+        assert(sorted(base, i, size, compare));
+        if (!swapped) {
+            break;
+        }
     }
     // Assertion: The array must be sorted.
     assert(sorted(base, n, size, compare));

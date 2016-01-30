@@ -45,7 +45,7 @@ int main(void) {
         int array[sizes[i]];
         init_int_array_random(array, sizes[i]);
         clock_t start = clock();
-        insertion_sort(array, sizes[i], sizeof(int), compare_int);
+        bubble_sort(array, sizes[i], sizeof(int), compare_int);
         clock_t end = clock();
         double total = (double) (end - start) / CLOCKS_PER_SEC;
         printf("Total time taken by CPU: %.3f\n", total);
