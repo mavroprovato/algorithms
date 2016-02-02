@@ -5,18 +5,19 @@
 #include <string.h>
 
 /**
- * Swap the elements i-th an j-th of an array.
+ * Swap the two elements.
  *
- * @param base A pointer to the first element of the array.
- * @param i The index of the first element to swap.
- * @param j The index of the first element to swap.
- * @param size The size in bytes of each element in the array.
+ * @param a Pointer of the secondelement to swap
+ * @param b Pointer of the second element to swap
+ * @param size The size in bytes of each element to be swapped.
  */
-static void swap(void *base, size_t i, size_t j, size_t size) {
-    char temp[size];
-    memcpy(temp, base + i * size, size);
-    memcpy(base + i * size, base + j * size, size);
-    memcpy(base + j * size, temp, size);
+static void swap(void *a, void *b, size_t size) {
+    size_t k = size;
+    while (k-- > 0) {
+        char temp = *((char *) a + k);
+        *((char *) a + k) = *((char *) b + k);
+        *((char *) b + k) = temp;
+    }
 }
 
 /**
@@ -49,7 +50,7 @@ void insertion_sort(void *base, size_t n, size_t size, COMPARE_FUNC compare) {
     for (size_t i = 1; i < n; i++) {
         int j = i;
         while (j > 0 && compare(base + (j - 1) * size, base + j * size) > 0) {
-            swap(base, j, j - 1, size);
+            swap(base + (j - 1) * size, base + j * size, size);
             j--;
         }
         // Invariant: The elements up until i must be sorted.
@@ -72,7 +73,7 @@ void bubble_sort(void *base, size_t n, size_t size, COMPARE_FUNC compare) {
         bool swapped = false;
         for (size_t j = n - 1; j >= i; j--) {
             if (compare(base + (j - 1) * size, base + j * size) > 0) {
-                swap(base, j, j - 1, size);
+                swap(base + (j - 1) * size, base + j * size, size);
                 swapped = true;
             }
         }
@@ -103,7 +104,7 @@ void selection_sort(void *base, size_t n, size_t size, COMPARE_FUNC compare) {
                 min = j;
             }
         }
-        swap(base, i, min, size);
+        swap(base + i * size, base + min * size, size);
 
         // Invariant: The elements up until i + 1 must be sorted.
         assert(sorted(base, i + 1, size, compare));

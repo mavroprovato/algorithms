@@ -48,20 +48,20 @@ int main(void) {
     double total = (double) (end - start) / CLOCKS_PER_SEC;
     printf("Total time: %.3f\n", total);
 
-    // Test selection sort
-    printf("Testing selection sort for random array of size %ld\n", size);
-    init_int_array_random(array, size);
-    start = clock();
-    selection_sort(array, size, sizeof(int), compare_int);
-    end = clock();
-    total = (double) (end - start) / CLOCKS_PER_SEC;
-    printf("Total time: %.3f\n", total);
-
     // Test bubble sort
     printf("Testing bubble sort for random array of size %ld\n", size);
     init_int_array_random(array, size);
     start = clock();
     insertion_sort(array, size, sizeof(int), compare_int);
+    end = clock();
+    total = (double) (end - start) / CLOCKS_PER_SEC;
+    printf("Total time: %.3f\n", total);
+
+    // Test selection sort
+    printf("Testing selection sort for random array of size %ld\n", size);
+    init_int_array_random(array, size);
+    start = clock();
+    selection_sort(array, size, sizeof(int), compare_int);
     end = clock();
     total = (double) (end - start) / CLOCKS_PER_SEC;
     printf("Total time: %.3f\n", total);
