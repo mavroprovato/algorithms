@@ -86,3 +86,28 @@ void bubble_sort(void *base, size_t n, size_t size, COMPARE_FUNC compare) {
     // Assertion: The array must be sorted.
     assert(sorted(base, n, size, compare));
 }
+
+/**
+ * Sort an array using selection sort.
+ *
+ * @param base A pointer to the first element of the array to be sorted.
+ * @param n The number of elements in the array pointed by base.
+ * @param size The size in bytes of each element in the array.
+ * @param compare Pointer to a function that compares two elements.
+ */
+void selection_sort(void *base, size_t n, size_t size, COMPARE_FUNC compare) {
+    for (size_t i = 0; i < n; i++) {
+        int min = i;
+        for (size_t j = i + 1; j < n; j++) {
+            if (compare(base + j * size, base + min * size) < 0) {
+                min = j;
+            }
+        }
+        swap(base, i, min, size);
+
+        // Invariant: The elements up until i + 1 must be sorted.
+        assert(sorted(base, i + 1, size, compare));
+    }
+    // Assertion: The array must be sorted.
+    assert(sorted(base, n, size, compare));
+}

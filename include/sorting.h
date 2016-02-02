@@ -35,4 +35,14 @@ void insertion_sort(void *base, size_t n, size_t size, COMPARE_FUNC compare);
  */
 void bubble_sort(void *base, size_t n, size_t size, COMPARE_FUNC compare);
 
+/**
+ * Sort an array using selection sort.
+ *
+ * @param base A pointer to the first element of the array to be sorted.
+ * @param n The number of elements in the array pointed by base.
+ * @param size The size in bytes of each element in the array.
+ * @param compare Pointer to a function that compares two elements.
+ */
+void selection_sort(void *base, size_t n, size_t size, COMPARE_FUNC compare);
+
 #endif // _SORT_H

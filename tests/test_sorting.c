@@ -25,7 +25,8 @@ static int compare_int(const void *first, const void *second) {
 }
 
 /**
- * Initialize array with random values.
+ * Initialize an integer array with random values.
+ *
  */
 static void init_int_array_random(int *array, size_t size) {
     for (int i = 0; i < size; ++i) {
@@ -34,22 +35,36 @@ static void init_int_array_random(int *array, size_t size) {
 }
 
 int main(void) {
-    size_t sizes[8] = {
-        256, 512, 1024, 2048, 4096, 8192, 16384, 32768
-    };
+    size_t size = 16384;
+    int array[size];
     srand(time(NULL));
 
-    for (int i = 0; i < 8; i++) {
-        printf("Testing insertion sort for random array of size %ld\n",
-               sizes[i]);
-        int array[sizes[i]];
-        init_int_array_random(array, sizes[i]);
-        clock_t start = clock();
-        bubble_sort(array, sizes[i], sizeof(int), compare_int);
-        clock_t end = clock();
-        double total = (double) (end - start) / CLOCKS_PER_SEC;
-        printf("Total time taken by CPU: %.3f\n", total);
-    }
+    // Test insertion sort
+    printf("Testing insertion sort for random array of size %ld\n", size);
+    init_int_array_random(array, size);
+    clock_t start = clock();
+    insertion_sort(array, size, sizeof(int), compare_int);
+    clock_t end = clock();
+    double total = (double) (end - start) / CLOCKS_PER_SEC;
+    printf("Total time: %.3f\n", total);
+
+    // Test selection sort
+    printf("Testing selection sort for random array of size %ld\n", size);
+    init_int_array_random(array, size);
+    start = clock();
+    selection_sort(array, size, sizeof(int), compare_int);
+    end = clock();
+    total = (double) (end - start) / CLOCKS_PER_SEC;
+    printf("Total time: %.3f\n", total);
+
+    // Test bubble sort
+    printf("Testing bubble sort for random array of size %ld\n", size);
+    init_int_array_random(array, size);
+    start = clock();
+    insertion_sort(array, size, sizeof(int), compare_int);
+    end = clock();
+    total = (double) (end - start) / CLOCKS_PER_SEC;
+    printf("Total time: %.3f\n", total);
 
     return 0;
 }
