@@ -21,6 +21,20 @@ static void swap(void *a, void *b, size_t size) {
 }
 
 /**
+ * Swap the two elements.
+ *
+ * @param a Pointer of the secondelement to swap
+ * @param b Pointer of the second element to swap
+ * @param size The size in bytes of each element to be swapped.
+ */
+static void set(void *a, void *b, size_t size) {
+    size_t k = size;
+    while (k-- > 0) {
+        *((char *) a + k) = *((char *) b + k);
+    }
+}
+
+/**
  * Check if the provided array is sorted.
  *
  * @param base A pointer to the first element of the array to be sorted.
@@ -48,11 +62,15 @@ bool sorted(void *base, size_t n, size_t size, COMPARE_FUNC compare) {
  */
 void insertion_sort(void *base, size_t n, size_t size, COMPARE_FUNC compare) {
     for (size_t i = 1; i < n; i++) {
-        int j = i;
-        while (j > 0 && compare(base + (j - 1) * size, base + j * size) > 0) {
-            swap(base + (j - 1) * size, base + j * size, size);
+        char key[size];
+        set(key, base + i * size, size);
+        int j = i - 1;
+        while (j >= 0 && compare(base + j * size, key) > 0) {
+            set(base + (j + 1) * size, base + j * size, size);
             j--;
         }
+        set(base + (j + 1) * size, key, size);// array[j + 1] = key;
+
         // Invariant: The elements up until i must be sorted.
         assert(sorted(base, i, size, compare));
     }

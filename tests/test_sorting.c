@@ -52,7 +52,7 @@ int main(void) {
     printf("Testing bubble sort for random array of size %ld\n", size);
     init_int_array_random(array, size);
     start = clock();
-    insertion_sort(array, size, sizeof(int), compare_int);
+    bubble_sort(array, size, sizeof(int), compare_int);
     end = clock();
     total = (double) (end - start) / CLOCKS_PER_SEC;
     printf("Total time: %.3f\n", total);
