@@ -53,6 +53,24 @@ bool sorted(void *base, size_t n, size_t size, COMPARE_FUNC compare) {
 }
 
 /**
+ * Check if the provided array is h-sorted.
+ *
+ * @param base A pointer to the first element of the array to be sorted.
+ * @param n The number of elements in the array pointed by base.
+ * @param size The size in bytes of each element in the array.
+ * @param compare Pointer to a function that compares two elements.
+ */
+bool hsorted(void *base, size_t n, size_t h, size_t size, COMPARE_FUNC compare) {
+    for (size_t i = h; i < n - 1; i++) {
+        if (compare(base + i * size, base + (i - h) * size) < 0) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+/**
  * Sort an array using insertion sort.
  *
  * @param base A pointer to the first element of the array to be sorted.
@@ -126,6 +144,35 @@ void selection_sort(void *base, size_t n, size_t size, COMPARE_FUNC compare) {
 
         // Invariant: The elements up until i + 1 must be sorted.
         assert(sorted(base, i + 1, size, compare));
+    }
+    // Assertion: The array must be sorted.
+    assert(sorted(base, n, size, compare));
+}
+
+/**
+ * Sort an array using selection sort.
+ *
+ * @param base A pointer to the first element of the array to be sorted.
+ * @param n The number of elements in the array pointed by base.
+ * @param size The size in bytes of each element in the array.
+ * @param compare Pointer to a function that compares two elements.
+ */
+void shell_sort(void *base, size_t n, size_t size, COMPARE_FUNC compare) {
+    size_t h = 1;
+    while (h < n / 3) {
+        h = 3 * h + 1;
+    }
+    while (h >= 1) {
+        for (size_t i = h; i < n; i++) {
+            for (size_t j = i;
+                 j >= h && compare(base + j * size, base + (j - h) * size) < 0;
+                 j -= h) {
+                swap(base + j * size, base + (j - h) * size, size);
+            }
+        }
+        // Assertion: The array must be h-sorted.
+        assert(hsorted(base, n, h, size, compare));
+        h = h / 3;
     }
     // Assertion: The array must be sorted.
     assert(sorted(base, n, size, compare));
