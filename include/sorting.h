@@ -16,6 +16,16 @@
 typedef int (*COMPARE_FUNC) (const void *first, const void *second);
 
 /**
+ * Prototype for a function that sorts an array.
+ *
+ * @param base A pointer to the first element of the array to be sorted.
+ * @param n The number of elements in the array pointed by base.
+ * @param size The size in bytes of each element in the array.
+ * @param compare Pointer to a function that compares two elements.
+ */
+typedef void (*SORT_FUNC) (void *base, size_t n, size_t size, COMPARE_FUNC compare);
+
+/**
  * Sort an array using insertion sort.
  *
  * @param base A pointer to the first element of the array to be sorted.
