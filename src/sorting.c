@@ -7,8 +7,8 @@
 /**
  * Swap the two elements.
  *
- * @param a Pointer of the secondelement to swap
- * @param b Pointer of the second element to swap
+ * @param a Pointer to the first element to swap.
+ * @param b Pointer to the second element to swap.
  * @param size The size in bytes of each element to be swapped.
  */
 static void swap(void *a, void *b, size_t size) {
@@ -21,10 +21,10 @@ static void swap(void *a, void *b, size_t size) {
 }
 
 /**
- * Swap the two elements.
+ * Set the value of the first element to the value of the second element.
  *
- * @param a Pointer of the secondelement to swap
- * @param b Pointer of the second element to swap
+ * @param a Pointer to the first element.
+ * @param b Pointer to the second element.
  * @param size The size in bytes of each element to be swapped.
  */
 static void set(void *a, void *b, size_t size) {
