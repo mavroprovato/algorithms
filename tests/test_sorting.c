@@ -105,5 +105,12 @@ int main(void) {
                                compare_int);
     printf("Total time: %.3f\n", elapsed);
 
+    // Test merge sort
+    printf("Testing merge sort for random array of size %ld\n", size);
+    init_int_array_random(array, size);
+    elapsed = benchmark_search(merge_sort, array, size, sizeof(int),
+                               compare_int);
+    printf("Total time: %.3f\n", elapsed);
+
     return 0;
 }
