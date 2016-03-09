@@ -5,6 +5,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+// The cutoff-threshold to insertion sort
+#define CUTOFF 8
+
 /**
  * Swap the two elements.
  *
@@ -83,15 +86,15 @@ bool hsorted(void *base, size_t n, size_t h, size_t size, COMPARE_FUNC compare) 
  * @param compare Pointer to a function that compares two elements.
  */
 void insertion_sort(void *base, size_t n, size_t size, COMPARE_FUNC compare) {
+    char key[size];
     for (size_t i = 1; i < n; i++) {
-        char key[size];
         set(key, base + i * size, size);
         int j = i - 1;
         while (j >= 0 && compare(base + j * size, key) > 0) {
             set(base + (j + 1) * size, base + j * size, size);
             j--;
         }
-        set(base + (j + 1) * size, key, size);// array[j + 1] = key;
+        set(base + (j + 1) * size, key, size);
 
         // Invariant: The elements up until i must be sorted.
         assert(sorted(base, i, size, compare));
@@ -183,8 +186,8 @@ void shell_sort(void *base, size_t n, size_t size, COMPARE_FUNC compare) {
 }
 
 /**
- * Merge two merge two sorted subarrays from low to mid and from mid + 1 to
- * high, to one sorted array.
+ * Merge the two sorted subarrays from low to mid and from mid + 1 to high,
+ * to one sorted array.
  *
  * @param base The array to be sorted.
  * @param aux The auxiliary array.
@@ -234,7 +237,9 @@ static void merge(void *base, void *aux, size_t low, size_t mid, size_t high,
  */
 static void merge_sort_impl(void *base, void *aux, size_t low, size_t high,
                             size_t size, COMPARE_FUNC compare) {
-    if (high <= low) {
+    // For small arrays, cutoff to insertion sort
+    if (high < low + CUTOFF) {
+        insertion_sort(base + low * size, high - low + 1, size, compare);
         return;
     }
     // Find the mid point
