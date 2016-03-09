@@ -247,6 +247,11 @@ static void merge_sort_impl(void *base, void *aux, size_t low, size_t high,
     // Sort the two halves
     merge_sort_impl(base, aux, low, mid, size, compare);
     merge_sort_impl(base, aux, mid + 1, high, size, compare);
+    // Check if the two subarrays are already sorted, so that we don't need to
+    // merge
+    if (compare(base + (mid + 1) * size, base + mid * size) > 0) {
+        return;
+    }
     // Merge the sorted halves
     merge(base, aux, low, mid, high, size, compare);
 }
