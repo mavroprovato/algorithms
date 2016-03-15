@@ -274,3 +274,66 @@ void merge_sort(void *base, size_t n, size_t size, COMPARE_FUNC compare) {
     // Assertion: The array must be sorted.
     assert(sorted(base, n, size, compare));
 }
+
+/**
+ * Partition the array to two parts: The left one (from low to p - 1) is less
+ * than or equal to the partitioning element (p) and the right one (from p + 1
+ * to high) is greater than or equal to the partitioning element.
+ *
+ * @param base A pointer to the first element of the array to be sorted.
+ * @param low The index of the first array element to sort.
+ * @param high The index of the last array element to sort.
+ * @param size The size in bytes of each element in the array.
+ * @param compare Pointer to a function that compares two elements.
+ * @return The index of the partitioning element.
+ */
+static size_t quick_sort_partition(void *base, size_t low, size_t high,
+                                   size_t size, COMPARE_FUNC compare) {
+    size_t p = low;
+    for (size_t j = low; j < high; j++) {
+        if (compare(base + j * size, base + high * size) <= 0) {
+            swap(base + p * size, base + j * size, size);
+            p++;
+        }
+    }
+    swap(base + p * size, base + high * size, size);
+
+    return p;
+}
+
+/**
+ * Implement quick sort on the array,
+ *
+ * @param base A pointer to the first element of the array to be sorted.
+ * @param low The index of the first array element to sort.
+ * @param high The index of the last array element to sort.
+ * @param size The size in bytes of each element in the array.
+ * @param compare Pointer to a function that compares two elements.
+ */
+static void quick_sort_impl(void *base, size_t low, size_t high, size_t size,
+                            COMPARE_FUNC compare) {
+    size_t j = quick_sort_partition(base, low, high, size, compare);
+    if (low + 1 < j) {
+        quick_sort_impl(base, low, j - 1, size, compare);
+    }
+    if (j + 1 < high) {
+        quick_sort_impl(base, j + 1, high, size, compare);
+    }
+    // Assertion: The array from low to high must be sorted
+    assert(sorted(base + low * size, high - low, size, compare));
+}
+
+/**
+ * Sort an array using quick sort.
+ *
+ * @param base A pointer to the first element of the array to be sorted.
+ * @param n The number of elements in the array pointed by base.
+ * @param size The size in bytes of each element in the array.
+ * @param compare Pointer to a function that compares two elements.
+ */
+void quick_sort(void *base, size_t n, size_t size, COMPARE_FUNC compare) {
+    quick_sort_impl(base, 0, n - 1, size, compare);
+    // Assertion: The array must be sorted.
+    assert(sorted(base, n, size, compare));
+}
+
