@@ -7,6 +7,7 @@ BUILDDIR = build
 
 CFLAGS = -Wall -g -std=gnu11 -I$(INCLUDEDIR)
 LDFLAGS = -L$(LIBDIR)
+LDLIBS = -lalgorithms -largtable2
 
 objects = $(BUILDDIR)/sorting.o
 
@@ -24,7 +25,7 @@ $(objects): $(BUILDDIR)/%.o: $(SRCDIR)/%.c $(INCLUDEDIR)/%.h | $(BUILDDIR)
 	$(CC) -c $(CFLAGS) $< -o $@
 
 $(BINDIR)/test_sorting: $(TESTDIR)/test_sorting.c $(LIBDIR)/libalgorithms.a | $(BINDIR)
-	$(CC) $(CFLAGS) $(LDFLAGS) $< -o $@ -lalgorithms
+	$(CC) $(CFLAGS) $(LDFLAGS) $< -o $@ $(LDLIBS)
 
 $(LIBDIR):
 	mkdir $(LIBDIR)
