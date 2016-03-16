@@ -89,7 +89,7 @@ void insertion_sort(void *base, size_t n, size_t size, COMPARE_FUNC compare) {
     char key[size];
     for (size_t i = 1; i < n; i++) {
         set(key, base + i * size, size);
-        int j = i - 1;
+        int j = i - 1; // TODO: This should be size_t...
         while (j >= 0 && compare(base + j * size, key) > 0) {
             set(base + (j + 1) * size, base + j * size, size);
             j--;
@@ -289,16 +289,33 @@ void merge_sort(void *base, size_t n, size_t size, COMPARE_FUNC compare) {
  */
 static size_t quick_sort_partition(void *base, size_t low, size_t high,
                                    size_t size, COMPARE_FUNC compare) {
-    size_t p = low;
-    for (size_t j = low; j < high; j++) {
-        if (compare(base + j * size, base + high * size) <= 0) {
-            swap(base + p * size, base + j * size, size);
-            p++;
-        }
-    }
-    swap(base + p * size, base + high * size, size);
+    size_t i = low;
+    size_t j = high + 1;
 
-    return p;
+    while (true) {
+        // Find the element on left to swap
+        while (compare(base + (++i) * size, base + low * size) < 0) {
+            if (i == high) {
+                break;
+            }
+        }
+        // Find the element on right to swap
+        while (compare(base + low * size, base + (--j) * size) < 0) {
+            if (j == low) {
+                break;
+            }
+        }
+        // Break if indexes crossed
+        if (i >= j) {
+            break;
+        }
+        swap(base + i * size, base + j * size, size);
+    }
+
+    // Put the partitioning element on its final position
+    swap(base + low * size, base + j * size, size);
+
+    return j;
 }
 
 /**
@@ -312,12 +329,17 @@ static size_t quick_sort_partition(void *base, size_t low, size_t high,
  */
 static void quick_sort_impl(void *base, size_t low, size_t high, size_t size,
                             COMPARE_FUNC compare) {
-    size_t j = quick_sort_partition(base, low, high, size, compare);
-    if (low + 1 < j) {
-        quick_sort_impl(base, low, j - 1, size, compare);
+    // For small arrays, cutoff to insertion sort
+    if (high < low + CUTOFF) {
+        insertion_sort(base + low * size, high - low + 1, size, compare);
+        return;
     }
-    if (j + 1 < high) {
-        quick_sort_impl(base, j + 1, high, size, compare);
+    size_t p = quick_sort_partition(base, low, high, size, compare);
+    if (low + 1 < p) {
+        quick_sort_impl(base, low, p - 1, size, compare);
+    }
+    if (p + 1 < high) {
+        quick_sort_impl(base, p + 1, high, size, compare);
     }
     // Assertion: The array from low to high must be sorted
     assert(sorted(base + low * size, high - low, size, compare));
