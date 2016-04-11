@@ -15,19 +15,21 @@ bool uf_create(UnionFind *uf, size_t n) {
     if (n == 0) {
         return false;
     }
+    // Allocate memory
     uf->parent = malloc(n * sizeof(size_t));
     if (!uf->parent) {
         return false;
-    }
-    for (size_t i = 0; i < n; i++) {
-        uf->parent[i] = i;
     }
     uf->size = malloc(n * sizeof(size_t));
     if (!uf->size) {
         free(uf->parent);
         return false;
     }
-    memset(uf->size, 0, n * sizeof(size_t));
+    // Initialize members
+    for (size_t i = 0; i < n; i++) {
+        uf->parent[i] = i;
+        uf->size[i] = 1;
+    }
     uf->n = n;
 
     return true;
@@ -60,10 +62,10 @@ bool uf_union(UnionFind *uf, size_t p, size_t q) {
     if (i != j) {
         if (uf->size[i] < uf->size[j]) {
             uf->parent[i] = j;
-            uf->size[i] += uf->size[j];
+            uf->size[j] += uf->size[i];
         } else {
             uf->parent[j] = i;
-            uf->size[j] += uf->size[i];
+            uf->size[i] += uf->size[j];
         }
         uf->components--;
     }
