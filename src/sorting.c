@@ -46,7 +46,7 @@ static void set(void *a, void *b, size_t size) {
  * @param size The size in bytes of each element in the array.
  * @param compare Pointer to a function that compares two elements.
  */
-bool sorted(void *base, size_t n, size_t size, COMPARE_FUNC compare) {
+static bool sorted(void *base, size_t n, size_t size, COMPARE_FUNC compare) {
     if (n < 2) {
         return true;
     }
@@ -67,7 +67,8 @@ bool sorted(void *base, size_t n, size_t size, COMPARE_FUNC compare) {
  * @param size The size in bytes of each element in the array.
  * @param compare Pointer to a function that compares two elements.
  */
-bool hsorted(void *base, size_t n, size_t h, size_t size, COMPARE_FUNC compare) {
+static bool hsorted(void *base, size_t n, size_t h, size_t size,
+                    COMPARE_FUNC compare) {
     for (size_t i = h; i < n - 1; i++) {
         if (compare(base + i * size, base + (i - h) * size) < 0) {
             return false;
@@ -186,7 +187,7 @@ void shell_sort(void *base, size_t n, size_t size, COMPARE_FUNC compare) {
 }
 
 /**
- * Merge the two sorted subarrays from low to mid and from mid + 1 to high,
+ * Merge the two sorted sub-arrays from low to mid and from mid + 1 to high,
  * to one sorted array.
  *
  * @param base The array to be sorted.
@@ -210,10 +211,10 @@ static void merge(void *base, void *aux, size_t low, size_t mid, size_t high,
     size_t j = mid + 1;
     for (size_t k = low; k <= high; k++) {
         if (i > mid) {
-            // The left half is exausted, take from the right half.
+            // The left half is exhausted, take from the right half.
             set(base + size * k, aux + size * j++, size);
         } else if (j > high) {
-            // The right half is exausted, take from the left half.
+            // The right half is exhausted, take from the left half.
             set(base + size * k, aux + size * i++, size);
         } else if (compare(aux + j * size, aux + i * size) < 0) {
             // The element from the right part is smaller
@@ -247,7 +248,7 @@ static void merge_sort_impl(void *base, void *aux, size_t low, size_t high,
     // Sort the two halves
     merge_sort_impl(base, aux, low, mid, size, compare);
     merge_sort_impl(base, aux, mid + 1, high, size, compare);
-    // Check if the two subarrays are already sorted, so that we don't need to
+    // Check if the two sub-arrays are already sorted, so that we don't need to
     // merge
     if (compare(base + (mid + 1) * size, base + mid * size) > 0) {
         return;
