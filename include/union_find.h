@@ -5,7 +5,7 @@
 #include <stddef.h>
 
 /**
- * The uninon find data structure.
+ * The union find data structure.
  */
 typedef struct {
     /** Identifiers of the parent of the element. */
@@ -22,44 +22,47 @@ typedef struct {
  * Initializes the union find data structure.
  *
  * @param uf Pointer to the union find data structure to be initialized.
- * @param n The number of objects in the set.
+ * @param n The number of elements in the set. It must be greater than zero.
+ * @return true if the data structure was initialized correctly.
  */
-void uf_create(UnionFind *uf, size_t n);
+bool uf_create(UnionFind *uf, size_t n);
 
 /**
- * Frees resources assiciated with the union find data structure.
+ * Frees resources associated with the union find data structure.
  *
  * @param uf Pointer to the union find data structure to be freed.
  */
 void uf_destroy(UnionFind *uf);
 
 /**
- * Connect two elements.
+ * Join the subsets that two elements belong to.
  *
  * @param uf Pointer to the union find data structure.
- * @param p The indetifier of the first element.
- * @param q The indetifier of the second element.
+ * @param p The identifier of the first element.
+ * @param q The identifier of the second element.
+ * @return true if both element identifiers are in range.
  */
-void uf_union(UnionFind *uf, size_t p, size_t q);
+bool uf_union(UnionFind *uf, size_t p, size_t q);
 
 /**
- * Return the indetifier of the connected component for an element.
+ * Return the identifier of the connected component for an element.
  *
  * @param uf Pointer to the union find data structure.
- * @param p The indetifier of the element.
- * @return The indetifier of the connected component.
+ * @param p The identifier of the element.
+ * @return The identifier of the connected component, or SIZE_MAX if the element
+ * identifiers are in range.
  */
 size_t uf_find(UnionFind *uf, size_t p);
 
 /**
- * Check if two componenets are connected.
+ * Check if two components are connected.
  *
  * @param uf Pointer to the union find data structure.
- * @param p The indetifier of the first element.
- * @param q The indetifier of the second element.
- * @return true if the two componenets are connected.
+ * @param p The identifier of the first element.
+ * @param q The identifier of the second element.
+ * @return true if the two components are connected.
  */
-bool uf_connected(UnionFind *uf, int p, int q);
+bool uf_connected(UnionFind *uf, size_t p, size_t q);
 
 /**
  * Return the number of components.
@@ -68,5 +71,6 @@ bool uf_connected(UnionFind *uf, int p, int q);
  * @return The number of components.
  */
 size_t uf_component_count(UnionFind *uf);
+
 
 #endif // _UNION_FIND_H

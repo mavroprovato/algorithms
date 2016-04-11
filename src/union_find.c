@@ -1,5 +1,6 @@
 #include "union_find.h"
 
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -7,20 +8,33 @@
  * Initializes the union find data structure.
  *
  * @param uf Pointer to the union find data structure to be initialized.
- * @param n The number of elements in the set.
+ * @param n The number of elements in the set. It must be greater than zero.
+ * @return true if the data structure was initialized correctly.
  */
-void uf_create(UnionFind *uf, size_t n) {
+bool uf_create(UnionFind *uf, size_t n) {
+    if (n == 0) {
+        return false;
+    }
     uf->parent = malloc(n * sizeof(size_t));
+    if (!uf->parent) {
+        return false;
+    }
     for (size_t i = 0; i < n; i++) {
         uf->parent[i] = i;
     }
     uf->size = malloc(n * sizeof(size_t));
+    if (!uf->size) {
+        free(uf->parent);
+        return false;
+    }
     memset(uf->size, 0, n * sizeof(size_t));
     uf->n = n;
+
+    return true;
 }
 
 /**
- * Frees resources assiciated with the union find data structure.
+ * Frees resources associated with the union find data structure.
  *
  * @param uf Pointer to the union find data structure to be freed.
  */
@@ -30,13 +44,17 @@ void uf_destroy(UnionFind *uf) {
 }
 
 /**
- * Connect two elements.
+ * Join the subsets that two elements belong to.
  *
  * @param uf Pointer to the union find data structure.
- * @param p The indetifier of the first element.
- * @param q The indetifier of the second element.
+ * @param p The identifier of the first element.
+ * @param q The identifier of the second element.
+ * @return true if both element identifiers are in range.
  */
-void uf_union(UnionFind *uf, size_t p, size_t q) {
+bool uf_union(UnionFind *uf, size_t p, size_t q) {
+    if (p >= uf->n || q >= uf->n) {
+        return false;
+    }
     size_t i = uf_find(uf, p);
     size_t j = uf_find(uf, q);
     if (i != j) {
@@ -49,16 +67,22 @@ void uf_union(UnionFind *uf, size_t p, size_t q) {
         }
         uf->components--;
     }
+
+    return true;
 }
 
 /**
- * Return the indetifier of the connected component for an element.
+ * Return the identifier of the connected component for an element.
  *
  * @param uf Pointer to the union find data structure.
- * @param p The indetifier of the element.
- * @return The indetifier of the connected component.
+ * @param p The identifier of the element.
+ * @return The identifier of the connected component, or SIZE_MAX if the element
+ * identifiers are in range.
  */
 size_t uf_find(UnionFind *uf, size_t p) {
+    if (p >= uf->n) {
+        return SIZE_MAX;
+    }
     // Find the root
     size_t root = p;
     while (root != uf->parent[root]) {
@@ -78,11 +102,14 @@ size_t uf_find(UnionFind *uf, size_t p) {
  * Check if two components are connected.
  *
  * @param uf Pointer to the union find data structure.
- * @param p The indetifier of the first element.
- * @param q The indetifier of the second element.
+ * @param p The identifier of the first element.
+ * @param q The identifier of the second element.
  * @return true if the two components are connected.
  */
-bool uf_connected(UnionFind *uf, int p, int q) {
+bool uf_connected(UnionFind *uf, size_t p, size_t q) {
+    if (p >= uf->n || q >= uf->n) {
+        return false;
+    }
     return uf_find(uf, p) == uf_find(uf, q);
 }
 
