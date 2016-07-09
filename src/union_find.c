@@ -20,7 +20,7 @@ void uf_create(UnionFind *uf, size_t n) {
 }
 
 /**
- * Frees resources assiciated with the union find data structure.
+ * Frees resources associated with the union find data structure.
  *
  * @param uf Pointer to the union find data structure to be freed.
  */

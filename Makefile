@@ -9,7 +9,8 @@ CFLAGS = -Wall -g -std=gnu11 -I$(INCLUDEDIR)
 LDFLAGS = -L$(LIBDIR)
 LDLIBS = -lalgorithms -largtable2
 
-objects = $(BUILDDIR)/sorting.o $(BUILDDIR)/union_find.o
+objects = $(BUILDDIR)/sorting.o $(BUILDDIR)/union_find.o \
+	$(BUILDDIR)/array_dequeue.o
 
 .PHONY: all test clean
 
