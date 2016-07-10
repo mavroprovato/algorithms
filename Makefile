@@ -1,6 +1,6 @@
 SRCDIR = src
 INCLUDEDIR = include
-TESTDIR = tests
+PROGDIR = programs
 LIBDIR = lib
 BINDIR = bin
 BUILDDIR = build
@@ -15,7 +15,9 @@ objects = $(BUILDDIR)/sorting.o $(BUILDDIR)/union_find.o \
 .PHONY: all test clean
 
 all: $(LIBDIR)/libalgorithms.a
-test: $(BINDIR)/test_sorting
+
+progs: $(BINDIR)/sorting
+
 clean:
 	@rm -Rf $(BUILDDIR) $(LIBDIR) $(BINDIR)
 
@@ -25,7 +27,7 @@ $(LIBDIR)/libalgorithms.a: $(objects) | $(LIBDIR)
 $(objects): $(BUILDDIR)/%.o: $(SRCDIR)/%.c $(INCLUDEDIR)/%.h | $(BUILDDIR)
 	$(CC) -c $(CFLAGS) $< -o $@
 
-$(BINDIR)/test_sorting: $(TESTDIR)/test_sorting.c $(LIBDIR)/libalgorithms.a | $(BINDIR)
+$(BINDIR)/sorting: $(PROGDIR)/sorting.c $(LIBDIR)/libalgorithms.a | $(BINDIR)
 	$(CC) $(CFLAGS) $(LDFLAGS) $< -o $@ $(LDLIBS)
 
 $(LIBDIR):
