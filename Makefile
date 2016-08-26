@@ -10,7 +10,7 @@ LDFLAGS = -L$(LIBDIR)
 LDLIBS = -lalgorithms -largtable2
 
 objects = $(BUILDDIR)/sorting.o $(BUILDDIR)/union_find.o \
-	$(BUILDDIR)/array_dequeue.o
+	$(BUILDDIR)/array_queue.o
 
 .PHONY: all test clean
 
