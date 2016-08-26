@@ -12,7 +12,7 @@
  * @param size The initial size of the queue. If zero, the default value is
  * used.
  */
-void dq_init(ArrayQueue *al, size_t size) {
+void aq_init(ArrayQueue *al, size_t size) {
     if (size > 0) {
         al->size = size;
     } else {
@@ -27,7 +27,7 @@ void dq_init(ArrayQueue *al, size_t size) {
  *
  * @param al Pointer to the queue data structure to be freed.
  */
-void dq_destroy(ArrayQueue *al) {
+void aq_destroy(ArrayQueue *al) {
     free(al->items);
 }
 
@@ -37,6 +37,15 @@ void dq_destroy(ArrayQueue *al) {
  * @param al Pointer to the queue data structure.
  * @return true if the queue contains elements, false otherwise.
  */
-bool dq_is_empty(ArrayQueue *al) {
+bool aq_is_empty(ArrayQueue *al) {
     return al->size == 0;
+}
+
+/**
+ * Return the size of the array queue.
+ *
+ * @return The size of the array queue.
+ */
+size_t aq_size(ArrayQueue *al) {
+    return al->size;
 }

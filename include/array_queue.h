@@ -40,5 +40,12 @@ void aq_destroy(ArrayQueue *al);
  */
 bool aq_is_empty(ArrayQueue *al);
 
+/**
+ * Return the size of the array queue.
+ *
+ * @return The size of the array queue.
+ */
+size_t aq_size(ArrayQueue *al);
+
 
 #endif // _ARRAY_QUEUE
