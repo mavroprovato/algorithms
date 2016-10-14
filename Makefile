@@ -16,7 +16,7 @@ objects = $(BUILDDIR)/sorting.o $(BUILDDIR)/union_find.o \
 
 all: $(LIBDIR)/libalgorithms.a
 
-progs: $(BINDIR)/sorting
+progs: $(BINDIR)/sorting $(BINDIR)/test_queue
 
 clean:
 	@rm -Rf $(BUILDDIR) $(LIBDIR) $(BINDIR)
@@ -28,6 +28,9 @@ $(objects): $(BUILDDIR)/%.o: $(SRCDIR)/%.c $(INCLUDEDIR)/%.h | $(BUILDDIR)
 	$(CC) -c $(CFLAGS) $< -o $@
 
 $(BINDIR)/sorting: $(PROGDIR)/sorting.c $(LIBDIR)/libalgorithms.a | $(BINDIR)
+	$(CC) $(CFLAGS) $(LDFLAGS) $< -o $@ $(LDLIBS)
+
+$(BINDIR)/test_queue: $(PROGDIR)/test_queue.c $(LIBDIR)/libalgorithms.a | $(BINDIR)
 	$(CC) $(CFLAGS) $(LDFLAGS) $< -o $@ $(LDLIBS)
 
 $(LIBDIR):
