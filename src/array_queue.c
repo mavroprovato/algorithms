@@ -21,14 +21,14 @@ static bool aq_resize(ArrayQueue *aq, size_t new_capacity) {
     }
 
     // Copy the items to the new array.
-    if (aq->first > aq->last) { // The array has wrapped around.
+    if (aq->first < aq->last) {
+        memcpy(new_items, aq->items + aq->first,
+           (aq->last - aq->first) * sizeof(void *));
+    } else { // The array has wrapped around.
         memcpy(new_items, aq->items + aq->first,
            (aq->capacity - aq->first) * sizeof(void *));
         memcpy(new_items + (aq->capacity - aq->first), aq->items,
-               (aq->last + 1) * sizeof(void *));
-    } else {
-        memcpy(new_items, aq->items + aq->first,
-           (aq->last - aq->first) * sizeof(void *));
+               aq->last * sizeof(void *));
     }
 
     free(aq->items);
@@ -98,7 +98,7 @@ void aq_enqueue(ArrayQueue *aq, void *item) {
         aq_resize(aq, 2 * aq->capacity);
     }
     aq->items[aq->last++] = item;
-    if (aq->last > aq->capacity) { // wrap around
+    if (aq->last == aq->capacity) { // wrap around
         aq->last = 0;
     }
     aq->size++;
@@ -118,7 +118,7 @@ void *aq_dequeue(ArrayQueue *aq) {
     aq->items[aq->first] = NULL;
     aq->size--;
     aq->first++;
-    if (aq->first > aq->capacity) { // wrap aroung
+    if (aq->first == aq->capacity) { // wrap aroung
         aq->first = 0;
     }
 
