@@ -21,21 +21,21 @@ static bool aq_resize(ArrayQueue *aq, size_t new_capacity) {
     }
 
     // Copy the items to the new array.
-    if (aq->first < aq->last) {
-        memcpy(new_items, aq->items + aq->first,
-           (aq->last - aq->first) * sizeof(void *));
+    if (aq->head < aq->tail) {
+        memcpy(new_items, aq->items + aq->head,
+               (aq->tail - aq->head) * sizeof(void *));
     } else { // The array has wrapped around.
-        memcpy(new_items, aq->items + aq->first,
-           (aq->capacity - aq->first) * sizeof(void *));
-        memcpy(new_items + (aq->capacity - aq->first), aq->items,
-               aq->last * sizeof(void *));
+        memcpy(new_items, aq->items + aq->head,
+               (aq->capacity - aq->head) * sizeof(void *));
+        memcpy(new_items + (aq->capacity - aq->head), aq->items,
+               aq->tail * sizeof(void *));
     }
 
     free(aq->items);
     aq->items = new_items;
     aq->capacity = new_capacity;
-    aq->first = 0;
-    aq->last = aq->size;
+    aq->head = 0;
+    aq->tail = aq->size;
 
     return true;
 }
@@ -55,8 +55,8 @@ void aq_init(ArrayQueue *aq, size_t size) {
     }
     aq->size = 0;
     aq->items = malloc(aq->capacity * sizeof(void *));
-    aq->first = 0;
-    aq->last = 0;
+    aq->head = 0;
+    aq->tail = 0;
 }
 
 /**
@@ -97,9 +97,9 @@ void aq_enqueue(ArrayQueue *aq, void *item) {
     if (aq->size == aq->capacity) {
         aq_resize(aq, 2 * aq->capacity);
     }
-    aq->items[aq->last++] = item;
-    if (aq->last == aq->capacity) { // wrap around
-        aq->last = 0;
+    aq->items[aq->tail++] = item;
+    if (aq->tail == aq->capacity) { // wrap around
+        aq->tail = 0;
     }
     aq->size++;
 }
@@ -114,12 +114,12 @@ void *aq_dequeue(ArrayQueue *aq) {
         return NULL;
     }
 
-    void *item = aq->items[aq->first];
-    aq->items[aq->first] = NULL;
+    void *item = aq->items[aq->head];
+    aq->items[aq->head] = NULL;
     aq->size--;
-    aq->first++;
-    if (aq->first == aq->capacity) { // wrap aroung
-        aq->first = 0;
+    aq->head++;
+    if (aq->head == aq->capacity) { // wrap aroung
+        aq->head = 0;
     }
 
     if (aq->size > 0 && aq->size == aq->capacity / 4) {
@@ -140,5 +140,5 @@ void *aq_peek(ArrayQueue *aq) {
         return NULL;
     }
 
-    return aq->items[aq->first];
+    return aq->items[aq->head];
 }

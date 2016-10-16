@@ -14,10 +14,10 @@ typedef struct {
     size_t size;
     /** The current capacity of the queue */
     size_t capacity;
-    /** The first  */
-    size_t first;
-    /** The current capacity of the queue */
-    size_t last;
+    /** The first element on the queue */
+    size_t head;
+    /** The last element on the queue */
+    size_t tail;
 } ArrayQueue;
 
 /**
