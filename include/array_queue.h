@@ -61,18 +61,18 @@ size_t aq_size(ArrayQueue *aq);
 void aq_enqueue(ArrayQueue *aq, void *item);
 
 /**
- * Removes and returns the last element that was added to the queue.
+ * Removes and returns the least recent element that was added to the queue.
  *
  * @param aq Pointer to the queue data structure.
- * @return The last element that was added to the queue.
+ * @return The least recent element that was added to the queue.
  */
 void *aq_dequeue(ArrayQueue *aq);
 
 /**
- * Returns the last element that was added to the queue.
+ * Returns the least recent element that was added to the queue.
  *
  * @param aq Pointer to the queue data structure.
- * @return The last element that was added to the queue.
+ * @return The least recent element that was added to the queue.
  */
 void *aq_peek(ArrayQueue *aq);
 

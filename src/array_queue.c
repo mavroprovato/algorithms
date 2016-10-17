@@ -7,7 +7,7 @@
 #define DEFALUT_SIZE 16;
 
 /**
- * Resize the underlying array with the queue items.
+ * Resize the underlying array holding the queue items.
  *
  * @param aq Pointer to the queue data structure.
  * @param new_capacity The new capacity.
@@ -123,7 +123,7 @@ void *aq_dequeue(ArrayQueue *aq) {
     }
 
     if (aq->size > 0 && aq->size == aq->capacity / 4) {
-        aq_resize(aq, aq->capacity / 4);
+        aq_resize(aq, aq->capacity / 2);
     }
 
     return item;
