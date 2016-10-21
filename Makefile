@@ -14,9 +14,11 @@ objects = $(BUILDDIR)/sorting.o $(BUILDDIR)/union_find.o \
 
 .PHONY: all test clean
 
-all: $(LIBDIR)/libalgorithms.a
+all: library progs
 
-progs: $(BINDIR)/sorting $(BINDIR)/test_queue
+library: $(LIBDIR)/libalgorithms.a
+
+progs: $(BINDIR)/sorting $(BINDIR)/balanced_parentheses
 
 clean:
 	@rm -Rf $(BUILDDIR) $(LIBDIR) $(BINDIR)
@@ -30,7 +32,7 @@ $(objects): $(BUILDDIR)/%.o: $(SRCDIR)/%.c $(INCLUDEDIR)/%.h | $(BUILDDIR)
 $(BINDIR)/sorting: $(PROGDIR)/sorting.c $(LIBDIR)/libalgorithms.a | $(BINDIR)
 	$(CC) $(CFLAGS) $(LDFLAGS) $< -o $@ $(LDLIBS)
 
-$(BINDIR)/test_queue: $(PROGDIR)/test_queue.c $(LIBDIR)/libalgorithms.a | $(BINDIR)
+$(BINDIR)/balanced_parentheses: $(PROGDIR)/balanced_parentheses.c $(LIBDIR)/libalgorithms.a | $(BINDIR)
 	$(CC) $(CFLAGS) $(LDFLAGS) $< -o $@ $(LDLIBS)
 
 $(LIBDIR):
