@@ -3,8 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-/** The default stack size */
-#define DEFALUT_SIZE 16;
 
 /**
  * Resize the underlying array holding the stack items.
@@ -34,15 +32,9 @@ static bool as_resize(ArrayStack *as, size_t new_capacity) {
  * Initialize the stack data structure.
  *
  * @param as Pointer to the stack data structure.
- * @param size The initial capacity of the stack. If zero, the default value is
- * used.
  */
-void as_init(ArrayStack *as, size_t size) {
-    if (size > 0) {
-        as->capacity = size;
-    } else {
-        as->capacity = DEFALUT_SIZE;
-    }
+void as_init(ArrayStack *as) {
+    as->capacity = 2;
     as->items = malloc(as->capacity * sizeof(void *));
     as->size = 0;
 }

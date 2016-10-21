@@ -24,10 +24,8 @@ typedef struct {
  * Initialize the queue data structure.
  *
  * @param aq Pointer to the queue data structure.
- * @param size The initial capacity of the queue. If zero, the default value is
- * used.
  */
-void aq_init(ArrayQueue *aq, size_t size);
+void aq_init(ArrayQueue *aq);
 
 /**
  * Frees resources associated with the array queue data structure.

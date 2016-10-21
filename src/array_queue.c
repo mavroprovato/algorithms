@@ -3,9 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-/** The default queue size */
-#define DEFALUT_SIZE 16;
-
 /**
  * Resize the underlying array holding the queue items.
  *
@@ -44,15 +41,9 @@ static bool aq_resize(ArrayQueue *aq, size_t new_capacity) {
  * Initialize the queue data structure.
  *
  * @param aq Pointer to the queue data structure.
- * @param size The initial capacity of the queue. If zero, the default value is
- * used.
  */
-void aq_init(ArrayQueue *aq, size_t size) {
-    if (size > 0) {
-        aq->capacity = size;
-    } else {
-        aq->capacity = DEFALUT_SIZE;
-    }
+void aq_init(ArrayQueue *aq) {
+    aq->capacity = 2;
     aq->size = 0;
     aq->items = malloc(aq->capacity * sizeof(void *));
     aq->head = 0;

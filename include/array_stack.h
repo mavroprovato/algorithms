@@ -20,10 +20,8 @@ typedef struct {
  * Initialize the stack data structure.
  *
  * @param aa Pointer to the stack data structure.
- * @param size The initial capacity of the stack. If zero, the default value is
- * used.
  */
-void as_init(ArrayStack *as, size_t size);
+void as_init(ArrayStack *as);
 
 /**
  * Frees resources associated with the array stack data structure.
