@@ -11,7 +11,7 @@
  * @param n The number of elements in the set. It must be greater than zero.
  * @return true if the data structure was initialized correctly.
  */
-bool uf_create(UnionFind *uf, size_t n) {
+bool uf_init(UnionFind *uf, size_t n) {
     if (n == 0) {
         return false;
     }
