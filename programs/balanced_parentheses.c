@@ -1,7 +1,7 @@
 /**
- * This program reads input from the file passed as the first argument (or the
- * standard input if no argument is passed) and prints whether the parentheses
- * are balanced or not.
+ * Read input from the file passed as the first argument (or the standard input
+ * if no argument is passed) and prints whether the parentheses are balanced or
+ * not.
  */
 #include <stdio.h>
 #include <stdlib.h>
