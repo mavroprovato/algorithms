@@ -18,7 +18,7 @@ all: library progs
 
 library: $(LIBDIR)/libalgorithms.a
 
-progs: $(BINDIR)/sorting $(BINDIR)/balanced_parentheses
+progs: $(BINDIR)/sorting $(BINDIR)/balanced_parentheses $(BINDIR)/percolation
 
 clean:
 	@rm -Rf $(BUILDDIR) $(LIBDIR) $(BINDIR)
@@ -34,6 +34,10 @@ $(BINDIR)/sorting: $(PROGDIR)/sorting.c $(LIBDIR)/libalgorithms.a | $(BINDIR)
 
 $(BINDIR)/balanced_parentheses: $(PROGDIR)/balanced_parentheses.c $(LIBDIR)/libalgorithms.a | $(BINDIR)
 	$(CC) $(CFLAGS) $(LDFLAGS) $< -o $@ $(LDLIBS)
+
+$(BINDIR)/percolation: $(PROGDIR)/percolation.c $(LIBDIR)/libalgorithms.a | $(BINDIR)
+	$(CC) $(CFLAGS) $(LDFLAGS) $< -o $@ $(LDLIBS)
+
 
 $(LIBDIR):
 	mkdir $(LIBDIR)
