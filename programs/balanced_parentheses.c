@@ -38,7 +38,7 @@ int main(int argc, char **argv) {
                 case '[':
                 case '{':
                     // Push opening parenthesis to the stack
-                    as_push(&stack, (void *) line[i]);
+                    as_push(&stack, &line[i]);
                     break;
                 case ')':
                 case ']':
@@ -52,10 +52,10 @@ int main(int argc, char **argv) {
                         return_value = 1;
                         goto cleanup;
                     }
-                    char stack_char = (char) as_pop(&stack);
-                    if ((stack_char == '(' && line[i]!= ')') ||
-                        (stack_char == '[' && line[i]!= ']') ||
-                        (stack_char == '{' && line[i]!= '}')) {
+                    char *stack_char = as_pop(&stack);
+                    if ((*stack_char == '(' && line[i]!= ')') ||
+                        (*stack_char == '[' && line[i]!= ']') ||
+                        (*stack_char == '{' && line[i]!= '}')) {
                         fprintf(stderr, "Unexpected %d at line %ld.\n", line[i],
                                 line_number);
                         return_value = 1;
