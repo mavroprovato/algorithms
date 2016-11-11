@@ -1,49 +1,45 @@
-SRCDIR = src
-INCLUDEDIR = include
-PROGDIR = programs
-LIBDIR = lib
-BINDIR = bin
-BUILDDIR = build
+SRC_DIR = src
+INCLUDE_DIR = include
+PROGRAMS_DIR = programs
+LIB_DIR = lib
+BIN_DIR = bin
+BUILD_DIR = build
+LIBRARY_NAME = libalgorithms
 
-CFLAGS = -Wall -g -std=gnu11 -I$(INCLUDEDIR)
-LDFLAGS = -L$(LIBDIR)
+CFLAGS = -Wall -g -std=gnu11 -I$(INCLUDE_DIR)
+LDFLAGS = -L$(LIB_DIR)
 LDLIBS = -lalgorithms -largtable2
 
-objects = $(BUILDDIR)/sorting.o $(BUILDDIR)/union_find.o \
-	$(BUILDDIR)/array_queue.o $(BUILDDIR)/array_stack.o
+LIB_SRC := $(wildcard $(SRC_DIR)/*.c)
+PROGRAMS_SRC := $(wildcard $(PROGRAMS_DIR)/*.c)
+OBJ_FILES := $(addprefix $(BUILD_DIR)/,$(notdir $(LIB_SRC:.c=.o)))
+PROGRAMS_FILES := $(addprefix $(BIN_DIR)/,$(notdir $(PROGRAMS_SRC:.c=)))
 
-.PHONY: all test clean
+.PHONY: all library programs clean
 
-all: library progs
+all: library programs
 
-library: $(LIBDIR)/libalgorithms.a
+library: $(LIB_DIR)/$(LIBRARY_NAME).a
 
-progs: $(BINDIR)/sorting $(BINDIR)/balanced_parentheses $(BINDIR)/percolation
+programs: $(PROGRAMS_FILES)
 
 clean:
-	@rm -Rf $(BUILDDIR) $(LIBDIR) $(BINDIR)
+	rm -Rf $(BUILD_DIR) $(LIB_DIR) $(BIN_DIR)
 
-$(LIBDIR)/libalgorithms.a: $(objects) | $(LIBDIR)
+$(LIB_DIR)/$(LIBRARY_NAME).a: $(OBJ_FILES) | $(LIB_DIR)
 	ar rcs $@ $^
 
-$(objects): $(BUILDDIR)/%.o: $(SRCDIR)/%.c $(INCLUDEDIR)/%.h | $(BUILDDIR)
+$(OBJ_FILES): $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c $(INCLUDE_DIR)/%.h | $(BUILD_DIR)
 	$(CC) -c $(CFLAGS) $< -o $@
 
-$(BINDIR)/sorting: $(PROGDIR)/sorting.c $(LIBDIR)/libalgorithms.a | $(BINDIR)
+$(BIN_DIR)/%: $(PROGRAMS_DIR)/%.c $(LIB_DIR)/$(LIBRARY_NAME).a | $(BIN_DIR)
 	$(CC) $(CFLAGS) $(LDFLAGS) $< -o $@ $(LDLIBS)
 
-$(BINDIR)/balanced_parentheses: $(PROGDIR)/balanced_parentheses.c $(LIBDIR)/libalgorithms.a | $(BINDIR)
-	$(CC) $(CFLAGS) $(LDFLAGS) $< -o $@ $(LDLIBS)
+$(LIB_DIR):
+	mkdir $(LIB_DIR)
 
-$(BINDIR)/percolation: $(PROGDIR)/percolation.c $(LIBDIR)/libalgorithms.a | $(BINDIR)
-	$(CC) $(CFLAGS) $(LDFLAGS) $< -o $@ $(LDLIBS)
+$(BUILD_DIR):
+	mkdir $(BUILD_DIR)
 
-
-$(LIBDIR):
-	mkdir $(LIBDIR)
-
-$(BUILDDIR):
-	mkdir $(BUILDDIR)
-
-$(BINDIR):
-	mkdir $(BINDIR)
+$(BIN_DIR):
+	mkdir $(BIN_DIR)
