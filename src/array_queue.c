@@ -41,11 +41,16 @@ static bool aq_resize(ArrayQueue *aq, size_t new_capacity) {
  * Initialize the queue data structure.
  *
  * @param aq Pointer to the queue data structure.
+ * @return true if the data structure was initialized successfully, false
+ * otherwise.
  */
-void aq_init(ArrayQueue *aq) {
+bool aq_init(ArrayQueue *aq) {
     aq->capacity = 2;
     aq->size = 0;
     aq->items = malloc(aq->capacity * sizeof(void *));
+    if (!aq->items) {
+        return false;
+    }
     aq->head = 0;
     aq->tail = 0;
 }

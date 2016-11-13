@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 /**
  * Resize the underlying array holding the stack items.
  *
@@ -32,11 +31,18 @@ static bool as_resize(ArrayStack *as, size_t new_capacity) {
  * Initialize the stack data structure.
  *
  * @param as Pointer to the stack data structure.
+ * @return true if the data structure was initialized successfully, false
+ * otherwise.
  */
-void as_init(ArrayStack *as) {
+bool as_init(ArrayStack *as) {
     as->capacity = 2;
     as->items = malloc(as->capacity * sizeof(void *));
+    if (!as->items) {
+        return false;
+    }
     as->size = 0;
+
+    return true;
 }
 
 /**

@@ -24,8 +24,10 @@ typedef struct {
  * Initialize the queue data structure.
  *
  * @param aq Pointer to the queue data structure.
+ * @return true if the data structure was initialized successfully, false
+ * otherwise.
  */
-void aq_init(ArrayQueue *aq);
+bool aq_init(ArrayQueue *aq);
 
 /**
  * Frees resources associated with the array queue data structure.
