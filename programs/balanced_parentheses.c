@@ -37,9 +37,13 @@ int main(int argc, char **argv) {
                 case '(':
                 case '[':
                 case '{':
+                {
                     // Push opening parenthesis to the stack
-                    as_push(&stack, &line[i]);
+                    char *c = malloc(sizeof(char));
+                    *c = line[i];
+                    as_push(&stack, c);
                     break;
+                }
                 case ')':
                 case ']':
                 case '}':
@@ -52,15 +56,16 @@ int main(int argc, char **argv) {
                         return_value = 1;
                         goto cleanup;
                     }
-                    char *stack_char = as_pop(&stack);
-                    if ((*stack_char == '(' && line[i]!= ')') ||
-                        (*stack_char == '[' && line[i]!= ']') ||
-                        (*stack_char == '{' && line[i]!= '}')) {
+                    char *c = as_pop(&stack);
+                    if ((*c == '(' && line[i]!= ')') ||
+                        (*c == '[' && line[i]!= ']') ||
+                        (*c == '{' && line[i]!= '}')) {
                         fprintf(stderr, "Unexpected %d at line %ld.\n", line[i],
                                 line_number);
                         return_value = 1;
                         goto cleanup;
                     }
+                    free(c);
                     break;
                 }
             }
@@ -77,6 +82,10 @@ int main(int argc, char **argv) {
 
     // Clean up
 cleanup:
+    while(!as_is_empty(&stack)) {
+        char *c = as_pop(&stack);
+        free(c);
+    }
     as_destroy(&stack);
     fclose(fp);
     if (line) {
