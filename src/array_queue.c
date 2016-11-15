@@ -53,6 +53,8 @@ bool aq_init(ArrayQueue *aq) {
     }
     aq->head = 0;
     aq->tail = 0;
+
+    return true;
 }
 
 /**
