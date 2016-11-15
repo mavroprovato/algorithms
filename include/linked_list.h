@@ -7,7 +7,7 @@
 /**
  * The linked list node.
  */
-typedef struct {
+typedef struct LinkedListNode {
     /** The item. */
     void *item;
     /** The next node. */
@@ -48,5 +48,33 @@ size_t ll_size(LinkedList *ll);
  * @return true if the linked list is empty, false otherwise.
  */
 bool ll_is_empty(LinkedList *ll);
+
+/**
+ * Add an element to the begining of the list.
+ *
+ * @param ll Pointer to the linked list data structure.
+ * @param item Pointer to the item to add to the list.
+ * @return true if the element was added, false otherwise.
+ */
+bool ll_add_first(LinkedList *ll, void *item);
+
+/**
+ * Append an element to the end of the list.
+ *
+ * @param ll Pointer to the linked list data structure.
+ * @param item Pointer to the item to append to the list.
+ * @return true if the element was added, false otherwise.
+ */
+bool ll_append(LinkedList *ll, void *item);
+
+/**
+ * Add an element to a specific position in the list.
+ *
+ * @param ll Pointer to the linked list data structure.
+ * @param item Pointer to the item to add to the list.
+ * @param index The index at which the element will be added.
+ * @return true if the element was added, false otherwise.
+ */
+bool ll_add(LinkedList *ll, void *item, size_t index);
 
 #endif // _LINKED_LIST
