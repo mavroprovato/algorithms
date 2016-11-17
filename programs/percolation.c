@@ -26,7 +26,7 @@
  * @return true if the string is empty, false otherwise.
  */
 static bool is_empty(const char *s, size_t n) {
-    for (int i = 0; i < n && s[i] != '\n'; i++) {
+    for (size_t i = 0; i < n && s[i] != '\n'; i++) {
         if (!isspace(*s)) {
             return false;
         }
@@ -161,6 +161,8 @@ bool pg_percolates(PercolationGrid *pg) {
  * @return The percolation grid if read correctly, NULL if an error occurred.
  */
 PercolationGrid *pg_read(FILE *fp) {
+    // The percolation data structure
+    PercolationGrid *pg = NULL;
     // Variables to read the next line from the file
     char *line = NULL;
     size_t len = 0;
@@ -173,11 +175,11 @@ PercolationGrid *pg_read(FILE *fp) {
     int rc = sscanf(line, "%ld %ld", &rows, &columns);
     if (rc != 2) {
         printf("First row should contain the dimension of the grid.\n");
-        goto error_cleanup;
+        goto cleanup;
     }
 
     // Initialize the structure
-    PercolationGrid *pg = malloc(sizeof(PercolationGrid));
+    pg = malloc(sizeof(PercolationGrid));
     if (!pg) {
         fprintf(stderr, "Unable to allocate resources.\n");
         goto error_cleanup;
@@ -196,7 +198,7 @@ PercolationGrid *pg_read(FILE *fp) {
         // Read the index of the cell to open
         size_t row = 0;
         size_t column = 0;
-        int rc = sscanf(line, "%ld %ld", &row, &column);
+        rc = sscanf(line, "%ld %ld", &row, &column);
         if (rc != 2) {
             fprintf(stderr, "Invalid row and column specification\n");
             goto error_cleanup;

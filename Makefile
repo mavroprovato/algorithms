@@ -6,7 +6,7 @@ BIN_DIR = bin
 BUILD_DIR = build
 LIB_NAME = algorithms
 
-WFLAGS = -Wall -Wextra -Wfloat-equal -Wundef -Wshadow -Wcast-align -Wstrict-prototypes -Wwrite-strings -Waggregate-return
+WFLAGS = -Wall -Wextra -Wfloat-equal -Wundef -Wshadow -Wpointer-arith -Wcast-align -Wstrict-prototypes -Wwrite-strings -Waggregate-return
 CFLAGS = $(WFLAGS) -std=gnu11 -I$(INCLUDE_DIR)
 LDFLAGS = -L$(LIB_DIR)
 LDLIBS = -l$(LIB_NAME) -largtable2

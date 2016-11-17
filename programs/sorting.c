@@ -14,7 +14,7 @@ const char *prog_name = "sort";
  *
  * @return The number of milliseconds since the Epoch.
  */
-double get_time() {
+double get_time(void) {
     struct timeval t;
     struct timezone tzp;
     gettimeofday(&t, &tzp);
@@ -49,7 +49,7 @@ static int compare_int(const void *first, const void *second) {
  * @param size The size of the array.
  */
 static void init_int_array_random(int *array, size_t size) {
-    for (int i = 0; i < size; ++i) {
+    for (size_t i = 0; i < size; ++i) {
         array[i] = rand();
     }
 }
@@ -132,7 +132,7 @@ int main(int argc, char **argv) {
     }
 
     // Check the number of elements
-    if (num->ival < 0) {
+    if (*num->ival < 0) {
         printf("The number of elements to sort must be positive.");
         return 1;
     }

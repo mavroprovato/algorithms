@@ -9,23 +9,24 @@
 #define CUTOFF 8
 
 /**
- * Swap the two elements.
+ * Swap two array elements.
  *
- * @param a Pointer to the first element to swap.
- * @param b Pointer to the second element to swap.
+ * @param base A pointer to the first element of the array.
+ * @param i Index of the first element to swap.
+ * @param j Index of the second element to swap.
  * @param size The size in bytes of each element to be swapped.
  */
-static void swap(void *a, void *b, size_t size) {
+static void swap(void *base, size_t i, size_t j, size_t size) {
     size_t k = size;
     while (k-- > 0) {
-        char temp = *((char *) a + k);
-        *((char *) a + k) = *((char *) b + k);
-        *((char *) b + k) = temp;
+        char temp = *((char *) base + i * size + k);
+        *((char *) base + i * size + k) = *((char *) base + j * size + k);
+        *((char *) base + j * size + k) = temp;
     }
 }
 
 /**
- * Set the value of the first element to the value of the second element.
+ * Set the value of the first array element to the value of the second element.
  *
  * @param a Pointer to the first element.
  * @param b Pointer to the second element.
@@ -51,7 +52,8 @@ static bool sorted(void *base, size_t n, size_t size, COMPARE_FUNC compare) {
         return true;
     }
     for (size_t i = 0; i < n - 1; i++) {
-        if (compare(base + i * size, base + (i + 1) * size) > 0) {
+        if (compare((char *) base + i * size,
+                    (char *) base + (i + 1) * size) > 0) {
             return false;
         }
     }
@@ -70,7 +72,8 @@ static bool sorted(void *base, size_t n, size_t size, COMPARE_FUNC compare) {
 static bool hsorted(void *base, size_t n, size_t h, size_t size,
                     COMPARE_FUNC compare) {
     for (size_t i = h; i < n - 1; i++) {
-        if (compare(base + i * size, base + (i - h) * size) < 0) {
+        if (compare((char *) base + i * size,
+                    (char *) base + (i - h) * size) < 0) {
             return false;
         }
     }
@@ -89,13 +92,13 @@ static bool hsorted(void *base, size_t n, size_t h, size_t size,
 void insertion_sort(void *base, size_t n, size_t size, COMPARE_FUNC compare) {
     char key[size];
     for (size_t i = 1; i < n; i++) {
-        set(key, base + i * size, size);
+        set(key, (char *) base + i * size, size);
         int j = i - 1; // TODO: This should be size_t...
-        while (j >= 0 && compare(base + j * size, key) > 0) {
-            set(base + (j + 1) * size, base + j * size, size);
+        while (j >= 0 && compare((char *) base + j * size, key) > 0) {
+            set((char *) base + (j + 1) * size, (char *) base + j * size, size);
             j--;
         }
-        set(base + (j + 1) * size, key, size);
+        set((char *) base + (j + 1) * size, key, size);
 
         // Invariant: The elements up until i must be sorted.
         assert(sorted(base, i, size, compare));
@@ -116,8 +119,9 @@ void bubble_sort(void *base, size_t n, size_t size, COMPARE_FUNC compare) {
     for (size_t i = 1; i < n; i++) {
         bool swapped = false;
         for (size_t j = n - 1; j >= i; j--) {
-            if (compare(base + (j - 1) * size, base + j * size) > 0) {
-                swap(base + (j - 1) * size, base + j * size, size);
+            if (compare((char *) base + (j - 1) * size,
+                        (char *) base + j * size) > 0) {
+                swap(base, (j - 1), j, size);
                 swapped = true;
             }
         }
@@ -144,11 +148,12 @@ void selection_sort(void *base, size_t n, size_t size, COMPARE_FUNC compare) {
     for (size_t i = 0; i < n; i++) {
         int min = i;
         for (size_t j = i + 1; j < n; j++) {
-            if (compare(base + j * size, base + min * size) < 0) {
+            if (compare((char *) base + j * size,
+                        (char *) base + min * size) < 0) {
                 min = j;
             }
         }
-        swap(base + i * size, base + min * size, size);
+        swap(base, i, min, size);
 
         // Invariant: The elements up until i + 1 must be sorted.
         assert(sorted(base, i + 1, size, compare));
@@ -173,9 +178,10 @@ void shell_sort(void *base, size_t n, size_t size, COMPARE_FUNC compare) {
     while (h >= 1) {
         for (size_t i = h; i < n; i++) {
             for (size_t j = i;
-                 j >= h && compare(base + j * size, base + (j - h) * size) < 0;
+                 j >= h && compare((char *) base + j * size,
+                                   (char *) base + (j - h) * size) < 0;
                  j -= h) {
-                swap(base + j * size, base + (j - h) * size, size);
+                swap(base, j, (j - h), size);
             }
         }
         // Assertion: The array must be h-sorted.
@@ -201,27 +207,29 @@ void shell_sort(void *base, size_t n, size_t size, COMPARE_FUNC compare) {
 static void merge(void *base, void *aux, size_t low, size_t mid, size_t high,
                   size_t size, COMPARE_FUNC compare) {
     // Assertion: The array from low to mid must be sorted
-    assert(sorted(base + low * size, mid - low, size, compare));
+    assert(sorted((char *) base + low * size, mid - low, size, compare));
     // Assertion: The array from mid + 1 to high must be sorted
-    assert(sorted(base + (mid + 1) * size, high - mid, size, compare));
+    assert(sorted((char *) base + (mid + 1) * size, high - mid, size, compare));
     // Copy to the auxiliary array
-    memcpy(aux + low * size, base + low * size, (high - low + 1) * size);
+    memcpy((char *) aux + low * size, (char *) base + low * size,
+           (high - low + 1) * size);
     // Merge the two halves
     size_t i = low;
     size_t j = mid + 1;
     for (size_t k = low; k <= high; k++) {
         if (i > mid) {
             // The left half is exhausted, take from the right half.
-            set(base + size * k, aux + size * j++, size);
+            set((char *) base + size * k, (char *) aux + size * j++, size);
         } else if (j > high) {
             // The right half is exhausted, take from the left half.
-            set(base + size * k, aux + size * i++, size);
-        } else if (compare(aux + j * size, aux + i * size) < 0) {
+            set((char *) base + size * k, (char *) aux + size * i++, size);
+        } else if (compare((char *) aux + j * size,
+                           (char *) aux + i * size) < 0) {
             // The element from the right part is smaller
-            set(base + size * k, aux + size * j++, size);
+            set((char *) base + size * k, (char *) aux + size * j++, size);
         } else {
             // The element from the left part is smaller
-            set(base + size * k, aux + size * i++, size);
+            set((char *) base + size * k, (char *) aux + size * i++, size);
         }
     }
 }
@@ -240,7 +248,8 @@ static void merge_sort_impl(void *base, void *aux, size_t low, size_t high,
                             size_t size, COMPARE_FUNC compare) {
     // For small arrays, cutoff to insertion sort
     if (high < low + CUTOFF) {
-        insertion_sort(base + low * size, high - low + 1, size, compare);
+        insertion_sort((char *) base + low * size, high - low + 1, size,
+                       compare);
         return;
     }
     // Find the mid point
@@ -250,7 +259,8 @@ static void merge_sort_impl(void *base, void *aux, size_t low, size_t high,
     merge_sort_impl(base, aux, mid + 1, high, size, compare);
     // Check if the two sub-arrays are already sorted, so that we don't need to
     // merge
-    if (compare(base + (mid + 1) * size, base + mid * size) > 0) {
+    if (compare((char *) base + (mid + 1) * size,
+                (char *) base + mid * size) > 0) {
         return;
     }
     // Merge the sorted halves
@@ -295,13 +305,13 @@ static size_t quick_sort_partition(void *base, size_t low, size_t high,
 
     while (true) {
         // Find the element on left to swap
-        while (compare(base + (++i) * size, base + low * size) < 0) {
+        while (compare((char *) base + (++i) * size, (char *) base + low * size) < 0) {
             if (i == high) {
                 break;
             }
         }
         // Find the element on right to swap
-        while (compare(base + low * size, base + (--j) * size) < 0) {
+        while (compare((char *) base + low * size, (char *) base + (--j) * size) < 0) {
             if (j == low) {
                 break;
             }
@@ -310,11 +320,11 @@ static size_t quick_sort_partition(void *base, size_t low, size_t high,
         if (i >= j) {
             break;
         }
-        swap(base + i * size, base + j * size, size);
+        swap(base, i, j, size);
     }
 
     // Put the partitioning element on its final position
-    swap(base + low * size, base + j * size, size);
+    swap(base, low, j, size);
 
     return j;
 }
@@ -332,18 +342,18 @@ static void quick_sort_impl(void *base, size_t low, size_t high, size_t size,
                             COMPARE_FUNC compare) {
     // For small arrays, cutoff to insertion sort
     if (high < low + CUTOFF) {
-        insertion_sort(base + low * size, high - low + 1, size, compare);
+        insertion_sort((char *) base + low * size, high - low + 1, size, compare);
         return;
     }
     size_t p = quick_sort_partition(base, low, high, size, compare);
     if (low + 1 < p) {
-        quick_sort_impl(base, low, p - 1, size, compare);
+        quick_sort_impl((char *) base, low, p - 1, size, compare);
     }
     if (p + 1 < high) {
-        quick_sort_impl(base, p + 1, high, size, compare);
+        quick_sort_impl((char *) base, p + 1, high, size, compare);
     }
     // Assertion: The array from low to high must be sorted
-    assert(sorted(base + low * size, high - low, size, compare));
+    assert(sorted((char *) base + low * size, high - low, size, compare));
 }
 
 /**

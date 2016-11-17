@@ -24,8 +24,8 @@ static bool aq_resize(ArrayQueue *aq, size_t new_capacity) {
     } else { // The array has wrapped around.
         memcpy(new_items, aq->items + aq->head,
                (aq->capacity - aq->head) * sizeof(void *));
-        memcpy(new_items + (aq->capacity - aq->head), aq->items,
-               aq->tail * sizeof(void *));
+        memcpy((char *) new_items + (aq->capacity - aq->head) * sizeof(void *),
+               aq->items, aq->tail * sizeof(void *));
     }
 
     free(aq->items);
