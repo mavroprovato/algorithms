@@ -3,17 +3,31 @@
 #include "linked_list.h"
 
 /**
- * Initialize the linked list data structure.
+ * Create a linked list structure.
+ *
+ * @param item Pointer to the item to hold.
+ * @return The created linked list structure or NULL if the stuructre could not
+ * be created.
+ */
+LinkedList *ll_create(void *item) {
+    LinkedList *ll = malloc(sizeof(LinkedList));
+    if (!ll) {
+        return NULL;
+    }
+    ll->item = item;
+    ll->next = NULL;
+
+    return ll;
+}
+
+/**
+ * Destroy the linked list structure.
  *
  * @param ll Pointer to the linked list data structure.
- * @return true if the data structure was initialized successfully,
- * false otherwise.
+ * @param item Pointer to the item to hold.
  */
-bool ll_init(LinkedList *ll) {
-    ll->head = NULL;
-    ll->size = 0;
-
-    return true;
+void ll_destroy(LinkedList *ll) {
+    free(ll);
 }
 
 /**
@@ -23,7 +37,14 @@ bool ll_init(LinkedList *ll) {
  * @return The size of the linked list.
  */
 size_t ll_size(LinkedList *ll) {
-    return ll->size;
+    size_t size = 0;
+    LinkedList *current = ll;
+    while (current) {
+        current = current->next;
+        size++;
+    }
+
+    return size;
 }
 
 /**
@@ -33,97 +54,72 @@ size_t ll_size(LinkedList *ll) {
  * @return true if the linked list is empty, false otherwise.
  */
 bool ll_is_empty(LinkedList *ll) {
-    return ll->size == 0;
+    return ll == NULL;
 }
 
 /**
- * Add an element to the beginning of the list.
+ * Add an item as the first element of the list.
  *
  * @param ll Pointer to the linked list data structure.
- * @param item Pointer to the item to add to the list.
- * @return true if the element was added, false otherwise.
+ * @param item Pointer to the item to add.
+ * @return Pointer to the updated list or NULL if the list cannot be updated.
  */
-bool ll_add_first(LinkedList *ll, void *item) {
-    // Create the node
-    LinkedListNode *node = malloc(sizeof(LinkedListNode));
-    if (!node) {
-        return false;
+LinkedList *ll_prepend(LinkedList *ll, void *item) {
+    LinkedList *new_ll = ll_create(item);
+    if (new_ll) {
+        new_ll->next = ll;
     }
-    node->item = item;
 
-    // Add it to the head of the list.
-    node->next = ll->head;
-    ll->head = node;
-    ll->size++;
-
-    return true;
+    return new_ll;
 }
 
 /**
- * Append an element to the end of the list.
+ * Add an item as the last element of the list.
  *
  * @param ll Pointer to the linked list data structure.
- * @param item Pointer to the item to append to the list.
- * @return true if the element was added, false otherwise.
+ * @param item Pointer to the item to add.
+ * @return Pointer to the updated list or NULL if the list cannot be updated.
  */
-bool ll_append(LinkedList *ll, void *item) {
-    // Create the node
-    LinkedListNode *node = malloc(sizeof(LinkedListNode));
-    if (!node) {
-        return false;
+LinkedList *ll_append(LinkedList *ll, void *item) {
+    LinkedList *new_ll = ll_create(item);
+    if (!new_ll) {
+        return NULL;
     }
-    node->item = item;
-    node->next = NULL;
-
-    // Append it to the end of the list.
-    LinkedListNode *current = ll->head;
-    if (current) {
-        while (current->next) {
-            current = current->next;
-        }
-        current->next = node;
-    } else {
-        current = node;
+    if (!ll) {
+        return new_ll;
     }
-    ll->size++;
+    LinkedList *current = ll;
+    while (current->next) {
+        current = current->next;
+    }
+    current->next = new_ll;
 
-    return true;
+    return ll;
 }
 
 /**
- * Add an element to a specific position in the list.
+ * Insert an item at the specified position of the list.
  *
  * @param ll Pointer to the linked list data structure.
- * @param item Pointer to the item to add to the list.
- * @param index The index at which the element will be added.
- * @return true if the element was added, false otherwise.
+ * @param item Pointer to the item to add.
+ * @param position The position at which the element is to be inserted.
+ * @return Pointer to the updated list or NULL if the list cannot be updated.
  */
-bool ll_add(LinkedList *ll, void *item, size_t index) {
-    // Check bounds
-    if (index >= ll->size) {
-        return false;
+LinkedList *ll_insert(LinkedList *ll, void *item, size_t position) {
+    if (!ll || position == 0) {
+        return ll_prepend(ll, item);
     }
-
-    // Create the node
-    LinkedListNode *node = malloc(sizeof(LinkedListNode));
-    if (!node) {
-        return false;
+    LinkedList *new_ll = ll_create(item);
+    if (!new_ll) {
+        return NULL;
     }
-    node->item = item;
-    node->next = NULL;
-
-    // Add the element to the specified position it to the end of the list.
-    LinkedListNode *current = ll->head;
-    int current_index = 0;
-    if (current) {
-        while (current->next && current_index++ != index) {
-            current = current->next;
-        }
-        current->next = node;
-    } else {
-        current = node;
+    LinkedList *current = ll;
+    size_t index = 0;
+    while (current->next && index++ < position) {
+        current = current->next;
     }
-    ll->size++;
+    new_ll->next = current->next;
+    current->next = new_ll;
 
-    return true;
+    return ll;
 }

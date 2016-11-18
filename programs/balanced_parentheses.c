@@ -1,12 +1,12 @@
 /**
- * Read input from the file passed as the first argument (or the standard input
+ * Reads input from the file passed as the first argument (or the standard input
  * if no argument is passed) and prints whether the parentheses are balanced or
  * not.
  */
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <array_stack.h>
+#include "array_stack.h"
 
 int main(int argc, char **argv) {
     // Open file
@@ -22,14 +22,18 @@ int main(int argc, char **argv) {
     }
 
     // Initialize the stack
+    int return_value = 0;
     ArrayStack stack;
-    as_init(&stack);
+    if (!as_init(&stack)) {
+        fprintf(stderr, "Could not create the stack data structure.\n");
+        return_value = 1;
+        goto cleanup;
+    }
 
     // Read the input line by line
     char * line = NULL;
     size_t len = 0;
     ssize_t read;
-    int return_value = 0;
     size_t line_number = 1;
     while ((read = getline(&line, &len, fp)) != -1) {
         for (int i = 0; i < read; i++) {

@@ -5,33 +5,31 @@
 #include <stddef.h>
 
 /**
- * The linked list node.
+ * The linked list structure.
  */
-typedef struct LinkedListNode {
+typedef struct LinkedList {
     /** The item. */
     void *item;
     /** The next node. */
-    struct LinkedListNode *next;
-} LinkedListNode;
-
-/**
- * The linked list structure.
- */
-typedef struct {
-    /** Pointer to the first element of the list. */
-    LinkedListNode *head;
-    /** The size of the list. */
-    size_t size;
+    struct LinkedList *next;
 } LinkedList;
 
 /**
- * Initialize the linked list data structure.
+ * Create a linked list structure.
  *
- * @param aq Pointer to the linked list data structure.
- * @return true if the data structure was initialize successfully,
- * false otherwise.
+ * @param item Pointer to the item to hold.
+ * @return The created linked list structure or NULL if the stuructre could not
+ * be created.
  */
-bool ll_init(LinkedList *ll);
+LinkedList *ll_create(void *item);
+
+/**
+ * Destroy the linked list structure.
+ *
+ * @param ll Pointer to the linked list data structure.
+ * @param item Pointer to the item to hold.
+ */
+void ll_destroy(LinkedList *ll);
 
 /**
  * Return the size of the linked list.
@@ -50,31 +48,31 @@ size_t ll_size(LinkedList *ll);
 bool ll_is_empty(LinkedList *ll);
 
 /**
- * Add an element to the begining of the list.
+ * Add an item as the first element of the list.
  *
  * @param ll Pointer to the linked list data structure.
- * @param item Pointer to the item to add to the list.
- * @return true if the element was added, false otherwise.
+ * @param item Pointer to the item to add.
+ * @return Pointer to the updated list or NULL if the list cannot be updated.
  */
-bool ll_add_first(LinkedList *ll, void *item);
+LinkedList *ll_prepend(LinkedList *ll, void *item);
 
 /**
- * Append an element to the end of the list.
+ * Add an item as the last element of the list.
  *
  * @param ll Pointer to the linked list data structure.
- * @param item Pointer to the item to append to the list.
- * @return true if the element was added, false otherwise.
+ * @param item Pointer to the item to add.
+ * @return Pointer to the updated list or NULL if the list cannot be updated.
  */
-bool ll_append(LinkedList *ll, void *item);
+LinkedList *ll_append(LinkedList *ll, void *item);
 
 /**
- * Add an element to a specific position in the list.
+ * Insert an item at the specified position of the list.
  *
  * @param ll Pointer to the linked list data structure.
- * @param item Pointer to the item to add to the list.
- * @param index The index at which the element will be added.
- * @return true if the element was added, false otherwise.
+ * @param item Pointer to the item to add.
+ * @param position The position at which the element is to be inserted.
+ * @return Pointer to the updated list or NULL if the list cannot be updated.
  */
-bool ll_add(LinkedList *ll, void *item, size_t index);
+LinkedList *ll_insert(LinkedList *ll, void *item, size_t position);
 
 #endif // _LINKED_LIST
