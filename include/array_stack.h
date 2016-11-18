@@ -54,7 +54,7 @@ size_t as_size(ArrayStack *as);
  * @param as Pointer to the stack data structure.
  * @param item Pointer to the item to add to the stack.
  */
-void as_push(ArrayStack *as, void *item);
+bool as_push(ArrayStack *as, void *item);
 
 /**
  * Removes and returns the last element that was added to the stack.

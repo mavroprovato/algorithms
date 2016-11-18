@@ -80,12 +80,15 @@ size_t as_size(ArrayStack *as) {
  * @param as Pointer to the stack data structure.
  * @param item Pointer to the item to add to the stack.
  */
-void as_push(ArrayStack *as, void *item) {
+bool as_push(ArrayStack *as, void *item) {
     if (as->size == as->capacity) {
-        as_resize(as, 2 * as->capacity);
+        if(!as_resize(as, 2 * as->capacity)) {
+            return false;
+        }
     }
 
     as->items[as->size++] = item;
+    return true;
 }
 
 /**
@@ -122,5 +125,5 @@ void *as_peek(ArrayStack *as) {
         return NULL;
     }
 
-    return as->items[as->size];
+    return as->items[as->size - 1];
 }
