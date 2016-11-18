@@ -172,7 +172,7 @@ PercolationGrid *pg_read(FILE *fp) {
     size_t rows = 0;
     size_t columns = 0;
     read = getline(&line, &len, fp);
-    int rc = sscanf(line, "%ld %ld", &rows, &columns);
+    int rc = sscanf(line, "%zu %zu", &rows, &columns);
     if (rc != 2) {
         printf("First row should contain the dimension of the grid.\n");
         goto cleanup;
@@ -198,7 +198,7 @@ PercolationGrid *pg_read(FILE *fp) {
         // Read the index of the cell to open
         size_t row = 0;
         size_t column = 0;
-        rc = sscanf(line, "%ld %ld", &row, &column);
+        rc = sscanf(line, "%zu %zu", &row, &column);
         if (rc != 2) {
             fprintf(stderr, "Invalid row and column specification\n");
             goto error_cleanup;
