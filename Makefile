@@ -9,7 +9,7 @@ LIB_NAME = algorithms
 WFLAGS = -Wall -Wextra -Wfloat-equal -Wundef -Wshadow -Wpointer-arith -Wcast-align -Wstrict-prototypes -Wwrite-strings -Waggregate-return
 CFLAGS = $(WFLAGS) -std=c11 -pedantic -D_POSIX_C_SOURCE=200809L -I$(INCLUDE_DIR)
 LDFLAGS = -L$(LIB_DIR)
-LDLIBS = -l$(LIB_NAME) -largtable2
+LDLIBS = -l$(LIB_NAME)
 
 LIB_SRC := $(wildcard $(SRC_DIR)/*.c)
 PROGRAMS_SRC := $(wildcard $(PROGRAMS_DIR)/*.c)
