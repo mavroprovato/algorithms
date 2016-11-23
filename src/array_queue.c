@@ -91,15 +91,19 @@ size_t aq_size(ArrayQueue *aq) {
  * @param aq Pointer to the queue data structure.
  * @param item Pointer to the item to add to the queue.
  */
-void aq_enqueue(ArrayQueue *aq, void *item) {
+bool aq_enqueue(ArrayQueue *aq, void *item) {
     if (aq->size == aq->capacity) {
-        aq_resize(aq, 2 * aq->capacity);
+        if (!aq_resize(aq, 2 * aq->capacity)) {
+            return false;
+        }
     }
     aq->items[aq->tail++] = item;
     if (aq->tail == aq->capacity) { // wrap around
         aq->tail = 0;
     }
     aq->size++;
+
+    return true;
 }
 
 /**

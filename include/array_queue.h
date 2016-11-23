@@ -57,8 +57,9 @@ size_t aq_size(ArrayQueue *aq);
  *
  * @param aq Pointer to the queue data structure.
  * @param item Pointer to the item to add to the queue.
+ * @return true if the element was enqueued successfully, false otherwise.
  */
-void aq_enqueue(ArrayQueue *aq, void *item);
+bool aq_enqueue(ArrayQueue *aq, void *item);
 
 /**
  * Removes and returns the least recent element that was added to the queue.
