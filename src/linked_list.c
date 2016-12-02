@@ -115,7 +115,7 @@ LinkedList *ll_insert(LinkedList *ll, void *item, size_t position) {
     }
     LinkedList *current = ll;
     size_t index = 0;
-    while (current->next && index++ < position) {
+    while (current->next && index++ < position - 1) {
         current = current->next;
     }
     new_ll->next = current->next;
