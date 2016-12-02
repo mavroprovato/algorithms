@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
         } else if (strncmp(line, "size", strlen("size")) == 0) {
             printf("%zu\n", aq_size(&queue));
         } else if (strncmp(line, "enqueue", strlen("enqueue")) == 0) {
-            // Find the command
+            // Find the string
             char *space_idx = strchr(line, ' ');
             if (!space_idx) {
                 fprintf(stderr, "Invalid input.\n");
