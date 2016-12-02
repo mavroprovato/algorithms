@@ -5,6 +5,14 @@
 #include <stddef.h>
 
 /**
+ * Prototype for a function used to iterate the linked list.
+ *
+ * @param item The current item.
+ * @param data Pointer to the custom user data. Can be NULL.
+ */
+typedef void (*ITERATOR_FUNC) (void *item, void *data);
+
+/**
  * The linked list structure.
  */
 typedef struct LinkedList {
@@ -74,5 +82,14 @@ LinkedList *ll_append(LinkedList *ll, void *item);
  * @return Pointer to the updated list or NULL if the list cannot be updated.
  */
 LinkedList *ll_insert(LinkedList *ll, void *item, size_t position);
+
+/**
+ * Add an item as the last element of the list.
+ *
+ * @param ll Pointer to the linked list data structure.
+ * @param iterator_func Pointer to function that is called for every item.
+ * @param data Pointer to the custom user data. Can be NULL.
+ */
+void ll_foreach(LinkedList *ll, ITERATOR_FUNC iterator_func, void *data);
 
 #endif // _LINKED_LIST

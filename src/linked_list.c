@@ -123,3 +123,19 @@ LinkedList *ll_insert(LinkedList *ll, void *item, size_t position) {
 
     return ll;
 }
+
+
+/**
+ * Add an item as the last element of the list.
+ *
+ * @param ll Pointer to the linked list data structure.
+ * @param iterator_func Pointer to function that is called for every item.
+ * @param data Pointer to the custom user data. Can be NULL.
+ */
+void ll_foreach(LinkedList *ll, ITERATOR_FUNC iterator_func, void *data) {
+    LinkedList *current = ll;
+    while (current) {
+        iterator_func(current->item, data);
+        current = current->next;
+    }
+}
