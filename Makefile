@@ -18,6 +18,8 @@ PROGRAMS_FILES := $(addprefix $(BIN_DIR)/,$(notdir $(PROGRAMS_SRC:.c=)))
 
 .PHONY: release debug library programs clean
 
+all: debug
+
 release: CFLAGS += -O2
 release: library programs
 
