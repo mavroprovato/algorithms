@@ -62,26 +62,26 @@ bool ll_is_empty(LinkedList *ll);
  * @param item Pointer to the item to add.
  * @return Pointer to the updated list or NULL if the list cannot be updated.
  */
-LinkedList *ll_prepend(LinkedList *ll, void *item);
+bool ll_prepend(LinkedList **ll, void *item);
 
 /**
  * Add an item as the last element of the list.
  *
- * @param ll Pointer to the linked list data structure.
+ * @param ll The linked list data structure.
  * @param item Pointer to the item to add.
- * @return Pointer to the updated list or NULL if the list cannot be updated.
+ * @return true if the element was inserted successfully, false otherwise.
  */
-LinkedList *ll_append(LinkedList *ll, void *item);
+bool ll_append(LinkedList **ll, void *item);
 
 /**
  * Insert an item at the specified position of the list.
  *
- * @param ll Pointer to the linked list data structure.
+ * @param ll The linked list data structure.
  * @param item Pointer to the item to add.
  * @param position The position at which the element is to be inserted.
- * @return Pointer to the updated list or NULL if the list cannot be updated.
+ * @return true if the element was inserted successfully, false otherwise.
  */
-LinkedList *ll_insert(LinkedList *ll, void *item, size_t position);
+bool ll_insert(LinkedList **ll, void *item, size_t position);
 
 /**
  * Add an item as the last element of the list.

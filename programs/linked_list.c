@@ -49,7 +49,11 @@ int main(int argc, char **argv) {
             }
             str++;
             char *s = strndup(str, strlen(str) - 1);
-            ll = ll_prepend(ll, s);
+            if (!ll_prepend(&ll, s)) {
+                fprintf(stderr, "Cannot prepend to list.\n");
+                return_val = 1;
+                goto cleanup;
+            }
         } else if (strncmp(line, "append", strlen("append")) == 0) {
             // Append the string after the command
             char *str = strchr(line, ' ');
@@ -60,7 +64,11 @@ int main(int argc, char **argv) {
             }
             str++;
             char *s = strndup(str, strlen(str) - 1);
-            ll = ll_append(ll, s);
+            if (!ll_append(&ll, s)) {
+                fprintf(stderr, "Cannot append to list.\n");
+                return_val = 1;
+                goto cleanup;
+            }
         } else if (strncmp(line, "insert", strlen("insert")) == 0) {
             // Get the position to insert
             char *str = strchr(line, ' ');
@@ -86,7 +94,11 @@ int main(int argc, char **argv) {
             }
             str++;
             char *s = strndup(str, strlen(str) - 1);
-            ll = ll_insert(ll, s, idx);
+            if (!ll_insert(&ll, s, idx)) {
+                fprintf(stderr, "Cannot insert to list.\n");
+                return_val = 1;
+                goto cleanup;
+            }
         } else if (strncmp(line, "print", strlen("print")) == 0) {
             // Print all elements
             ll_foreach(ll, print_element, NULL);

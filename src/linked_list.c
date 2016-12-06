@@ -64,56 +64,70 @@ bool ll_is_empty(LinkedList *ll) {
  * @param item Pointer to the item to add.
  * @return Pointer to the updated list or NULL if the list cannot be updated.
  */
-LinkedList *ll_prepend(LinkedList *ll, void *item) {
+bool ll_prepend(LinkedList **ll, void *item) {
+    // Alocate the node
     LinkedList *new_ll = ll_create(item);
-    if (new_ll) {
-        new_ll->next = ll;
+    if (!new_ll) {
+        return false;
     }
 
-    return new_ll;
+    // Put it at the start of the list
+    new_ll->next = *ll;
+    *ll = new_ll;
+
+    return true;
 }
 
 /**
  * Add an item as the last element of the list.
  *
- * @param ll Pointer to the linked list data structure.
+ * @param ll The linked list data structure.
  * @param item Pointer to the item to add.
- * @return Pointer to the updated list or NULL if the list cannot be updated.
+ * @return true if the element was inserted successfully, false otherwise.
  */
-LinkedList *ll_append(LinkedList *ll, void *item) {
+bool ll_append(LinkedList **ll, void *item) {
+    // Alocate the node
     LinkedList *new_ll = ll_create(item);
     if (!new_ll) {
-        return NULL;
+        return false;
     }
-    if (!ll) {
-        return new_ll;
-    }
-    LinkedList *current = ll;
-    while (current->next) {
-        current = current->next;
-    }
-    current->next = new_ll;
 
-    return ll;
+    // If it is an empty list, return the created node
+    if (!*ll) {
+        *ll = new_ll;
+    } else {
+        LinkedList *current = *ll;
+        while (current->next) {
+            current = current->next;
+        }
+        current->next = new_ll;
+    }
+
+    return true;
 }
 
 /**
  * Insert an item at the specified position of the list.
  *
- * @param ll Pointer to the linked list data structure.
+ * @param ll The linked list data structure.
  * @param item Pointer to the item to add.
  * @param position The position at which the element is to be inserted.
- * @return Pointer to the updated list or NULL if the list cannot be updated.
+ * @return true if the element was inserted successfully, false otherwise.
  */
-LinkedList *ll_insert(LinkedList *ll, void *item, size_t position) {
-    if (!ll || position == 0) {
+bool ll_insert(LinkedList **ll, void *item, size_t position) {
+    // If empty or position is zero, call prepend.
+    if (!*ll || position == 0) {
         return ll_prepend(ll, item);
     }
+
+    // Alocate the node
     LinkedList *new_ll = ll_create(item);
     if (!new_ll) {
-        return NULL;
+        return false;
     }
-    LinkedList *current = ll;
+
+    // Put it at the requested position
+    LinkedList *current = *ll;
     size_t index = 0;
     while (current->next && index++ < position - 1) {
         current = current->next;
@@ -121,7 +135,7 @@ LinkedList *ll_insert(LinkedList *ll, void *item, size_t position) {
     new_ll->next = current->next;
     current->next = new_ll;
 
-    return ll;
+    return true;
 }
 
 
