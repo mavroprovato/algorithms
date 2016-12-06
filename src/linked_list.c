@@ -238,3 +238,35 @@ void ll_foreach(LinkedList *ll, ITERATOR_FUNC iterator_func, void *data) {
         current = current->next;
     }
 }
+
+/**
+ * Check if the linked list contains an element.
+ *
+ * @param ll Pointer to the linked list data structure.
+ * @param item The item to search for.
+ * @param compare_func The function used to compare items.
+ * @return The index of the item, or -1 if the item is not found.
+ */
+bool ll_contains(LinkedList *ll, void *item, COMPARE_FUNC compare_func) {
+    return ll_find(ll, item, compare_func) != -1;
+}
+
+/**
+ * Search for an element and return its index in the list.
+ *
+ * @param ll Pointer to the linked list data structure.
+ * @param item The item to search for.
+ * @param compare_func The function used to compare items.
+ * @return The index of the item, or -1 if the item is not found.
+ */
+ssize_t ll_find(LinkedList *ll, void *item, COMPARE_FUNC compare_func) {
+    ssize_t pos = 0;
+
+    LinkedList *current = ll;
+    while (current && compare_func(current->item, item) != 0) {
+        pos++;
+        current = current->next;
+    }
+
+    return current == NULL ? -1 : pos;
+}

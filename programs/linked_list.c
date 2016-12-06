@@ -13,6 +13,10 @@ void print_element(void *item, void *data) {
     printf("%s ", (char *) item);
 }
 
+int compare_str(const void *a, const void *b) {
+    return strcmp((const char *) a, (const char *) b);
+}
+
 int main(int argc, char **argv) {
     // Open file
     FILE * fp;
@@ -123,6 +127,29 @@ int main(int argc, char **argv) {
             }
             // Remove the element
             free(ll_remove(&ll, idx));
+        } else if (strncmp(line, "find", strlen("find")) == 0) {
+            // Get the string to find
+            char *str = strchr(line, ' ');
+            if (!str) {
+                fprintf(stderr, "Invalid input.\n");
+                return_val = 1;
+                goto cleanup;
+            }
+            str++;
+            str[strlen(str) - 1] = '\0';
+            printf("%zd\n", ll_find(ll, str, compare_str));
+        } else if (strncmp(line, "contains", strlen("contains")) == 0) {
+            // Get the string to check
+            char *str = strchr(line, ' ');
+            if (!str) {
+                fprintf(stderr, "Invalid input.\n");
+                return_val = 1;
+                goto cleanup;
+            }
+            str++;
+            str[strlen(str) - 1] = '\0';
+            printf("%s\n", ll_contains(ll, str, compare_str) ? "true" :
+                                                               "false");
         } else if (strncmp(line, "print", strlen("print")) == 0) {
             // Print all elements
             ll_foreach(ll, print_element, NULL);

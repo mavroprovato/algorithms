@@ -3,14 +3,9 @@
 
 #include <stdbool.h>
 #include <stddef.h>
+#include <sys/types.h>
 
-/**
- * Prototype for a function used to iterate the linked list.
- *
- * @param item The current item.
- * @param data Pointer to the custom user data. Can be NULL.
- */
-typedef void (*ITERATOR_FUNC) (void *item, void *data);
+#include "util.h"
 
 /**
  * The linked list structure.
@@ -116,5 +111,25 @@ void *ll_remove(LinkedList **ll, size_t position);
  * @param data Pointer to the custom user data. Can be NULL.
  */
 void ll_foreach(LinkedList *ll, ITERATOR_FUNC iterator_func, void *data);
+
+/**
+ * Check if the linked list contains an element.
+ *
+ * @param ll Pointer to the linked list data structure.
+ * @param item The item to search for.
+ * @param compare_func The function used to compare items.
+ * @return The index of the item, or -1 if the item is not found.
+ */
+bool ll_contains(LinkedList *ll, void *item, COMPARE_FUNC compare_func);
+
+/**
+ * Search for an element and return its index in the list.
+ *
+ * @param ll Pointer to the linked list data structure.
+ * @param item The item to search for.
+ * @param compare_func The function used to compare items.
+ * @return The index of the item, or -1 if the item is not found.
+ */
+ssize_t ll_find(LinkedList *ll, void *item, COMPARE_FUNC compare_func);
 
 #endif // _LINKED_LIST

@@ -4,16 +4,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 
-/**
- * Prototype for a function that compares two elements.
- *
- * @param first The first element.
- * @param second The second element.
- * @return A positive integer if the first element is greater that the second,
- * a negative integer if the first element is less than the second, or zero if
- * they are equal.
- */
-typedef int (*COMPARE_FUNC) (const void *first, const void *second);
+#include "util.h"
 
 /**
  * Prototype for a function that sorts an array.
