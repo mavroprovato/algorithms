@@ -99,6 +99,30 @@ int main(int argc, char **argv) {
                 return_val = 1;
                 goto cleanup;
             }
+        } else if (strncmp(line, "remove_first", strlen("remove_first")) == 0) {
+            // Remove first element
+            free(ll_remove_first(&ll));
+        } else if (strncmp(line, "remove_last", strlen("remove_last")) == 0) {
+            // Remove last element
+            free(ll_remove_last(&ll));
+        } else if (strncmp(line, "remove", strlen("remove")) == 0) {
+            // Get the position to insert
+            char *str = strchr(line, ' ');
+            if (!str) {
+                fprintf(stderr, "Invalid input.\n");
+                return_val = 1;
+                goto cleanup;
+            }
+            str++;
+            int idx = -1;
+            int rc = sscanf(str, "%d", &idx);
+            if (rc != 1 || idx < 0) {
+                fprintf(stderr, "Invalid index.\n");
+                return_val = 1;
+                goto cleanup;
+            }
+            // Remove the element
+            free(ll_remove(&ll, idx));
         } else if (strncmp(line, "print", strlen("print")) == 0) {
             // Print all elements
             ll_foreach(ll, print_element, NULL);
@@ -112,6 +136,9 @@ int main(int argc, char **argv) {
 
     // Clean up
 cleanup:
+    while (!ll_is_empty(ll)) {
+        free(ll_remove_first(&ll));
+    }
     free(line);
     fclose(fp);
 

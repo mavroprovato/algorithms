@@ -84,6 +84,31 @@ bool ll_append(LinkedList **ll, void *item);
 bool ll_insert(LinkedList **ll, void *item, size_t position);
 
 /**
+ * Remove the first item of the list.
+ *
+ * @param ll The linked list data structure.
+ * @return The item that was removed.
+ */
+void *ll_remove_first(LinkedList **ll);
+
+/**
+ * Remove the last item of the list.
+ *
+ * @param ll The linked list data structure.
+ * @return The item that was removed.
+ */
+void *ll_remove_last(LinkedList **ll);
+
+/**
+ * Remove an item from the list by position.
+ *
+ * @param ll The linked list data structure.
+ * @param position The position at which the element is to be inserted.
+ * @return The item that was removed.
+ */
+void *ll_remove(LinkedList **ll, size_t position);
+
+/**
  * Add an item as the last element of the list.
  *
  * @param ll Pointer to the linked list data structure.

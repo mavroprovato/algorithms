@@ -138,6 +138,91 @@ bool ll_insert(LinkedList **ll, void *item, size_t position) {
     return true;
 }
 
+/**
+ * Remove the first item of the list.
+ *
+ * @param ll The linked list data structure.
+ * @return The item that was removed.
+ */
+void *ll_remove_first(LinkedList **ll) {
+    // If list is empty return null.
+    if (!*ll) {
+        return NULL;
+    }
+
+    // Point the node to the next item and free resources.
+    void *item = (*ll)->item;
+    LinkedList *current = *ll;
+    *ll = (*ll)->next;
+    free(current);
+
+    return item;
+}
+
+/**
+ * Remove the last item of the list.
+ *
+ * @param ll The linked list data structure.
+ * @return The item that was removed.
+ */
+void *ll_remove_last(LinkedList **ll) {
+    // If list is empty return null.
+    if (!*ll) {
+        return NULL;
+    }
+
+    // Find and remove the last node
+    LinkedList *current = *ll;
+    while (current->next && current->next->next) {
+        current = current->next;
+    }
+    void *item = NULL;
+    if (current->next == NULL) { // Only one item in the list
+        item = current->item;
+        (*ll) = NULL;
+        free(current);
+    } else {
+        item = current->next->item;
+        free(current->next);
+        current->next = NULL;
+    }
+
+    return item;
+}
+
+/**
+ * Remove an item from the list by position.
+ *
+ * @param ll The linked list data structure.
+ * @param position The position at which the element is to be inserted.
+ * @return The item that was removed.
+ */
+void *ll_remove(LinkedList **ll, size_t position) {
+    // If list is empty return null.
+    if (!*ll || position == 0) {
+        return ll_remove_first(ll);
+    }
+
+    // Find and remove the node
+    LinkedList *current = *ll;
+    size_t index = 0;
+    while (current->next && current->next->next && index++ < position - 1) {
+        current = current->next;
+    }
+    void *item = NULL;
+    if (current->next == NULL) { // The last element of the list
+        item = current->item;
+        (*ll) = NULL;
+        free(current);
+    } else {
+        LinkedList *node = current->next;
+        item = node->item;
+        current->next = current->next->next;
+        free(node);
+    }
+
+    return item;
+}
 
 /**
  * Add an item as the last element of the list.
