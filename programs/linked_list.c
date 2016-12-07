@@ -1,11 +1,11 @@
 /**
  * Test program for the linked list implementation.
  */
+#include "linked_list.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#include "linked_list.h"
 
 void print_element(void *item, void *data) {
     (void)(data);

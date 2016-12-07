@@ -1,5 +1,5 @@
-#ifndef _ARRAY_STACK
-#define _ARRAY_STACK
+#ifndef _ARRAY_STACK_H
+#define _ARRAY_STACK_H
 
 #include <stddef.h>
 #include <stdbool.h>
@@ -72,4 +72,4 @@ void *as_pop(ArrayStack *as);
  */
 void *as_peek(ArrayStack *as);
 
-#endif // _ARRAY_STACK
+#endif // _ARRAY_STACK_H

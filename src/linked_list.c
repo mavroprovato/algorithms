@@ -1,6 +1,6 @@
-#include <stdlib.h>
-
 #include "linked_list.h"
+
+#include <stdlib.h>
 
 /**
  * Create a linked list structure.

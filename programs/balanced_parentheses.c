@@ -3,10 +3,10 @@
  * if no argument is passed) and prints whether the parentheses are balanced or
  * not.
  */
+#include "array_stack.h"
+
 #include <stdio.h>
 #include <stdlib.h>
-
-#include "array_stack.h"
 
 int main(int argc, char **argv) {
     // Open file

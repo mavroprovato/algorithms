@@ -1,3 +1,8 @@
+/**
+ * Test program for sorting.
+ */
+#include "sorting.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -6,12 +11,10 @@
 #include <getopt.h>
 #include <sys/time.h>
 
-#include "sorting.h"
-
 /**
- * Returns the number of milliseconds since the Epoch.
+ * Returns the number of milliseconds since the UNIX epoch.
  *
- * @return The number of milliseconds since the Epoch.
+ * @return The number of milliseconds since the UNIX epoch.
  */
 double get_time(void) {
     struct timeval t;
@@ -21,7 +24,7 @@ double get_time(void) {
 }
 
 /**
- * Compares two integer numbers
+ * Compares two integer numbers.
  *
  * @param first The first integer.
  * @param second The second integer.

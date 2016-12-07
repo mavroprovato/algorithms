@@ -1,11 +1,11 @@
 /**
  * Test program for the array stack implementation.
  */
+#include "array_stack.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#include "array_stack.h"
 
 int main(int argc, char **argv) {
     // Open file

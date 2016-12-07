@@ -1,5 +1,5 @@
-#ifndef _ARRAY_QUEUE
-#define _ARRAY_QUEUE
+#ifndef _ARRAY_QUEUE_H
+#define _ARRAY_QUEUE_H
 
 #include <stddef.h>
 #include <stdbool.h>
@@ -77,4 +77,4 @@ void *aq_dequeue(ArrayQueue *aq);
  */
 void *aq_peek(ArrayQueue *aq);
 
-#endif // _ARRAY_QUEUE
+#endif // _ARRAY_QUEUE_H

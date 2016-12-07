@@ -1,5 +1,5 @@
-#ifndef _LINKED_LIST
-#define _LINKED_LIST
+#ifndef _LINKED_LIST_H
+#define _LINKED_LIST_H
 
 #include <stdbool.h>
 #include <stddef.h>
@@ -132,4 +132,4 @@ bool ll_contains(LinkedList *ll, void *item, COMPARE_FUNC compare_func);
  */
 ssize_t ll_find(LinkedList *ll, void *item, COMPARE_FUNC compare_func);
 
-#endif // _LINKED_LIST
+#endif // _LINKED_LIST_H

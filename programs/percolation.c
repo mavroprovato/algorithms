@@ -3,13 +3,13 @@
  * standard input if no argument is passed) and print whether the grid
  * percolates or not.
  */
+#include "union_find.h"
+
 #include <ctype.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#include "union_find.h"
 
 // Convert a row and column index to the index of the sites array.
 #define SITES_INDEX(pg, i, j) (i) * (pg)->rows + (j)
