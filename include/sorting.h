@@ -1,10 +1,10 @@
 #ifndef _SORT_H
 #define _SORT_H
 
+#include "util.h"
+
 #include <stdbool.h>
 #include <stddef.h>
-
-#include "util.h"
 
 /**
  * Prototype for a function that sorts an array.

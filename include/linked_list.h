@@ -1,11 +1,12 @@
 #ifndef _LINKED_LIST_H
 #define _LINKED_LIST_H
 
-#include <stdbool.h>
-#include <stddef.h>
+#include "util.h"
+
 #include <sys/types.h>
 
-#include "util.h"
+#include <stdbool.h>
+#include <stddef.h>
 
 /**
  * The linked list structure.

@@ -3,13 +3,13 @@
  */
 #include "sorting.h"
 
+#include <getopt.h>
+#include <sys/time.h>
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
-
-#include <getopt.h>
-#include <sys/time.h>
 
 /**
  * Returns the number of milliseconds since the UNIX epoch.
