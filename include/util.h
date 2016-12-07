@@ -12,7 +12,6 @@
  */
 typedef int (*COMPARE_FUNC) (const void *first, const void *second);
 
-
 /**
  * Prototype for a function used to iterate the linked list.
  *

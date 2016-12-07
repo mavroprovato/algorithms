@@ -225,6 +225,42 @@ void *ll_remove(LinkedList **ll, size_t position) {
 }
 
 /**
+ * Remove an item from the list.
+ *
+ * @param ll The linked list data structure.
+ * @param item The position at which the element is to be inserted.
+ * @return The item that was removed, or NULL if the item was not found.
+ */
+void *ll_remove_item(LinkedList **ll, void *item, COMPARE_FUNC compare_func) {
+    if (!*ll) { // Empty list
+        return NULL;
+    }
+
+    // Search for the item
+    LinkedList *current = *(ll);
+    LinkedList *previous = NULL;
+    while (current && compare_func(current->item, item) != 0) {
+        previous = current;
+        current = current->next;
+    }
+
+    if (current) { // Found
+        void *found = current->item;
+        if (previous) {
+            previous->next = current->next;
+        } else {
+            (*ll) = NULL;
+        }
+        free(current);
+
+        return found;
+    }
+
+    // Not found
+    return NULL;
+}
+
+/**
  * Add an item as the last element of the list.
  *
  * @param ll Pointer to the linked list data structure.

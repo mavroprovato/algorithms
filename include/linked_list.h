@@ -105,6 +105,15 @@ void *ll_remove_last(LinkedList **ll);
 void *ll_remove(LinkedList **ll, size_t position);
 
 /**
+ * Remove an item from the list.
+ *
+ * @param ll The linked list data structure.
+ * @param item The position at which the element is to be inserted.
+ * @return The item that was removed, or NULL if the item was not found.
+ */
+void *ll_remove_item(LinkedList **ll, void *item, COMPARE_FUNC compare_func);
+
+/**
  * Add an item as the last element of the list.
  *
  * @param ll Pointer to the linked list data structure.

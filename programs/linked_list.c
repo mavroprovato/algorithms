@@ -7,12 +7,27 @@
 #include <stdlib.h>
 #include <string.h>
 
+/**
+ * Iterator function that prints a list element. The element should be a string.
+ *
+ * @param item Pointer to the list item.
+ * @param data unused.
+ */
 void print_element(void *item, void *data) {
     (void)(data);
 
     printf("%s ", (char *) item);
 }
 
+/**
+ * Compares two list elements. The elements should be strings.
+ *
+ * @param a Pointer to the first element.
+ * @param b Pointer to the second element.
+ * @return A negative value if a appears before b in lexicographical order, zero
+ * if a and b are equal or a positive value if a appears after b in
+ * lexicographical order.
+ */
 int compare_str(const void *a, const void *b) {
     return strcmp((const char *) a, (const char *) b);
 }
@@ -109,8 +124,8 @@ int main(int argc, char **argv) {
         } else if (strncmp(line, "remove_last", strlen("remove_last")) == 0) {
             // Remove last element
             free(ll_remove_last(&ll));
-        } else if (strncmp(line, "remove", strlen("remove")) == 0) {
-            // Get the position to insert
+        } else if (strncmp(line, "remove ", strlen("remove ")) == 0) {
+            // Get the position of the element to remove
             char *str = strchr(line, ' ');
             if (!str) {
                 fprintf(stderr, "Invalid input.\n");
@@ -127,6 +142,18 @@ int main(int argc, char **argv) {
             }
             // Remove the element
             free(ll_remove(&ll, idx));
+        } else if (strncmp(line, "remove_item", strlen("remove_item")) == 0) {
+            // Get the element to remove
+            char *str = strchr(line, ' ');
+            if (!str) {
+                fprintf(stderr, "Invalid input.\n");
+                return_val = 1;
+                goto cleanup;
+            }
+            str++;
+            str[strlen(str) - 1] = '\0';
+            // Remove the element
+            free(ll_remove_item(&ll, str, compare_str));
         } else if (strncmp(line, "find", strlen("find")) == 0) {
             // Get the string to find
             char *str = strchr(line, ' ');
