@@ -142,4 +142,11 @@ bool ll_contains(LinkedList *ll, void *item, COMPARE_FUNC compare_func);
  */
 ssize_t ll_find(LinkedList *ll, void *item, COMPARE_FUNC compare_func);
 
+/**
+ * Reverse the linked list.
+ *
+ * @param ll The linked list data structure.
+ */
+void ll_reverse(LinkedList **ll);
+
 #endif // _LINKED_LIST_H

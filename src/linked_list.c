@@ -306,3 +306,28 @@ ssize_t ll_find(LinkedList *ll, void *item, COMPARE_FUNC compare_func) {
 
     return current == NULL ? -1 : pos;
 }
+
+/**
+ * Reverse the linked list.
+ *
+ * @param ll The linked list data structure.
+ */
+void ll_reverse(LinkedList **ll) {
+    if (!*ll || !(*ll)->next) {
+        // Less than two elements, no need to do anything
+        return;
+    }
+
+    LinkedList *previous = NULL;
+    LinkedList *current = *ll;
+    LinkedList *next = (*ll)->next;
+
+    while (current) {
+        next = current->next;
+        current->next = previous;
+        previous = current;
+        current = next;
+    }
+
+    *ll = previous;
+}

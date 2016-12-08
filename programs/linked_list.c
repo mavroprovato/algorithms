@@ -181,6 +181,9 @@ int main(int argc, char **argv) {
             // Print all elements
             ll_foreach(ll, print_element, NULL);
             puts("");
+        } else if (strncmp(line, "reverse", strlen("reverse")) == 0) {
+            // Reverse the list
+            ll_reverse(&ll);
         } else {
             fprintf(stderr, "Invalid command: %.*s.\n", (int) read - 1, line);
             return_val = 1;
