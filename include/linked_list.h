@@ -138,9 +138,9 @@ bool ll_contains(LinkedList *ll, void *item, COMPARE_FUNC compare_func);
  * @param ll Pointer to the linked list data structure.
  * @param item The item to search for.
  * @param compare_func The function used to compare items.
- * @return The index of the item, or -1 if the item is not found.
+ * @return The list node, or NULL if the node was not found.
  */
-ssize_t ll_find(LinkedList *ll, void *item, COMPARE_FUNC compare_func);
+LinkedList *ll_find(LinkedList *ll, void *item, COMPARE_FUNC compare_func);
 
 /**
  * Reverse the linked list.
