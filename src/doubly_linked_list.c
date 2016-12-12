@@ -143,3 +143,117 @@ bool dll_insert(DoublyLinkedList **dll, void *item, size_t position) {
 
     return true;
 }
+
+/**
+ * Remove the first item of the list.
+ *
+ * @param ll The doubly linked list data structure.
+ * @return The item that was removed.
+ */
+void *dll_remove_first(DoublyLinkedList **dll) {
+    // If list is empty return null.
+    if (!*dll) {
+        return NULL;
+    }
+
+    // Point the node to the next item and free resources.
+    void *item = (*dll)->item;
+    DoublyLinkedList *node = *dll;
+    *dll = (*dll)->next;
+    (*dll)->previous = NULL;
+    free(node);
+
+    return item;
+}
+
+/**
+ * Remove the last item of the list.
+ *
+ * @param ll The linked list data structure.
+ * @return The item that was removed.
+ */
+void *dll_remove_last(DoublyLinkedList **dll) {
+    // If list is empty return null.
+    if (!*dll) {
+        return NULL;
+    }
+
+    // Find and remove the last node
+    DoublyLinkedList *current = *dll;
+    while (current->next) {
+        current = current->next;
+    }
+    // Point the node to the next item and free resources.
+    void *item = (*dll)->item;
+    DoublyLinkedList *node = *dll;
+    (*dll)->previous->next = NULL;
+    free(node);
+
+    return item;
+}
+
+/**
+ * Remove an item from the list by position.
+ *
+ * @param dll The doubly linked list data structure.
+ * @param position The position at which the element is to be inserted.
+ * @return The item that was removed.
+ */
+void *dll_remove(DoublyLinkedList **dll, size_t position) {
+    // If list is empty or position is zero, remove the first.
+    if (!*dll || position == 0) {
+        return dll_remove_first(dll);
+    }
+
+    // Find and remove the node
+    DoublyLinkedList *current = *dll;
+    size_t index = 0;
+    while (current && index++ < position) {
+        current = current->next;
+    }
+
+    // Delete node and fix links
+    void *item = NULL;
+    if (current->previous) {
+        current->previous->next = current->next;
+    }
+    if (current->next) {
+        current->next->previous = current->previous;
+    }
+    free(current);
+
+    return item;
+}
+
+/**
+ * Remove an item from the list.
+ *
+ * @param dll The doubly linked list data structure.
+ * @param item The position at which the element is to be inserted.
+ * @return The item that was removed, or NULL if the item was not found.
+ */
+void *ll_remove_item(DoublyLinkedList **dll, void *item,
+                     COMPARE_FUNC compare_func) {
+    // Find and remove the node
+    DoublyLinkedList *current = *dll;
+    while (current && compare_func(item, current->item) != 0) {
+        current = current->next;
+    }
+
+    if (current) {
+        // Item found
+        void *found = NULL;
+        if (current->previous) {
+            current->previous->next = current->next;
+        }
+        if (current->next) {
+            current->next->previous = current->previous;
+        }
+        free(current);
+
+        return found;
+    }
+
+    // Not found
+    return NULL;
+}

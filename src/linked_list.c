@@ -152,9 +152,9 @@ void *ll_remove_first(LinkedList **ll) {
 
     // Point the node to the next item and free resources.
     void *item = (*ll)->item;
-    LinkedList *current = *ll;
+    LinkedList *node = *ll;
     *ll = (*ll)->next;
-    free(current);
+    free(node);
 
     return item;
 }
@@ -198,7 +198,7 @@ void *ll_remove_last(LinkedList **ll) {
  * @return The item that was removed.
  */
 void *ll_remove(LinkedList **ll, size_t position) {
-    // If list is empty return null.
+    // If list is empty or position is zero, remove the first.
     if (!*ll || position == 0) {
         return ll_remove_first(ll);
     }

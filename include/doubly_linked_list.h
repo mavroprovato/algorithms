@@ -81,4 +81,39 @@ bool dll_append(DoublyLinkedList **dll, void *item);
  */
 bool dll_insert(DoublyLinkedList **dll, void *item, size_t position);
 
+/**
+ * Remove the first item of the list.
+ *
+ * @param ll The doubly linked list data structure.
+ * @return The item that was removed.
+ */
+void *dll_remove_first(DoublyLinkedList **dll);
+
+/**
+ * Remove the last item of the list.
+ *
+ * @param ll The doubly linked list data structure.
+ * @return The item that was removed.
+ */
+void *dll_remove_last(DoublyLinkedList **dll);
+
+/**
+ * Remove an item from the list by position.
+ *
+ * @param dll The doubly linked list data structure.
+ * @param position The position at which the element is to be inserted.
+ * @return The item that was removed.
+ */
+void *dll_remove(DoublyLinkedList **dll, size_t position);
+
+/**
+ * Remove an item from the list.
+ *
+ * @param dll The doubly linked list data structure.
+ * @param item The position at which the element is to be inserted.
+ * @return The item that was removed, or NULL if the item was not found.
+ */
+void *ll_remove_item(DoublyLinkedList **dll, void *item,
+                     COMPARE_FUNC compare_func);
+
 #endif // _DOUBLY_LINKED_LIST_H
