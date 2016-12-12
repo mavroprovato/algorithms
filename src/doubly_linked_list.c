@@ -9,7 +9,7 @@
  * @return The created doubly linked list structure or NULL if the stuructre
  * could not be created.
  */
-DoublyLinkedList *ll_create(void *item) {
+DoublyLinkedList *dll_create(void *item) {
     DoublyLinkedList *dll = malloc(sizeof(DoublyLinkedList));
     if (!dll) {
         return NULL;
@@ -55,4 +55,91 @@ size_t dll_size(DoublyLinkedList *dll) {
  */
 bool dll_is_empty(DoublyLinkedList *dll) {
     return dll == NULL;
+}
+
+/**
+ * Add an item as the first element of the list.
+ *
+ * @param dll Pointer to the doubly linked list data structure.
+ * @param item Pointer to the item to add.
+ * @return Pointer to the updated list or NULL if the list cannot be updated.
+ */
+bool dll_prepend(DoublyLinkedList **dll, void *item) {
+    // Alocate the node
+    DoublyLinkedList *node = dll_create(item);
+    if (!node) {
+        return false;
+    }
+
+    // Put it at the start of the list
+    node->next = *dll;
+    (*dll)->previous = node;
+    *dll = node;
+
+    return true;
+}
+
+/**
+ * Add an item as the last element of the list.
+ *
+ * @param dll The doubly linked list data structure.
+ * @param item Pointer to the item to add.
+ * @return true if the element was inserted successfully, false otherwise.
+ */
+bool dll_append(DoublyLinkedList **dll, void *item) {
+    // Alocate the node
+    DoublyLinkedList *node = dll_create(item);
+    if (!node) {
+        return false;
+    }
+
+    if (!*dll) {
+        // List is empty
+        *dll = node;
+    } else {
+        DoublyLinkedList *current = *dll;
+        while (current->next) {
+            current = current->next;
+        }
+        current->next = node;
+        node->previous = current;
+    }
+
+    return true;
+}
+
+/**
+ * Insert an item at the specified position of the list.
+ *
+ * @param ll The doubly linked list data structure.
+ * @param item Pointer to the item to add.
+ * @param position The position at which the element is to be inserted.
+ * @return true if the element was inserted successfully, false otherwise.
+ */
+bool dll_insert(DoublyLinkedList **dll, void *item, size_t position) {
+    // If empty or position is zero, call prepend.
+    if (!*dll || position == 0) {
+        return dll_prepend(dll, item);
+    }
+
+    // Alocate the node
+    DoublyLinkedList *node = dll_create(item);
+    if (!node) {
+        return false;
+    }
+
+    // Put it at the requested position
+    DoublyLinkedList *current = *dll;
+    size_t index = 0;
+    while (current->next && index++ < position - 1) {
+        current = current->next;
+    }
+    node->next = current->next;
+    node->previous = current;
+    if (current->next) {
+        current->next->previous = node;
+    }
+    current->next = node;
+
+    return true;
 }

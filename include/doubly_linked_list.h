@@ -1,5 +1,5 @@
-#ifndef _LINKED_LIST_H
-#define _LINKED_LIST_H
+#ifndef _DOUBLY_LINKED_LIST_H
+#define _DOUBLY_LINKED_LIST_H
 
 #include "util.h"
 
@@ -27,7 +27,7 @@ typedef struct DoublyLinkedList {
  * @return The created doubly linked list structure or NULL if the stuructre
  * could not be created.
  */
-DoublyLinkedList *ll_create(void *item);
+DoublyLinkedList *dll_create(void *item);
 
 /**
  * Destroy the doubly linked list structure.
@@ -53,4 +53,32 @@ size_t dll_size(DoublyLinkedList *dll);
  */
 bool dll_is_empty(DoublyLinkedList *dll);
 
-#endif // _LINKED_LIST_H
+/**
+ * Add an item as the first element of the list.
+ *
+ * @param dll Pointer to the doubly linked list data structure.
+ * @param item Pointer to the item to add.
+ * @return Pointer to the updated list or NULL if the list cannot be updated.
+ */
+bool dll_prepend(DoublyLinkedList **dll, void *item);
+
+/**
+ * Add an item as the last element of the list.
+ *
+ * @param dll The doubly linked list data structure.
+ * @param item Pointer to the item to add.
+ * @return true if the element was inserted successfully, false otherwise.
+ */
+bool dll_append(DoublyLinkedList **dll, void *item);
+
+/**
+ * Insert an item at the specified position of the list.
+ *
+ * @param dll The doubly linked list data structure.
+ * @param item Pointer to the item to add.
+ * @param position The position at which the element is to be inserted.
+ * @return true if the element was inserted successfully, false otherwise.
+ */
+bool dll_insert(DoublyLinkedList **dll, void *item, size_t position);
+
+#endif // _DOUBLY_LINKED_LIST_H

@@ -66,14 +66,14 @@ bool ll_is_empty(LinkedList *ll) {
  */
 bool ll_prepend(LinkedList **ll, void *item) {
     // Alocate the node
-    LinkedList *new_ll = ll_create(item);
-    if (!new_ll) {
+    LinkedList *node = ll_create(item);
+    if (!node) {
         return false;
     }
 
     // Put it at the start of the list
-    new_ll->next = *ll;
-    *ll = new_ll;
+    node->next = *ll;
+    *ll = node;
 
     return true;
 }
@@ -87,20 +87,20 @@ bool ll_prepend(LinkedList **ll, void *item) {
  */
 bool ll_append(LinkedList **ll, void *item) {
     // Alocate the node
-    LinkedList *new_ll = ll_create(item);
-    if (!new_ll) {
+    LinkedList *node = ll_create(item);
+    if (!node) {
         return false;
     }
 
-    // If it is an empty list, return the created node
     if (!*ll) {
-        *ll = new_ll;
+        // List is empty
+        *ll = node;
     } else {
         LinkedList *current = *ll;
         while (current->next) {
             current = current->next;
         }
-        current->next = new_ll;
+        current->next = node;
     }
 
     return true;
@@ -121,8 +121,8 @@ bool ll_insert(LinkedList **ll, void *item, size_t position) {
     }
 
     // Alocate the node
-    LinkedList *new_ll = ll_create(item);
-    if (!new_ll) {
+    LinkedList *node = ll_create(item);
+    if (!node) {
         return false;
     }
 
@@ -132,8 +132,8 @@ bool ll_insert(LinkedList **ll, void *item, size_t position) {
     while (current->next && index++ < position - 1) {
         current = current->next;
     }
-    new_ll->next = current->next;
-    current->next = new_ll;
+    node->next = current->next;
+    current->next = node;
 
     return true;
 }
