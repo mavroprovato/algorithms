@@ -154,17 +154,6 @@ int main(int argc, char **argv) {
             str[strlen(str) - 1] = '\0';
             // Remove the element
             free(ll_remove_item(&ll, str, compare_str));
-        } else if (strncmp(line, "find", strlen("find")) == 0) {
-            // Get the string to find
-            char *str = strchr(line, ' ');
-            if (!str) {
-                fprintf(stderr, "Invalid input.\n");
-                return_val = 1;
-                goto cleanup;
-            }
-            str++;
-            str[strlen(str) - 1] = '\0';
-            printf("%zd\n", ll_find(ll, str, compare_str));
         } else if (strncmp(line, "contains", strlen("contains")) == 0) {
             // Get the string to check
             char *str = strchr(line, ' ');
