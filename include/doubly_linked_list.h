@@ -113,7 +113,18 @@ void *dll_remove(DoublyLinkedList **dll, size_t position);
  * @param item The position at which the element is to be inserted.
  * @return The item that was removed, or NULL if the item was not found.
  */
-void *ll_remove_item(DoublyLinkedList **dll, void *item,
+void *dll_remove_item(DoublyLinkedList **dll, void *item,
                      COMPARE_FUNC compare_func);
+
+/**
+ * Add an item as the last element of the list.
+ *
+ * @param ll Pointer to the linked list data structure.
+ * @param iterator_func Pointer to function that is called for every item.
+ * @param data Pointer to the custom user data. Can be NULL.
+ * @param reverse Set to true to traverse in reverse.
+ */
+void dll_foreach(DoublyLinkedList *dll, ITERATOR_FUNC iterator_func, void *data,
+                bool reverse);
 
 #endif // _DOUBLY_LINKED_LIST_H
