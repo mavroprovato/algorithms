@@ -284,7 +284,7 @@ void ll_foreach(LinkedList *ll, ITERATOR_FUNC iterator_func, void *data) {
  * @return The index of the item, or -1 if the item is not found.
  */
 bool ll_contains(LinkedList *ll, void *item, COMPARE_FUNC compare_func) {
-    return ll_find(ll, item, compare_func) != -1;
+    return ll_find(ll, item, compare_func) != NULL;
 }
 
 /**

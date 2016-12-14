@@ -114,7 +114,7 @@ void *ll_remove(LinkedList **ll, size_t position);
 void *ll_remove_item(LinkedList **ll, void *item, COMPARE_FUNC compare_func);
 
 /**
- * Add an item as the last element of the list.
+ * Traverse all the items of the list and call a function for each of them.
  *
  * @param ll Pointer to the linked list data structure.
  * @param iterator_func Pointer to function that is called for every item.
