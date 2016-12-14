@@ -301,7 +301,7 @@ DoublyLinkedList *dll_find(DoublyLinkedList *ll, void *item,
                            COMPARE_FUNC compare_func, bool reverse) {
     DoublyLinkedList *current = ll;
     while (current && compare_func(current->item, item) != 0) {
-        current = current->next;
+        current = reverse ? current->previous : current->next;
     }
 
     return current;
