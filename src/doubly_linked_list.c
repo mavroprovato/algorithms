@@ -274,3 +274,35 @@ void dll_foreach(DoublyLinkedList *dll, ITERATOR_FUNC iterator_func, void *data,
         current = reverse ? current->previous : current->next;
     }
 }
+
+/**
+ * Check if the linked list contains an element.
+ *
+ * @param ll Pointer to the linked list data structure.
+ * @param item The item to search for.
+ * @param compare_func The function used to compare items.
+ * @return The index of the item, or -1 if the item is not found.
+ */
+bool dll_contains(DoublyLinkedList *ll, void *item, COMPARE_FUNC compare_func) {
+    return dll_find(ll, item, compare_func, false) != NULL ||
+           dll_find(ll, item, compare_func, true) != NULL;
+}
+
+/**
+ * Search for an element and return its index in the list.
+ *
+ * @param ll Pointer to the linked list data structure.
+ * @param item The item to search for.
+ * @param compare_func The function used to compare items.
+ * @param reverse Set to true to search in reverse.
+ * @return The list node, or NULL if the node was not found.
+ */
+DoublyLinkedList *dll_find(DoublyLinkedList *ll, void *item,
+                           COMPARE_FUNC compare_func, bool reverse) {
+    DoublyLinkedList *current = ll;
+    while (current && compare_func(current->item, item) != 0) {
+        current = current->next;
+    }
+
+    return current;
+}

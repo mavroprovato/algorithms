@@ -119,12 +119,34 @@ void *dll_remove_item(DoublyLinkedList **dll, void *item,
 /**
  * Add an item as the last element of the list.
  *
- * @param ll Pointer to the linked list data structure.
+ * @param ll Pointer to the doubly linked list data structure.
  * @param iterator_func Pointer to function that is called for every item.
  * @param data Pointer to the custom user data. Can be NULL.
  * @param reverse Set to true to traverse in reverse.
  */
 void dll_foreach(DoublyLinkedList *dll, ITERATOR_FUNC iterator_func, void *data,
                 bool reverse);
+
+/**
+ * Check if the linked list contains an element.
+ *
+ * @param ll Pointer to the doubly linked list data structure.
+ * @param item The item to search for.
+ * @param compare_func The function used to compare items.
+ * @return The index of the item, or -1 if the item is not found.
+ */
+bool dll_contains(DoublyLinkedList *ll, void *item, COMPARE_FUNC compare_func);
+
+/**
+ * Search for an element and return its index in the list.
+ *
+ * @param ll Pointer to the linked list data structure.
+ * @param item The item to search for.
+ * @param compare_func The function used to compare items.
+ * @param reverse Set to true to search in reverse.
+ * @return The list node, or NULL if the node was not found.
+ */
+DoublyLinkedList *dll_find(DoublyLinkedList *ll, void *item,
+                           COMPARE_FUNC compare_func, bool reverse);
 
 #endif // _DOUBLY_LINKED_LIST_H
