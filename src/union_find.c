@@ -31,6 +31,7 @@ bool uf_init(UnionFind *uf, size_t n) {
         uf->size[i] = 1;
     }
     uf->n = n;
+    uf->components = n;
 
     return true;
 }
