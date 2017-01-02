@@ -113,7 +113,6 @@ int main(int argc, char **argv) {
                     goto cleanup;
                 }
             }
-
         } else if (strncmp(line, "append ", strlen("append ")) == 0) {
             // Append the string after the command
             char *str = strchr(line, ' ');
@@ -136,7 +135,6 @@ int main(int argc, char **argv) {
                     goto cleanup;
                 }
             }
-
         } else if (strncmp(line, "insert ", strlen("insert ")) == 0) {
             // Get the position to insert
             char *str = strchr(line, ' ');
@@ -171,7 +169,6 @@ int main(int argc, char **argv) {
                     return_val = 1;
                     goto cleanup;
                 }
-
             }
         } else if (strncmp(line, "remove_first", strlen("remove_first")) == 0) {
             // Remove first element
@@ -240,15 +237,15 @@ int main(int argc, char **argv) {
                 contains = ll_contains((LinkedList *) list, str, compare_str);
             }
             printf("%s\n", contains ? "true" : "false");
-        } else if (strncmp(line, "print ", strlen("print")) == 0) {
+        } else if (strncmp(line, "print", strlen("print")) == 0) {
             // Print all elements
             if (doubly_linked) {
-                dll_foreach((DoublyLinkedList *) list, print_element, NULL, true);
+                dll_foreach((DoublyLinkedList *) list, print_element, NULL, false);
             } else {
                 ll_foreach((LinkedList *) list, print_element, NULL);
             }
             puts("");
-        } else if (strncmp(line, "reverse ", strlen("reverse ")) == 0) {
+        } else if (strncmp(line, "reverse", strlen("reverse")) == 0) {
             // Reverse the list
             if (doubly_linked) {
                 dll_reverse((DoublyLinkedList **) &list);
