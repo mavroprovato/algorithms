@@ -163,7 +163,9 @@ void *dll_remove_first(DoublyLinkedList **dll) {
     void *item = (*dll)->item;
     DoublyLinkedList *node = *dll;
     *dll = (*dll)->next;
-    (*dll)->previous = NULL;
+    if (*dll) {
+        (*dll)->previous = NULL;
+    }
     free(node);
 
     return item;
