@@ -16,6 +16,7 @@ DoublyLinkedList *dll_create(void *item) {
     }
     dll->item = item;
     dll->next = NULL;
+    dll->previous = NULL;
 
     return dll;
 }
