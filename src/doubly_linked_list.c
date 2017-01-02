@@ -74,7 +74,9 @@ bool dll_prepend(DoublyLinkedList **dll, void *item) {
 
     // Put it at the start of the list
     node->next = *dll;
-    (*dll)->previous = node;
+    if (*dll) {
+        (*dll)->previous = node;
+    }
     *dll = node;
 
     return true;
