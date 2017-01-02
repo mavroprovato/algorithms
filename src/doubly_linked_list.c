@@ -306,3 +306,25 @@ DoublyLinkedList *dll_find(DoublyLinkedList *ll, void *item,
 
     return current;
 }
+
+/**
+ * Reverse the doubly linked list.
+ *
+ * @param dll The doubly linked list data structure.
+ */
+void dll_reverse(DoublyLinkedList **dll) {
+    if (!*dll || !(*dll)->next) {
+        // Less than two elements, no need to do anything
+        return;
+    }
+
+    DoublyLinkedList *current = *dll;
+    while (current->next) {
+        // Swap the indices
+        DoublyLinkedList *temp = current->next;
+        current->next = current->previous;
+        current->previous = temp;
+    }
+
+    *dll = current;
+}

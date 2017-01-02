@@ -149,4 +149,11 @@ bool dll_contains(DoublyLinkedList *ll, void *item, COMPARE_FUNC compare_func);
 DoublyLinkedList *dll_find(DoublyLinkedList *ll, void *item,
                            COMPARE_FUNC compare_func, bool reverse);
 
+/**
+ * Reverse the doubly linked list.
+ *
+ * @param ll The doubly linked list data structure.
+ */
+void dll_reverse(DoublyLinkedList **dll);
+
 #endif // _DOUBLY_LINKED_LIST_H
