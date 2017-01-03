@@ -1,6 +1,7 @@
 #include "doubly_linked_list.h"
 
 #include <stdlib.h>
+#include <stdio.h>
 
 /**
  * Create a doubly linked list structure.
@@ -328,12 +329,17 @@ void dll_reverse(DoublyLinkedList **dll) {
     }
 
     DoublyLinkedList *current = *dll;
+    DoublyLinkedList *previous = NULL;
     while (current->next) {
-        // Swap the indices
+        // Swap the pointers
         DoublyLinkedList *temp = current->next;
         current->next = current->previous;
         current->previous = temp;
+        previous = current;
+        current = temp;
     }
 
+    current->next = previous;
+    current->previous = NULL;
     *dll = current;
 }
