@@ -188,11 +188,15 @@ void *dll_remove_last(DoublyLinkedList **dll) {
     while (current->next) {
         current = current->next;
     }
-    // Point the node to the next item and free resources.
-    void *item = (*dll)->item;
-    DoublyLinkedList *node = *dll;
-    (*dll)->previous->next = NULL;
-    free(node);
+    void *item = current->item;
+    if (current->previous) {
+        // Point the previous node to NULL
+        current->previous->next = NULL;
+    } else {
+        // Only one item
+        *dll = NULL;
+    }
+    free(current);
 
     return item;
 }
