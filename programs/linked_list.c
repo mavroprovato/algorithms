@@ -189,16 +189,14 @@ int main(int argc, char **argv) {
             char *str = strchr(line, ' ');
             if (!str) {
                 fprintf(stderr, "Invalid input.\n");
-                return_val = 1;
-                goto cleanup;
+                continue;
             }
             str++;
             int idx = -1;
             int rc = sscanf(str, "%d", &idx);
             if (rc != 1 || idx < 0) {
                 fprintf(stderr, "Invalid index.\n");
-                return_val = 1;
-                goto cleanup;
+                continue;
             }
             // Remove the element
             if (doubly_linked) {
