@@ -217,19 +217,23 @@ void *dll_remove(DoublyLinkedList **dll, size_t position) {
     // Find and remove the node
     DoublyLinkedList *current = *dll;
     size_t index = 0;
-    while (current && index++ < position) {
+    while (current->next && current->next->next && index++ < position - 1) {
         current = current->next;
     }
-
-    // Delete node and fix links
     void *item = NULL;
-    if (current->previous) {
-        current->previous->next = current->next;
+    if (current->next == NULL) { // The last element of the list
+        item = current->item;
+        (*dll) = NULL;
+        free(current);
+    } else {
+        DoublyLinkedList *node = current->next;
+        item = node->item;
+        current->next = node->next;
+        if (node->next) {
+            node->next->previous = current;
+        }
+        free(node);
     }
-    if (current->next) {
-        current->next->previous = current->previous;
-    }
-    free(current);
 
     return item;
 }
