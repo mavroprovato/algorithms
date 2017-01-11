@@ -39,18 +39,17 @@ int main(int argc, char **argv) {
             printf("%s\n", aq_is_empty(&queue) ? "empty" : "not empty");
         } else if (strncmp(line, "size", strlen("size")) == 0) {
             printf("%zu\n", aq_size(&queue));
-        } else if (strncmp(line, "enqueue", strlen("enqueue")) == 0) {
+        } else if (strncmp(line, "enqueue ", strlen("enqueue ")) == 0) {
             // Find the string
             char *space_idx = strchr(line, ' ');
             if (!space_idx) {
                 fprintf(stderr, "Invalid input.\n");
-                return_val = 1;
-                goto cleanup;
+                continue;
             }
             // Find and enqueue the string
             char *s = strndup(space_idx + 1, strlen(space_idx) - 2);
             if (!s) {
-                fprintf(stderr, "Cannot enqueue element.\n");
+                fprintf(stderr, "Cannot allocate memory.\n");
                 return_val = 1;
                 goto cleanup;
             }
@@ -78,8 +77,7 @@ int main(int argc, char **argv) {
             printf("%s\n", s);
         } else {
             fprintf(stderr, "Invalid command: %.*s.\n", (int) read - 1, line);
-            return_val = 1;
-            goto cleanup;
+            continue;
         }
     }
 
