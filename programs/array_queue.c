@@ -7,6 +7,18 @@
 #include <stdlib.h>
 #include <string.h>
 
+/**
+ * Iterator function that prints a list element. The element should be a string.
+ *
+ * @param item Pointer to the list item.
+ * @param data unused.
+ */
+void print_element(void *item, void *data) {
+    (void)(data);
+
+    printf("%s ", (char *) item);
+}
+
 int main(int argc, char **argv) {
     // Open file
     FILE * fp;
@@ -75,6 +87,10 @@ int main(int argc, char **argv) {
                 goto cleanup;
             }
             printf("%s\n", s);
+        } else if (strncmp(line, "print", strlen("print")) == 0) {
+            // Print all elements
+            aq_foreach(&queue, print_element, NULL);
+            puts("");
         } else {
             fprintf(stderr, "Invalid command: %.*s.\n", (int) read - 1, line);
             continue;

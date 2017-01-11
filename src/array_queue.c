@@ -18,7 +18,7 @@ static bool aq_resize(ArrayQueue *aq, size_t new_capacity) {
     }
 
     // Copy the items to the new array.
-    if (aq->head < aq->tail) {
+    if (aq->head <= aq->tail) {
         memcpy(new_items, aq->items + aq->head,
                (aq->tail - aq->head) * sizeof(void *));
     } else { // The array has wrapped around.
@@ -143,4 +143,26 @@ void *aq_peek(ArrayQueue *aq) {
     }
 
     return aq->items[aq->head];
+}
+
+/**
+ * Traverse all the items of the queue and call a function for each of them.
+ *
+ * @param aq Pointer to the queue data structure.
+ * @param iterator_func Pointer to function that is called for every item.
+ * @param data Pointer to the custom user data. Can be NULL.
+ */
+void aq_foreach(ArrayQueue *aq, ITERATOR_FUNC iterator_func, void *data) {
+    if (aq->head <= aq->tail) {
+        for (size_t i = aq->head; i < aq->tail; i++) {
+            iterator_func(aq->items[i], data);
+        }
+    } else { // The array has wrapped around.
+        for (size_t i = aq->head; i < aq->capacity; i++) {
+            iterator_func(aq->items[i], data);
+        }
+        for (size_t i = 0; i < aq->tail; i++) {
+            iterator_func(aq->items[i], data);
+        }
+    }
 }
