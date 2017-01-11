@@ -7,6 +7,18 @@
 #include <stdlib.h>
 #include <string.h>
 
+/**
+ * Iterator function that prints a list element. The element should be a string.
+ *
+ * @param item Pointer to the list item.
+ * @param data unused.
+ */
+void print_element(void *item, void *data) {
+    (void)(data);
+
+    printf("%s ", (char *) item);
+}
+
 int main(int argc, char **argv) {
     // Open file
     FILE * fp;
@@ -44,13 +56,12 @@ int main(int argc, char **argv) {
             char *space_idx = strchr(line, ' ');
             if (!space_idx) {
                 fprintf(stderr, "Invalid input.\n");
-                return_val = 1;
-                goto cleanup;
+                continue;
             }
             // Find and push the string
             char *s = strndup(space_idx + 1, strlen(space_idx) - 2);
             if (!s) {
-                fprintf(stderr, "Cannot push to stack.\n");
+                fprintf(stderr, "Cannot allocate memory.\n");
                 return_val = 1;
                 goto cleanup;
             }
@@ -76,10 +87,13 @@ int main(int argc, char **argv) {
                 goto cleanup;
             }
             printf("%s\n", s);
+        } else if (strncmp(line, "print", strlen("print")) == 0) {
+            // Print all elements
+            as_foreach(&stack, print_element, NULL);
+            puts("");
         } else {
             fprintf(stderr, "Invalid command: %.*s.\n", (int) read - 1, line);
-            return_val = 1;
-            goto cleanup;
+            continue;
         }
     }
 

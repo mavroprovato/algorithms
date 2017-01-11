@@ -4,6 +4,8 @@
 #include <stddef.h>
 #include <stdbool.h>
 
+#include "util.h"
+
 /**
  * The stack data structure, backed by an array.
  */
@@ -71,5 +73,14 @@ void *as_pop(ArrayStack *as);
  * @return The last element that was added to the stack.
  */
 void *as_peek(ArrayStack *as);
+
+/**
+ * Traverse all the items of the stack and call a function for each of them.
+ *
+ * @param as Pointer to the stack data structure.
+ * @param iterator_func Pointer to function that is called for every item.
+ * @param data Pointer to the custom user data. Can be NULL.
+ */
+void as_foreach(ArrayStack *as, ITERATOR_FUNC iterator_func, void *data);
 
 #endif // _ARRAY_STACK_H

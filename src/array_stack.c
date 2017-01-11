@@ -127,3 +127,16 @@ void *as_peek(ArrayStack *as) {
 
     return as->items[as->size - 1];
 }
+
+/**
+ * Traverse all the items of the stack and call a function for each of them.
+ *
+ * @param as Pointer to the stack data structure.
+ * @param iterator_func Pointer to function that is called for every item.
+ * @param data Pointer to the custom user data. Can be NULL.
+ */
+void as_foreach(ArrayStack *as, ITERATOR_FUNC iterator_func, void *data) {
+    for (size_t i = as->size; i-- > 0; ) {
+        iterator_func(as->items[i], data);
+    }
+}
