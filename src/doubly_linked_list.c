@@ -272,7 +272,7 @@ void *dll_remove_item(DoublyLinkedList **dll, void *item,
 }
 
 /**
- * Add an item as the last element of the list.
+ * Traverse all the items of the list and call a function for each of them.
  *
  * @param ll Pointer to the linked list data structure.
  * @param iterator_func Pointer to function that is called for every item.
