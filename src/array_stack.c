@@ -46,9 +46,9 @@ bool as_init(ArrayStack *as) {
 }
 
 /**
- * Frees resources associated with the array stack data structure.
+ * Frees resources associated with the stack data structure.
  *
- * @param as Pointer to the array stack data structure to be freed.
+ * @param as Pointer to the stack data structure to be freed.
  */
 void as_destroy(ArrayStack *as) {
     free(as->items);
@@ -57,7 +57,7 @@ void as_destroy(ArrayStack *as) {
 /**
  * Check if the stack contains any elements.
  *
- * @param as Pointer to the array stack data structure.
+ * @param as Pointer to the stack data structure.
  * @return true if the stack contains elements, false otherwise.
  */
 bool as_is_empty(ArrayStack *as) {
@@ -65,10 +65,10 @@ bool as_is_empty(ArrayStack *as) {
 }
 
 /**
- * Return the size of the array stack.
+ * Return the size of the stack.
  *
- * @param as Pointer to the array stack data structure.
- * @return The size of the array stack.
+ * @param as Pointer to the stack data structure.
+ * @return The size of the stack.
  */
 size_t as_size(ArrayStack *as) {
     return as->size;

@@ -7,7 +7,7 @@
 #include "util.h"
 
 /**
- * The stack data structure, backed by an array.
+ * A stack data structure, backed by an array.
  */
 typedef struct {
     /** The stack elements. */
