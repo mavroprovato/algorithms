@@ -1,7 +1,10 @@
 /**
- * Test program for the array stack implementation.
+ * Test program for the stack implementations.
  */
 #include "array_stack.h"
+#include "linked_stack.h"
+
+#include <getopt.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -20,23 +23,48 @@ void print_element(void *item, void *data) {
 }
 
 int main(int argc, char **argv) {
-    // Open file
-    FILE * fp;
-    if (argc == 2) {
-        fp = fopen(argv[1], "r");
+    // Parse the command line arguments
+    static struct option long_options[] = {
+        {"linked", no_argument, 0, 'l'},
+        {0, 0, 0, 0}
+    };
+    int option_index = 0;
+    int c = -1;
+    bool linked = false;
+    while ((c = getopt_long(argc, argv, "l", long_options, &option_index)) != -1) {
+        switch (c) {
+            case 'l':
+                linked = true;
+                break;
+            default:
+                return 0;
+        }
+    }
+
+    // Check if a file was provided to be opened
+    FILE *fp;
+    if (optind < argc) {
+        fp = fopen(argv[optind], "r");
         if (!fp) {
-            fprintf(stderr, "Could not open file: %s.\n", argv[1]);
+            fprintf(stderr, "Could not open file: %s.\n", argv[optind]);
             return 1;
         }
     } else {
         fp = stdin;
     }
 
-    // Initialize the stack
     char *line = NULL;
     int return_val = 0;
-    ArrayStack stack;
-    if (!as_init(&stack)) {
+
+    // Initialize the stacks
+    ArrayStack as;
+    if (!as_init(&as)) {
+        fprintf(stderr, "Could not create the stack data structure.\n");
+        return_val = 1;
+        goto cleanup;
+    }
+    LinkedStack ls;
+    if (!ls_init(&ls)) {
         fprintf(stderr, "Could not create the stack data structure.\n");
         return_val = 1;
         goto cleanup;
@@ -48,9 +76,11 @@ int main(int argc, char **argv) {
     while ((read = getline(&line, &len, fp)) != -1) {
         // Perform the stack operation based on the command
         if (strncmp(line, "is_empty", strlen("is_empty")) == 0) {
-            printf("%s\n", as_is_empty(&stack) ? "empty" : "not empty");
+            bool empty = linked ? ls_is_empty(&ls) : as_is_empty(&as);
+            printf("%s\n", empty ? "empty" : "not empty");
         } else if (strncmp(line, "size", strlen("size")) == 0) {
-            printf("%zu\n", as_size(&stack));
+            size_t size = linked ? ls_size(&ls) : as_size(&as);
+            printf("%zu\n", size);
         } else if (strncmp(line, "push", strlen("push")) == 0) {
             // Find the command
             char *space_idx = strchr(line, ' ');
@@ -65,13 +95,21 @@ int main(int argc, char **argv) {
                 return_val = 1;
                 goto cleanup;
             }
-            if (!as_push(&stack, s)) {
-                fprintf(stderr, "Cannot push to stack.\n");
-                return_val = 1;
-                goto cleanup;
+            if (linked) {
+                if (!ls_push(&ls, s)) {
+                    fprintf(stderr, "Cannot push to stack.\n");
+                    return_val = 1;
+                    goto cleanup;
+                }
+            } else {
+                if (!as_push(&as, s)) {
+                    fprintf(stderr, "Cannot push to stack.\n");
+                    return_val = 1;
+                    goto cleanup;
+                }
             }
         } else if (strncmp(line, "pop", strlen("pop")) == 0) {
-            char *s = as_pop(&stack);
+            char *s = linked ? ls_pop(&ls) : as_pop(&as);
             if (!s) {
                 fprintf(stderr, "Cannot pop from stack.\n");
                 return_val = 1;
@@ -80,7 +118,7 @@ int main(int argc, char **argv) {
             printf("%s\n", s);
             free(s);
         } else if (strncmp(line, "peek", strlen("peek")) == 0) {
-            char *s = as_peek(&stack);
+            char *s = linked ? ls_peek(&ls) : as_peek(&as);
             if (!s) {
                 fprintf(stderr, "Cannot peek stack.\n");
                 return_val = 1;
@@ -89,7 +127,11 @@ int main(int argc, char **argv) {
             printf("%s\n", s);
         } else if (strncmp(line, "print", strlen("print")) == 0) {
             // Print all elements
-            as_foreach(&stack, print_element, NULL);
+            if (linked) {
+                ls_foreach(&ls, print_element, NULL);
+            } else {
+                as_foreach(&as, print_element, NULL);
+            }
             puts("");
         } else {
             fprintf(stderr, "Invalid command: %.*s.\n", (int) read - 1, line);
@@ -99,7 +141,14 @@ int main(int argc, char **argv) {
 
     // Clean up
 cleanup:
-    as_destroy(&stack);
+    while (!as_is_empty(&as)) {
+        free(as_pop(&as));
+    }
+    as_destroy(&as);
+    while (!ls_is_empty(&ls)) {
+        free(ls_pop(&ls));
+    }
+    ls_destroy(&ls);
     free(line);
     fclose(fp);
 
