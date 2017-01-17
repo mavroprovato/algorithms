@@ -82,6 +82,9 @@ void *lq_dequeue(LinkedQueue *lq) {
         }
         lq->size--;
     }
+    if (!lq->head) {
+        lq->tail = NULL;
+    }
 
     return item;
 }
