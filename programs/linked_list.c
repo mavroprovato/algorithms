@@ -2,7 +2,7 @@
  * Test program for the linked list and doubly linked list implementations.
  */
 #include "linked_list.h"
-#include "doubly_linked_list.h"
+#include "dllist.h"
 
 #include <getopt.h>
 
@@ -78,7 +78,7 @@ int main(int argc, char **argv) {
         if (strncmp(line, "is_empty", strlen("is_empty")) == 0) {
             bool is_empty;
             if (doubly_linked) {
-                is_empty = dll_is_empty((DoublyLinkedList *) list);
+                is_empty = dll_is_empty((DLList *) list);
             } else {
                 is_empty = ll_is_empty((LinkedList *) list);
             }
@@ -86,7 +86,7 @@ int main(int argc, char **argv) {
         } else if (strncmp(line, "size", strlen("size")) == 0) {
             size_t size;
             if (doubly_linked) {
-                size = dll_size((DoublyLinkedList *) list);
+                size = dll_size((DLList *) list);
             } else {
                 size = ll_size((LinkedList *) list);
             }
@@ -101,7 +101,7 @@ int main(int argc, char **argv) {
             str++;
             char *s = strndup(str, strlen(str) - 1);
             if (doubly_linked) {
-                if (!dll_prepend((DoublyLinkedList **) &list, s)) {
+                if (!dll_prepend((DLList **) &list, s)) {
                     fprintf(stderr, "Cannot prepend to list.\n");
                     return_val = 1;
                     goto cleanup;
@@ -123,7 +123,7 @@ int main(int argc, char **argv) {
             str++;
             char *s = strndup(str, strlen(str) - 1);
             if (doubly_linked) {
-                if (!dll_append((DoublyLinkedList **) &list, s)) {
+                if (!dll_append((DLList **) &list, s)) {
                     fprintf(stderr, "Cannot append to list.\n");
                     return_val = 1;
                     goto cleanup;
@@ -158,7 +158,7 @@ int main(int argc, char **argv) {
             str++;
             char *s = strndup(str, strlen(str) - 1);
             if (doubly_linked) {
-                if (!dll_insert((DoublyLinkedList **) &list, s, idx)) {
+                if (!dll_insert((DLList **) &list, s, idx)) {
                     fprintf(stderr, "Cannot insert to list.\n");
                     return_val = 1;
                     goto cleanup;
@@ -173,14 +173,14 @@ int main(int argc, char **argv) {
         } else if (strncmp(line, "remove_first", strlen("remove_first")) == 0) {
             // Remove first element
             if (doubly_linked) {
-                free(dll_remove_first((DoublyLinkedList **) &list));
+                free(dll_remove_first((DLList **) &list));
             } else {
                 free(ll_remove_first((LinkedList **) &list));
             }
         } else if (strncmp(line, "remove_last", strlen("remove_last")) == 0) {
             // Remove last element
             if (doubly_linked) {
-                free(dll_remove_last((DoublyLinkedList **) &list));
+                free(dll_remove_last((DLList **) &list));
             } else {
                 free(ll_remove_last((LinkedList **) &list));
             }
@@ -200,7 +200,7 @@ int main(int argc, char **argv) {
             }
             // Remove the element
             if (doubly_linked) {
-                free(dll_remove((DoublyLinkedList **) &list, idx));
+                free(dll_remove((DLList **) &list, idx));
             } else {
                 free(ll_remove((LinkedList **) &list, idx));
             }
@@ -215,7 +215,7 @@ int main(int argc, char **argv) {
             str[strlen(str) - 1] = '\0';
             // Remove the element
             if (doubly_linked) {
-                free(dll_remove_item((DoublyLinkedList **) &list, str, compare_str));
+                free(dll_remove_item((DLList **) &list, str, compare_str));
             } else {
                 free(ll_remove_item((LinkedList **) &list, str, compare_str));
             }
@@ -230,7 +230,7 @@ int main(int argc, char **argv) {
             str[strlen(str) - 1] = '\0';
             bool contains;
             if (doubly_linked) {
-                contains = dll_contains((DoublyLinkedList *) list, str, compare_str);
+                contains = dll_contains((DLList *) list, str, compare_str);
             } else {
                 contains = ll_contains((LinkedList *) list, str, compare_str);
             }
@@ -238,7 +238,7 @@ int main(int argc, char **argv) {
         } else if (strncmp(line, "print", strlen("print")) == 0) {
             // Print all elements
             if (doubly_linked) {
-                dll_foreach((DoublyLinkedList *) list, print_element, NULL, false);
+                dll_foreach((DLList *) list, print_element, NULL, false);
             } else {
                 ll_foreach((LinkedList *) list, print_element, NULL);
             }
@@ -246,7 +246,7 @@ int main(int argc, char **argv) {
         } else if (strncmp(line, "reverse", strlen("reverse")) == 0) {
             // Reverse the list
             if (doubly_linked) {
-                dll_reverse((DoublyLinkedList **) &list);
+                dll_reverse((DLList **) &list);
             } else {
                 ll_reverse((LinkedList **) &list);
             }
@@ -259,8 +259,8 @@ int main(int argc, char **argv) {
     // Clean up
 cleanup:
     if (doubly_linked) {
-        while (!dll_is_empty((DoublyLinkedList *) list)) {
-            free(dll_remove_first((DoublyLinkedList **) &list));
+        while (!dll_is_empty((DLList *) list)) {
+            free(dll_remove_first((DLList **) &list));
         }
     } else {
         while (!ll_is_empty((LinkedList *) list)) {
