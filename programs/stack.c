@@ -1,7 +1,7 @@
 /**
  * Test program for the stack implementations.
  */
-#include "array_stack.h"
+#include "astack.h"
 #include "linked_stack.h"
 
 #include <getopt.h>
@@ -57,7 +57,7 @@ int main(int argc, char **argv) {
     int return_val = 0;
 
     // Initialize the stacks
-    ArrayStack as;
+    AStack as;
     if (!as_init(&as)) {
         fprintf(stderr, "Could not create the stack data structure.\n");
         return_val = 1;

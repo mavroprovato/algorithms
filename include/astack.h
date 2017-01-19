@@ -1,5 +1,5 @@
-#ifndef _ARRAY_STACK_H
-#define _ARRAY_STACK_H
+#ifndef _A_STACK_H
+#define _A_STACK_H
 
 #include <stddef.h>
 #include <stdbool.h>
@@ -16,7 +16,7 @@ typedef struct {
     size_t size;
     /** The current capacity of the stack */
     size_t capacity;
-} ArrayStack;
+} AStack;
 
 /**
  * Initialize the stack data structure.
@@ -25,14 +25,14 @@ typedef struct {
  * @return true if the data structure was initialized successfully, false
  * otherwise.
  */
-bool as_init(ArrayStack *as);
+bool as_init(AStack *as);
 
 /**
  * Frees resources associated with the array stack data structure.
  *
  * @param as Pointer to the array stack data structure to be freed.
  */
-void as_destroy(ArrayStack *as);
+void as_destroy(AStack *as);
 
 /**
  * Check if the stack contains any elements.
@@ -40,7 +40,7 @@ void as_destroy(ArrayStack *as);
  * @param as Pointer to the array stack data structure.
  * @return true if the stack contains elements, false otherwise.
  */
-bool as_is_empty(ArrayStack *as);
+bool as_is_empty(AStack *as);
 
 /**
  * Return the size of the array stack.
@@ -48,7 +48,7 @@ bool as_is_empty(ArrayStack *as);
  * @param as Pointer to the array stack data structure.
  * @return The size of the array stack.
  */
-size_t as_size(ArrayStack *as);
+size_t as_size(AStack *as);
 
 /**
  * Add an element to the stack.
@@ -56,7 +56,7 @@ size_t as_size(ArrayStack *as);
  * @param as Pointer to the stack data structure.
  * @param item Pointer to the item to add to the stack.
  */
-bool as_push(ArrayStack *as, void *item);
+bool as_push(AStack *as, void *item);
 
 /**
  * Removes and returns the last element that was added to the stack.
@@ -64,7 +64,7 @@ bool as_push(ArrayStack *as, void *item);
  * @param as Pointer to the stack data structure.
  * @return The last element that was added to the stack.
  */
-void *as_pop(ArrayStack *as);
+void *as_pop(AStack *as);
 
 /**
  * Returns the last element that was added to the stack.
@@ -72,7 +72,7 @@ void *as_pop(ArrayStack *as);
  * @param as Pointer to the stack data structure.
  * @return The last element that was added to the stack.
  */
-void *as_peek(ArrayStack *as);
+void *as_peek(AStack *as);
 
 /**
  * Traverse all the items of the stack and call a function for each of them.
@@ -81,6 +81,6 @@ void *as_peek(ArrayStack *as);
  * @param iterator_func Pointer to function that is called for every item.
  * @param data Pointer to the custom user data. Can be NULL.
  */
-void as_foreach(ArrayStack *as, ITERATOR_FUNC iterator_func, void *data);
+void as_foreach(AStack *as, ITERATOR_FUNC iterator_func, void *data);
 
-#endif // _ARRAY_STACK_H
+#endif // _A_STACK_H

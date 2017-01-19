@@ -3,7 +3,7 @@
  * if no argument is passed) and prints whether the parentheses are balanced or
  * not.
  */
-#include "array_stack.h"
+#include "astack.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -23,7 +23,7 @@ int main(int argc, char **argv) {
 
     // Initialize the stack
     int return_value = 0;
-    ArrayStack stack;
+    AStack stack;
     if (!as_init(&stack)) {
         fprintf(stderr, "Could not create the stack data structure.\n");
         return_value = 1;

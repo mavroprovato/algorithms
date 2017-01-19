@@ -104,3 +104,18 @@ void *aq_peek(AQueue *aq) {
 
     return aq->items[aq->head];
 }
+
+void aq_foreach(AQueue *aq, ITERATOR_FUNC iterator_func, void *data) {
+    if (aq->head <= aq->tail) {
+        for (size_t i = aq->head; i < aq->tail; i++) {
+            iterator_func(aq->items[i], data);
+        }
+    } else { // The array has wrapped around.
+        for (size_t i = aq->head; i < aq->capacity; i++) {
+            iterator_func(aq->items[i], data);
+        }
+        for (size_t i = 0; i < aq->tail; i++) {
+            iterator_func(aq->items[i], data);
+        }
+    }
+}

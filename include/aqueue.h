@@ -4,6 +4,8 @@
 #include <stddef.h>
 #include <stdbool.h>
 
+#include "util.h"
+
 /**
  * The queue data structure, backed by an array.
  */
@@ -76,5 +78,14 @@ void *aq_dequeue(AQueue *aq);
  * @return The least recent element that was added to the queue.
  */
 void *aq_peek(AQueue *aq);
+
+/**
+ * Traverse all the items of the queue and call a function for each of them.
+ *
+ * @param aq Pointer to the queue data structure.
+ * @param iterator_func Pointer to function that is called for every item.
+ * @param data Pointer to the custom user data. Can be NULL.
+ */
+void aq_foreach(AQueue *aq, ITERATOR_FUNC iterator_func, void *data);
 
 #endif // _A_QUEUE_H
