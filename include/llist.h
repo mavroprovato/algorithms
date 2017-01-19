@@ -11,12 +11,12 @@
 /**
  * The linked list structure.
  */
-typedef struct LinkedList {
+typedef struct LList {
     /** The item. */
     void *item;
     /** The next node. */
-    struct LinkedList *next;
-} LinkedList;
+    struct LList *next;
+} LList;
 
 /**
  * Create a linked list structure.
@@ -25,7 +25,7 @@ typedef struct LinkedList {
  * @return The created linked list structure or NULL if the stuructre could not
  * be created.
  */
-LinkedList *ll_create(void *item);
+LList *ll_create(void *item);
 
 /**
  * Destroy the linked list structure.
@@ -33,7 +33,7 @@ LinkedList *ll_create(void *item);
  * @param ll Pointer to the linked list data structure.
  * @param item Pointer to the item to hold.
  */
-void ll_destroy(LinkedList *ll);
+void ll_destroy(LList *ll);
 
 /**
  * Return the size of the linked list.
@@ -41,7 +41,7 @@ void ll_destroy(LinkedList *ll);
  * @param ll Pointer to the linked list data structure.
  * @return The size of the linked list.
  */
-size_t ll_size(LinkedList *ll);
+size_t ll_size(LList *ll);
 
 /**
  * Check if the linked list is empty.
@@ -49,7 +49,7 @@ size_t ll_size(LinkedList *ll);
  * @param ll Pointer to the linked list data structure.
  * @return true if the linked list is empty, false otherwise.
  */
-bool ll_is_empty(LinkedList *ll);
+bool ll_is_empty(LList *ll);
 
 /**
  * Add an item as the first element of the list.
@@ -58,7 +58,7 @@ bool ll_is_empty(LinkedList *ll);
  * @param item Pointer to the item to add.
  * @return Pointer to the updated list or NULL if the list cannot be updated.
  */
-bool ll_prepend(LinkedList **ll, void *item);
+bool ll_prepend(LList **ll, void *item);
 
 /**
  * Add an item as the last element of the list.
@@ -67,7 +67,7 @@ bool ll_prepend(LinkedList **ll, void *item);
  * @param item Pointer to the item to add.
  * @return true if the element was inserted successfully, false otherwise.
  */
-bool ll_append(LinkedList **ll, void *item);
+bool ll_append(LList **ll, void *item);
 
 /**
  * Insert an item at the specified position of the list.
@@ -77,7 +77,7 @@ bool ll_append(LinkedList **ll, void *item);
  * @param position The position at which the element is to be inserted.
  * @return true if the element was inserted successfully, false otherwise.
  */
-bool ll_insert(LinkedList **ll, void *item, size_t position);
+bool ll_insert(LList **ll, void *item, size_t position);
 
 /**
  * Remove the first item of the list.
@@ -85,7 +85,7 @@ bool ll_insert(LinkedList **ll, void *item, size_t position);
  * @param ll The linked list data structure.
  * @return The item that was removed.
  */
-void *ll_remove_first(LinkedList **ll);
+void *ll_remove_first(LList **ll);
 
 /**
  * Remove the last item of the list.
@@ -93,7 +93,7 @@ void *ll_remove_first(LinkedList **ll);
  * @param ll The linked list data structure.
  * @return The item that was removed.
  */
-void *ll_remove_last(LinkedList **ll);
+void *ll_remove_last(LList **ll);
 
 /**
  * Remove an item from the list by position.
@@ -102,7 +102,7 @@ void *ll_remove_last(LinkedList **ll);
  * @param position The position at which the element is to be inserted.
  * @return The item that was removed.
  */
-void *ll_remove(LinkedList **ll, size_t position);
+void *ll_remove(LList **ll, size_t position);
 
 /**
  * Remove an item from the list.
@@ -111,7 +111,7 @@ void *ll_remove(LinkedList **ll, size_t position);
  * @param item The position at which the element is to be inserted.
  * @return The item that was removed, or NULL if the item was not found.
  */
-void *ll_remove_item(LinkedList **ll, void *item, COMPARE_FUNC compare_func);
+void *ll_remove_item(LList **ll, void *item, COMPARE_FUNC compare_func);
 
 /**
  * Traverse all the items of the list and call a function for each of them.
@@ -120,7 +120,7 @@ void *ll_remove_item(LinkedList **ll, void *item, COMPARE_FUNC compare_func);
  * @param iterator_func Pointer to function that is called for every item.
  * @param data Pointer to the custom user data. Can be NULL.
  */
-void ll_foreach(LinkedList *ll, ITERATOR_FUNC iterator_func, void *data);
+void ll_foreach(LList *ll, ITERATOR_FUNC iterator_func, void *data);
 
 /**
  * Check if the linked list contains an element.
@@ -130,7 +130,7 @@ void ll_foreach(LinkedList *ll, ITERATOR_FUNC iterator_func, void *data);
  * @param compare_func The function used to compare items.
  * @return The index of the item, or -1 if the item is not found.
  */
-bool ll_contains(LinkedList *ll, void *item, COMPARE_FUNC compare_func);
+bool ll_contains(LList *ll, void *item, COMPARE_FUNC compare_func);
 
 /**
  * Search for an element and return its index in the list.
@@ -140,13 +140,13 @@ bool ll_contains(LinkedList *ll, void *item, COMPARE_FUNC compare_func);
  * @param compare_func The function used to compare items.
  * @return The list node, or NULL if the node was not found.
  */
-LinkedList *ll_find(LinkedList *ll, void *item, COMPARE_FUNC compare_func);
+LList *ll_find(LList *ll, void *item, COMPARE_FUNC compare_func);
 
 /**
  * Reverse the linked list.
  *
  * @param ll The linked list data structure.
  */
-void ll_reverse(LinkedList **ll);
+void ll_reverse(LList **ll);
 
 #endif // _LINKED_LIST_H

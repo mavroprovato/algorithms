@@ -2,7 +2,7 @@
  * Test program for the queue implementations.
  */
 #include "aqueue.h"
-#include "linked_queue.h"
+#include "lqueue.h"
 
 #include <getopt.h>
 
@@ -63,7 +63,7 @@ int main(int argc, char **argv) {
         return_val = 1;
         goto cleanup;
     }
-    LinkedQueue lq;
+    LQueue lq;
     if (!lq_init(&lq)) {
         fprintf(stderr, "Could not create the queue data structure.\n");
         return_val = 1;

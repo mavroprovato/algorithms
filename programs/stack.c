@@ -2,7 +2,7 @@
  * Test program for the stack implementations.
  */
 #include "astack.h"
-#include "linked_stack.h"
+#include "lstack.h"
 
 #include <getopt.h>
 
@@ -63,7 +63,7 @@ int main(int argc, char **argv) {
         return_val = 1;
         goto cleanup;
     }
-    LinkedStack ls;
+    LStack ls;
     if (!ls_init(&ls)) {
         fprintf(stderr, "Could not create the stack data structure.\n");
         return_val = 1;
