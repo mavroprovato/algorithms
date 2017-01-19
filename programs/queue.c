@@ -1,7 +1,7 @@
 /**
  * Test program for the queue implementations.
  */
-#include "array_queue.h"
+#include "aqueue.h"
 #include "linked_queue.h"
 
 #include <getopt.h>
@@ -57,7 +57,7 @@ int main(int argc, char **argv) {
     int return_val = 0;
 
     // Initialize the queues
-    ArrayQueue aq;
+    AQueue aq;
     if (!aq_init(&aq)) {
         fprintf(stderr, "Could not create the queue data structure.\n");
         return_val = 1;
