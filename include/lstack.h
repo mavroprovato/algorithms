@@ -5,14 +5,23 @@
 #include <stdbool.h>
 
 #include "util.h"
-#include "llist.h"
+
+/**
+ * The linked stack node.
+ */
+typedef struct LStackNode {
+    /** The item. */
+    void *item;
+    /** The next node. */
+    struct LStackNode *next;
+} LStackNode;
 
 /**
  * A stack data structure, backed by a linked list.
  */
 typedef struct {
-    /** The linked list. */
-    LList *ll;
+    /** The head element. */
+    LStackNode *head;
     /** The stack size. */
     size_t size;
 } LStack;

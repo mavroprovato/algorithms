@@ -1,6 +1,8 @@
 
 #include "lqueue.h"
 
+#include <stdlib.h>
+
 bool lq_init(LQueue *lq) {
     lq->head = NULL;
     lq->tail = NULL;
@@ -10,8 +12,17 @@ bool lq_init(LQueue *lq) {
 }
 
 void lq_destroy(LQueue *lq) {
-    ll_destroy(lq->head);
-    ll_destroy(lq->tail);
+    // Loop through all elements and free the nodes.
+    LQueueNode *current = lq->head;
+    while (current) {
+        LQueueNode *node = current;
+        current = current->next;
+        free(node);
+    }
+
+    // Set pointers to NULL
+    lq->head = NULL;
+    lq->tail = NULL;
 }
 
 bool lq_is_empty(LQueue *lq) {
@@ -23,31 +34,45 @@ size_t lq_size(LQueue *lq) {
 }
 
 bool lq_enqueue(LQueue *lq, void *item) {
-    if (!ll_append(&lq->tail, item)) {
+    // Initialize the node
+    LQueueNode *node = malloc(sizeof(LQueueNode *));
+    if (!node) {
         return false;
     }
-    if (lq->tail->next) {
-        lq->tail = lq->tail->next;
+    node->item = item;
+    node->next = NULL;
+
+    // Append the node to the end
+    if (lq->tail) {
+        // The queue has elements
+        lq->tail->next = node;
+        lq->tail = node;
+    } else {
+        // The queue is empty
+        lq->head = node;
+        lq->tail = node;
     }
-    if (!lq->head) {
-        lq->head = lq->tail;
-    }
+    lq->size++;
 
     return true;
 }
 
 void *lq_dequeue(LQueue *lq) {
-    void *item = NULL;
-    if (lq->head) {
-        item = ll_remove_first(&lq->head);
-        if (!item) {
-            return NULL;
-        }
-        lq->size--;
+    LQueueNode *node = lq->head;
+    if (node) {
+        // The queue is empty
+        return NULL;
     }
+
+    // Remove the first node
+    void *item = node->item;
+    lq->head = node->next;
     if (!lq->head) {
+        // Queue is empty
         lq->tail = NULL;
     }
+    free(item);
+    lq->size--;
 
     return item;
 }
@@ -57,5 +82,9 @@ void *lq_peek(LQueue *lq) {
 }
 
 void lq_foreach(LQueue *lq, ITERATOR_FUNC iterator_func, void *data) {
-    ll_foreach(lq->head, iterator_func, data);
+    LQueueNode *current = lq->head;
+    while (current) {
+        iterator_func(current->item, data);
+        current = current->next;
+    }
 }

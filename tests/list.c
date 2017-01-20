@@ -67,6 +67,13 @@ int main(int argc, char **argv) {
     }
 
     int return_val = 0;
+
+    LList llist;
+    if (!ll_init(&llist)) {
+        fprintf(stderr, "Could not create the linked list data structure.\n");
+        return_val = 1;
+        goto cleanup;
+    }
     void *list = NULL;
 
     // Read the input line by line
@@ -80,7 +87,7 @@ int main(int argc, char **argv) {
             if (doubly_linked) {
                 is_empty = dll_is_empty((DLList *) list);
             } else {
-                is_empty = ll_is_empty((LList *) list);
+                is_empty = ll_is_empty(&llist);
             }
             printf("%s\n", is_empty ? "empty" : "not empty");
         } else if (strncmp(line, "size", strlen("size")) == 0) {
@@ -88,7 +95,7 @@ int main(int argc, char **argv) {
             if (doubly_linked) {
                 size = dll_size((DLList *) list);
             } else {
-                size = ll_size((LList *) list);
+                size = ll_size(&llist);
             }
             printf("%zu\n", size);
         } else if (strncmp(line, "prepend ", strlen("prepend ")) == 0) {
@@ -107,7 +114,7 @@ int main(int argc, char **argv) {
                     goto cleanup;
                 }
             } else {
-                if (!ll_prepend((LList **) &list, s)) {
+                if (!ll_prepend(&llist, s)) {
                     fprintf(stderr, "Cannot prepend to list.\n");
                     return_val = 1;
                     goto cleanup;
@@ -129,7 +136,7 @@ int main(int argc, char **argv) {
                     goto cleanup;
                 }
             } else {
-                if (!ll_append((LList **) &list, s)) {
+                if (!ll_append(&llist, s)) {
                     fprintf(stderr, "Cannot append to list.\n");
                     return_val = 1;
                     goto cleanup;
@@ -164,7 +171,7 @@ int main(int argc, char **argv) {
                     goto cleanup;
                 }
             } else {
-                if (!ll_insert((LList **) &list, s, idx)) {
+                if (!ll_insert(&llist, s, idx)) {
                     fprintf(stderr, "Cannot insert to list.\n");
                     return_val = 1;
                     goto cleanup;
@@ -175,14 +182,14 @@ int main(int argc, char **argv) {
             if (doubly_linked) {
                 free(dll_remove_first((DLList **) &list));
             } else {
-                free(ll_remove_first((LList **) &list));
+                free(ll_remove_first(&llist));
             }
         } else if (strncmp(line, "remove_last", strlen("remove_last")) == 0) {
             // Remove last element
             if (doubly_linked) {
                 free(dll_remove_last((DLList **) &list));
             } else {
-                free(ll_remove_last((LList **) &list));
+                free(ll_remove_last(&llist));
             }
         } else if (strncmp(line, "remove ", strlen("remove ")) == 0) {
             // Get the position of the element to remove
@@ -202,7 +209,7 @@ int main(int argc, char **argv) {
             if (doubly_linked) {
                 free(dll_remove((DLList **) &list, idx));
             } else {
-                free(ll_remove((LList **) &list, idx));
+                free(ll_remove(&llist, idx));
             }
         } else if (strncmp(line, "remove_item ", strlen("remove_item ")) == 0) {
             // Get the element to remove
@@ -217,7 +224,7 @@ int main(int argc, char **argv) {
             if (doubly_linked) {
                 free(dll_remove_item((DLList **) &list, str, compare_str));
             } else {
-                free(ll_remove_item((LList **) &list, str, compare_str));
+                free(ll_remove_item(&llist, str, compare_str));
             }
         } else if (strncmp(line, "contains ", strlen("contains ")) == 0) {
             // Get the string to check
@@ -232,7 +239,7 @@ int main(int argc, char **argv) {
             if (doubly_linked) {
                 contains = dll_contains((DLList *) list, str, compare_str);
             } else {
-                contains = ll_contains((LList *) list, str, compare_str);
+                contains = ll_contains(&llist, str, compare_str);
             }
             printf("%s\n", contains ? "true" : "false");
         } else if (strncmp(line, "print", strlen("print")) == 0) {
@@ -240,7 +247,7 @@ int main(int argc, char **argv) {
             if (doubly_linked) {
                 dll_foreach((DLList *) list, print_element, NULL, false);
             } else {
-                ll_foreach((LList *) list, print_element, NULL);
+                ll_foreach(&llist, print_element, NULL);
             }
             puts("");
         } else if (strncmp(line, "reverse", strlen("reverse")) == 0) {
@@ -248,7 +255,7 @@ int main(int argc, char **argv) {
             if (doubly_linked) {
                 dll_reverse((DLList **) &list);
             } else {
-                ll_reverse((LList **) &list);
+                ll_reverse(&llist);
             }
         } else {
             fprintf(stderr, "Invalid command: %.*s.\n", (int) read - 1, line);
@@ -264,8 +271,9 @@ cleanup:
         }
     } else {
         while (!ll_is_empty((LList *) list)) {
-            free(ll_remove_first((LList **) &list));
+            free(ll_remove_first(&llist));
         }
+        ll_destroy(&llist);
     }
 
     free(line);

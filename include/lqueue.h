@@ -5,16 +5,25 @@
 #include <stdbool.h>
 
 #include "util.h"
-#include "llist.h"
+
+/**
+ * The linked stack node.
+ */
+typedef struct LQueueNode {
+    /** The item. */
+    void *item;
+    /** The next node. */
+    struct LQueueNode *next;
+} LQueueNode;
 
 /**
  * The queue data structure, backed by a linked list.
  */
 typedef struct {
     /** The head of the queue. */
-    LList *head;
+    LQueueNode *head;
     /** The tail of the queue. */
-    LList *tail;
+    LQueueNode *tail;
     /** The queue size. */
     size_t size;
 } LQueue;

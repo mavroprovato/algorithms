@@ -1,19 +1,30 @@
 
 #include "lstack.h"
 
+#include <stdlib.h>
+
 bool ls_init(LStack *ls) {
-    ls->ll = NULL;
+    ls->head = NULL;
     ls->size = 0;
 
     return true;
 }
 
 void ls_destroy(LStack *ls) {
-    ll_destroy(ls->ll);
+    // Loop through all elements and free the nodes.
+    LStackNode *current = ls->head;
+    while (current) {
+        LStackNode *node = current;
+        current = current->next;
+        free(node);
+    }
+
+    // Set pointer to NULL
+    ls->head = NULL;
 }
 
 bool ls_is_empty(LStack *ls) {
-    return ll_is_empty(ls->ll);
+    return ls->head == NULL;
 }
 
 size_t ls_size(LStack *ls) {
@@ -21,27 +32,45 @@ size_t ls_size(LStack *ls) {
 }
 
 bool ls_push(LStack *ls, void *item) {
-    bool success = ll_prepend(&ls->ll, item);
-    if (success) {
-        ls->size++;
+    // Initialize the node
+    LStackNode *node = malloc(sizeof(LStackNode *));
+    if (!node) {
+        return false;
     }
+    node->item = item;
+    node->next = ls->head;
 
-    return success;
+    // Add the node at the start
+    ls->head = node;
+    ls->size++;
+
+    return true;
 }
 
 void *ls_pop(LStack *ls) {
-    void *item = ll_remove_first(&ls->ll);
-    if (item) {
-        ls->size--;
+    LStackNode *node = ls->head;
+    if (!node) {
+        // The stack is empty
+        return NULL;
     }
+
+    // Remove the first node
+    void *item = node->item;
+    ls->head = node->next;
+    ls->size--;
+    free(node);
 
     return item;
 }
 
 void *ls_peek(LStack *ls) {
-    return ls->ll ? ls->ll->item : NULL;
+    return ls->head ? ls->head->item : NULL;
 }
 
 void ls_foreach(LStack *ls, ITERATOR_FUNC iterator_func, void *data) {
-    ll_foreach(ls->ll, iterator_func, data);
+    LStackNode *current = ls->head;
+    while (current) {
+        iterator_func(current->item, data);
+        current = current->next;
+    }
 }

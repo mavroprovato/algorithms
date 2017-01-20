@@ -9,13 +9,23 @@
 #include <stddef.h>
 
 /**
- * The linked list structure.
+ * The linked list node.
  */
-typedef struct LList {
+typedef struct LListNode {
     /** The item. */
     void *item;
     /** The next node. */
-    struct LList *next;
+    struct LListNode *next;
+} LListNode;
+
+/**
+ * The linked list data structure.
+ */
+typedef struct {
+    /** The head list element. */
+    LListNode *head;
+    /** The list size. */
+    size_t size;
 } LList;
 
 /**
@@ -25,13 +35,12 @@ typedef struct LList {
  * @return The created linked list structure or NULL if the stuructre could not
  * be created.
  */
-LList *ll_create(void *item);
+bool ll_init(LList *ll);
 
 /**
  * Destroy the linked list structure.
  *
  * @param ll Pointer to the linked list data structure.
- * @param item Pointer to the item to hold.
  */
 void ll_destroy(LList *ll);
 
@@ -58,60 +67,60 @@ bool ll_is_empty(LList *ll);
  * @param item Pointer to the item to add.
  * @return Pointer to the updated list or NULL if the list cannot be updated.
  */
-bool ll_prepend(LList **ll, void *item);
+bool ll_prepend(LList *ll, void *item);
 
 /**
  * Add an item as the last element of the list.
  *
- * @param ll The linked list data structure.
+ * @param ll Pointer to the linked list data structure.
  * @param item Pointer to the item to add.
  * @return true if the element was inserted successfully, false otherwise.
  */
-bool ll_append(LList **ll, void *item);
+bool ll_append(LList *ll, void *item);
 
 /**
  * Insert an item at the specified position of the list.
  *
- * @param ll The linked list data structure.
+ * @param ll Pointer to the linked list data structure.
  * @param item Pointer to the item to add.
  * @param position The position at which the element is to be inserted.
  * @return true if the element was inserted successfully, false otherwise.
  */
-bool ll_insert(LList **ll, void *item, size_t position);
+bool ll_insert(LList *ll, void *item, size_t position);
 
 /**
  * Remove the first item of the list.
  *
- * @param ll The linked list data structure.
+ * @param ll Pointer to the linked list data structure.
  * @return The item that was removed.
  */
-void *ll_remove_first(LList **ll);
+void *ll_remove_first(LList *ll);
 
 /**
  * Remove the last item of the list.
  *
- * @param ll The linked list data structure.
+ * @param ll Pointer to the linked list data structure.
  * @return The item that was removed.
  */
-void *ll_remove_last(LList **ll);
+void *ll_remove_last(LList *ll);
 
 /**
  * Remove an item from the list by position.
  *
- * @param ll The linked list data structure.
+ * @param ll Pointer to the linked list data structure.
  * @param position The position at which the element is to be inserted.
  * @return The item that was removed.
  */
-void *ll_remove(LList **ll, size_t position);
+void *ll_remove(LList *ll, size_t position);
 
 /**
  * Remove an item from the list.
  *
- * @param ll The linked list data structure.
+ * @param ll Pointer to the linked list data structure.
  * @param item The position at which the element is to be inserted.
  * @return The item that was removed, or NULL if the item was not found.
  */
-void *ll_remove_item(LList **ll, void *item, COMPARE_FUNC compare_func);
+void *ll_remove_item(LList *ll, void *item, COMPARE_FUNC compare_func);
 
 /**
  * Traverse all the items of the list and call a function for each of them.
@@ -140,13 +149,13 @@ bool ll_contains(LList *ll, void *item, COMPARE_FUNC compare_func);
  * @param compare_func The function used to compare items.
  * @return The list node, or NULL if the node was not found.
  */
-LList *ll_find(LList *ll, void *item, COMPARE_FUNC compare_func);
+LListNode *ll_find(LList *ll, void *item, COMPARE_FUNC compare_func);
 
 /**
  * Reverse the linked list.
  *
  * @param ll The linked list data structure.
  */
-void ll_reverse(LList **ll);
+void ll_reverse(LList *ll);
 
 #endif // _LINKED_LIST_H

@@ -2,85 +2,88 @@
 
 #include <stdlib.h>
 
-LList *ll_create(void *item) {
-    LList *ll = malloc(sizeof(LList));
-    if (!ll) {
-        return NULL;
-    }
-    ll->item = item;
-    ll->next = NULL;
-
-    return ll;
-}
-
-void ll_destroy(LList *ll) {
-    free(ll);
-}
-
-size_t ll_size(LList *ll) {
-    size_t size = 0;
-    LList *current = ll;
-    while (current) {
-        current = current->next;
-        size++;
-    }
-
-    return size;
-}
-
-bool ll_is_empty(LList *ll) {
-    return ll == NULL;
-}
-
-bool ll_prepend(LList **ll, void *item) {
-    // Alocate the node
-    LList *node = ll_create(item);
-    if (!node) {
-        return false;
-    }
-
-    // Put it at the start of the list
-    node->next = *ll;
-    *ll = node;
+bool ll_init(LList *ll) {
+    ll->head = NULL;
+    ll->size = 0;
 
     return true;
 }
 
-bool ll_append(LList **ll, void *item) {
-    // Alocate the node
-    LList *node = ll_create(item);
+void ll_destroy(LList *ll) {
+    // Loop through all elements and free the nodes.
+    LListNode *current = ll->head;
+    while (current) {
+        LListNode *node = current;
+        current = current->next;
+        free(node);
+    }
+
+    // Set pointer to NULL
+    ll->head = NULL;
+}
+
+size_t ll_size(LList *ll) {
+    return ll->size;
+}
+
+bool ll_is_empty(LList *ll) {
+    return ll->head == NULL;
+}
+
+bool ll_prepend(LList *ll, void *item) {
+    // Create the node
+    LListNode *node = malloc(sizeof(LListNode *));
     if (!node) {
         return false;
     }
+    node->item = item;
 
-    if (!*ll) {
-        // List is empty
-        *ll = node;
-    } else {
-        LList *current = *ll;
+    // Put it at the start of the list
+    node->next = ll->head;
+    ll->head = node;
+
+    return true;
+}
+
+bool ll_append(LList *ll, void *item) {
+    // Create the node
+    LListNode *node = malloc(sizeof(LListNode *));
+    if (!node) {
+        return false;
+    }
+    node->item = item;
+    node->next = NULL;
+
+    if (ll->head) {
+        // Find the last node
+        LListNode *current = ll->head;
         while (current->next) {
             current = current->next;
         }
         current->next = node;
+    } else {
+        // List is empty
+        ll->head = node;
     }
 
     return true;
 }
 
-bool ll_insert(LList **ll, void *item, size_t position) {
+bool ll_insert(LList *ll, void *item, size_t position) {
     // If empty or position is zero, call prepend.
-    if (!*ll || position == 0) {
+    if (!ll->head || position == 0) {
         return ll_prepend(ll, item);
     }
 
     // Alocate the node
-    LList *node = ll_create(item);
+    LListNode *node = malloc(sizeof(LListNode *));
     if (!node) {
         return false;
     }
+    node->item = item;
 
     // Put it at the requested position
-    LList *current = *ll;
+    LListNode *current = ll->head;
     size_t index = 0;
     while (current->next && index++ < position - 1) {
         current = current->next;
@@ -91,36 +94,37 @@ bool ll_insert(LList **ll, void *item, size_t position) {
     return true;
 }
 
-void *ll_remove_first(LList **ll) {
-    // If list is empty return null.
-    if (!*ll) {
+void *ll_remove_first(LList *ll) {
+    // If list is empty return NULL.
+    if (!ll->head) {
         return NULL;
     }
 
     // Point the node to the next item and free resources.
-    void *item = (*ll)->item;
-    LList *node = *ll;
-    *ll = (*ll)->next;
+    void *item = ll->head->item;
+    LListNode *node = ll->head;
+    ll->head = ll->head->next;
     free(node);
 
     return item;
 }
 
-void *ll_remove_last(LList **ll) {
-    // If list is empty return null.
-    if (!*ll) {
+void *ll_remove_last(LList *ll) {
+    // If list is empty return NULL.
+    if (!ll->head) {
         return NULL;
     }
 
-    // Find and remove the last node
-    LList *current = *ll;
+    // Find the node before the last one
+    LListNode *current = ll->head;
     while (current->next && current->next->next) {
         current = current->next;
     }
     void *item = NULL;
-    if (current->next == NULL) { // Only one item in the list
+    if (current->next == NULL) {
+        // Only one item in the list
         item = current->item;
-        (*ll) = NULL;
+        ll->head = NULL;
         free(current);
     } else {
         item = current->next->item;
@@ -131,25 +135,26 @@ void *ll_remove_last(LList **ll) {
     return item;
 }
 
-void *ll_remove(LList **ll, size_t position) {
+void *ll_remove(LList *ll, size_t position) {
     // If list is empty or position is zero, remove the first.
-    if (!*ll || position == 0) {
+    if (!ll->head || position == 0) {
         return ll_remove_first(ll);
     }
 
-    // Find and remove the node
-    LList *current = *ll;
+    // Find the node previous to the one we want to remove
+    LListNode *current = ll->head;
     size_t index = 0;
     while (current->next && current->next->next && index++ < position - 1) {
         current = current->next;
     }
     void *item = NULL;
-    if (current->next == NULL) { // The last element of the list
+    if (current->next == NULL) {
+        // The last element of the list
         item = current->item;
-        (*ll) = NULL;
+        ll->head = NULL;
         free(current);
     } else {
-        LList *node = current->next;
+        LListNode *node = current->next;
         item = node->item;
         current->next = current->next->next;
         free(node);
@@ -158,37 +163,37 @@ void *ll_remove(LList **ll, size_t position) {
     return item;
 }
 
-void *ll_remove_item(LList **ll, void *item, COMPARE_FUNC compare_func) {
-    if (!*ll) { // Empty list
+void *ll_remove_item(LList *ll, void *item, COMPARE_FUNC compare_func) {
+    if (!ll->head) { // Empty list
         return NULL;
     }
 
     // Search for the item
-    LList *current = *(ll);
-    LList *previous = NULL;
+    LListNode *current = ll->head;
+    LListNode *previous = NULL;
     while (current && compare_func(current->item, item) != 0) {
         previous = current;
         current = current->next;
     }
 
+    void *found_item = NULL;
     if (current) { // Found
-        void *found = current->item;
+        found_item = current->item;
         if (previous) {
             previous->next = current->next;
         } else {
-            (*ll) = NULL;
+            // The list only had one element
+            ll->head = NULL;
         }
         free(current);
-
-        return found;
     }
 
     // Not found
-    return NULL;
+    return found_item;
 }
 
 void ll_foreach(LList *ll, ITERATOR_FUNC iterator_func, void *data) {
-    LList *current = ll;
+    LListNode *current = ll->head;
     while (current) {
         iterator_func(current->item, data);
         current = current->next;
@@ -199,8 +204,8 @@ bool ll_contains(LList *ll, void *item, COMPARE_FUNC compare_func) {
     return ll_find(ll, item, compare_func) != NULL;
 }
 
-LList *ll_find(LList *ll, void *item, COMPARE_FUNC compare_func) {
-    LList *current = ll;
+LListNode *ll_find(LList *ll, void *item, COMPARE_FUNC compare_func) {
+    LListNode *current = ll->head;
     while (current && compare_func(current->item, item) != 0) {
         current = current->next;
     }
@@ -208,15 +213,15 @@ LList *ll_find(LList *ll, void *item, COMPARE_FUNC compare_func) {
     return current;
 }
 
-void ll_reverse(LList **ll) {
-    if (!*ll || !(*ll)->next) {
+void ll_reverse(LList *ll) {
+    if (!ll->head || !ll->head->next) {
         // Less than two elements, no need to do anything
         return;
     }
 
-    LList *previous = NULL;
-    LList *current = *ll;
-    LList *next = (*ll)->next;
+    LListNode *previous = NULL;
+    LListNode *current = ll->head;
+    LListNode *next = current->next;
 
     while (current) {
         next = current->next;
@@ -225,5 +230,5 @@ void ll_reverse(LList **ll) {
         current = next;
     }
 
-    *ll = previous;
+    ll->head = previous;
 }
