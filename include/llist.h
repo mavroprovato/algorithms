@@ -1,5 +1,5 @@
-#ifndef _LINKED_LIST_H
-#define _LINKED_LIST_H
+#ifndef _LLIST_H
+#define _LLIST_H
 
 #include "util.h"
 
@@ -24,16 +24,14 @@ typedef struct LListNode {
 typedef struct {
     /** The head list element. */
     LListNode *head;
-    /** The list size. */
-    size_t size;
 } LList;
 
 /**
- * Create a linked list structure.
+ * Initialize the linked list structure.
  *
- * @param item Pointer to the item to hold.
- * @return The created linked list structure or NULL if the stuructre could not
- * be created.
+ * @param ll Pointer to the linked list to initialize.
+ * @return true if the linked list was initialized successfully, false
+ * otherwise.
  */
 bool ll_init(LList *ll);
 
@@ -65,7 +63,7 @@ bool ll_is_empty(LList *ll);
  *
  * @param ll Pointer to the linked list data structure.
  * @param item Pointer to the item to add.
- * @return Pointer to the updated list or NULL if the list cannot be updated.
+ * @return true if the element was inserted successfully, false otherwise.
  */
 bool ll_prepend(LList *ll, void *item);
 
@@ -92,7 +90,7 @@ bool ll_insert(LList *ll, void *item, size_t position);
  * Remove the first item of the list.
  *
  * @param ll Pointer to the linked list data structure.
- * @return The item that was removed.
+ * @return The item that was removed, or NULL if the item was not found.
  */
 void *ll_remove_first(LList *ll);
 
@@ -100,7 +98,7 @@ void *ll_remove_first(LList *ll);
  * Remove the last item of the list.
  *
  * @param ll Pointer to the linked list data structure.
- * @return The item that was removed.
+ * @return The item that was removed, or NULL if the item was not found.
  */
 void *ll_remove_last(LList *ll);
 
@@ -108,8 +106,8 @@ void *ll_remove_last(LList *ll);
  * Remove an item from the list by position.
  *
  * @param ll Pointer to the linked list data structure.
- * @param position The position at which the element is to be inserted.
- * @return The item that was removed.
+ * @param position The position of the element to be removed.
+ * @return The item that was removed, or NULL if the item was not found.
  */
 void *ll_remove(LList *ll, size_t position);
 
@@ -158,4 +156,4 @@ LListNode *ll_find(LList *ll, void *item, COMPARE_FUNC compare_func);
  */
 void ll_reverse(LList *ll);
 
-#endif // _LINKED_LIST_H
+#endif // _LLIST_H

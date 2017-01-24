@@ -3,8 +3,8 @@
 #include <stdlib.h>
 
 bool ll_init(LList *ll) {
+    // Initialize the structure fields
     ll->head = NULL;
-    ll->size = 0;
 
     return true;
 }
@@ -23,7 +23,15 @@ void ll_destroy(LList *ll) {
 }
 
 size_t ll_size(LList *ll) {
-    return ll->size;
+    // Loop through all the elements to get the size
+    size_t size = 0;
+    LListNode *current = ll->head;
+    while (current) {
+        size++;
+        current = current->next;
+    }
+
+    return size;
 }
 
 bool ll_is_empty(LList *ll) {
@@ -82,12 +90,14 @@ bool ll_insert(LList *ll, void *item, size_t position) {
     }
     node->item = item;
 
-    // Put it at the requested position
+    // Find the node before the requested position
     LListNode *current = ll->head;
     size_t index = 0;
     while (current->next && index++ < position - 1) {
         current = current->next;
     }
+
+    // Insert the node
     node->next = current->next;
     current->next = node;
 
@@ -193,6 +203,7 @@ void *ll_remove_item(LList *ll, void *item, COMPARE_FUNC compare_func) {
 }
 
 void ll_foreach(LList *ll, ITERATOR_FUNC iterator_func, void *data) {
+    // Loop through all the elements and call the function
     LListNode *current = ll->head;
     while (current) {
         iterator_func(current->item, data);
