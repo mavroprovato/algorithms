@@ -40,7 +40,7 @@ bool ll_is_empty(LList *ll) {
 
 bool ll_prepend(LList *ll, void *item) {
     // Create the node
-    LListNode *node = malloc(sizeof(LListNode *));
+    LListNode *node = malloc(sizeof(LListNode));
     if (!node) {
         return false;
     }
@@ -55,7 +55,7 @@ bool ll_prepend(LList *ll, void *item) {
 
 bool ll_append(LList *ll, void *item) {
     // Create the node
-    LListNode *node = malloc(sizeof(LListNode *));
+    LListNode *node = malloc(sizeof(LListNode));
     if (!node) {
         return false;
     }
@@ -84,7 +84,7 @@ bool ll_insert(LList *ll, void *item, size_t position) {
     }
 
     // Alocate the node
-    LListNode *node = malloc(sizeof(LListNode *));
+    LListNode *node = malloc(sizeof(LListNode));
     if (!node) {
         return false;
     }

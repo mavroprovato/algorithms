@@ -65,7 +65,7 @@ bool dll_is_empty(DLList *dll) {
 
 bool dll_prepend(DLList *dll, void *item) {
     // Create the node
-    DLListNode *node = malloc(sizeof(DLListNode *));
+    DLListNode *node = malloc(sizeof(DLListNode));
     if (!node) {
         return false;
     }
@@ -85,7 +85,7 @@ bool dll_prepend(DLList *dll, void *item) {
 
 bool dll_append(DLList *dll, void *item) {
     // Create the node
-    DLListNode *node = malloc(sizeof(DLListNode *));
+    DLListNode *node = malloc(sizeof(DLListNode));
     if (!node) {
         return false;
     }
@@ -110,7 +110,7 @@ bool dll_insert(DLList *dll, void *item, size_t position) {
     }
 
     // Create the node
-    DLListNode *node = malloc(sizeof(DLListNode *));
+    DLListNode *node = malloc(sizeof(DLListNode));
     if (!node) {
         return false;
     }

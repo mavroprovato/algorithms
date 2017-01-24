@@ -35,7 +35,7 @@ size_t lq_size(LQueue *lq) {
 
 bool lq_enqueue(LQueue *lq, void *item) {
     // Initialize the node
-    LQueueNode *node = malloc(sizeof(LQueueNode *));
+    LQueueNode *node = malloc(sizeof(LQueueNode));
     if (!node) {
         return false;
     }

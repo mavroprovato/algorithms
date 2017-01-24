@@ -33,7 +33,7 @@ size_t ls_size(LStack *ls) {
 
 bool ls_push(LStack *ls, void *item) {
     // Initialize the node
-    LStackNode *node = malloc(sizeof(LStackNode *));
+    LStackNode *node = malloc(sizeof(LStackNode));
     if (!node) {
         return false;
     }
