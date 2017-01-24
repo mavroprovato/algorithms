@@ -74,7 +74,12 @@ int main(int argc, char **argv) {
         return_val = 1;
         goto cleanup;
     }
-    void *list = NULL;
+    DLList dllist;
+    if (!dll_init(&dllist)) {
+        fprintf(stderr, "Could not create the linked list data structure.\n");
+        return_val = 1;
+        goto cleanup;
+    }
 
     // Read the input line by line
     char *line = NULL;
@@ -85,7 +90,7 @@ int main(int argc, char **argv) {
         if (strncmp(line, "is_empty", strlen("is_empty")) == 0) {
             bool is_empty;
             if (doubly_linked) {
-                is_empty = dll_is_empty((DLList *) list);
+                is_empty = dll_is_empty(&dllist);
             } else {
                 is_empty = ll_is_empty(&llist);
             }
@@ -93,7 +98,7 @@ int main(int argc, char **argv) {
         } else if (strncmp(line, "size", strlen("size")) == 0) {
             size_t size;
             if (doubly_linked) {
-                size = dll_size((DLList *) list);
+                size = dll_size(&dllist);
             } else {
                 size = ll_size(&llist);
             }
@@ -108,7 +113,7 @@ int main(int argc, char **argv) {
             str++;
             char *s = strndup(str, strlen(str) - 1);
             if (doubly_linked) {
-                if (!dll_prepend((DLList **) &list, s)) {
+                if (!dll_prepend(&dllist, s)) {
                     fprintf(stderr, "Cannot prepend to list.\n");
                     return_val = 1;
                     goto cleanup;
@@ -130,7 +135,7 @@ int main(int argc, char **argv) {
             str++;
             char *s = strndup(str, strlen(str) - 1);
             if (doubly_linked) {
-                if (!dll_append((DLList **) &list, s)) {
+                if (!dll_append(&dllist, s)) {
                     fprintf(stderr, "Cannot append to list.\n");
                     return_val = 1;
                     goto cleanup;
@@ -165,7 +170,7 @@ int main(int argc, char **argv) {
             str++;
             char *s = strndup(str, strlen(str) - 1);
             if (doubly_linked) {
-                if (!dll_insert((DLList **) &list, s, idx)) {
+                if (!dll_insert(&dllist, s, idx)) {
                     fprintf(stderr, "Cannot insert to list.\n");
                     return_val = 1;
                     goto cleanup;
@@ -180,14 +185,14 @@ int main(int argc, char **argv) {
         } else if (strncmp(line, "remove_first", strlen("remove_first")) == 0) {
             // Remove first element
             if (doubly_linked) {
-                free(dll_remove_first((DLList **) &list));
+                free(dll_remove_first(&dllist));
             } else {
                 free(ll_remove_first(&llist));
             }
         } else if (strncmp(line, "remove_last", strlen("remove_last")) == 0) {
             // Remove last element
             if (doubly_linked) {
-                free(dll_remove_last((DLList **) &list));
+                free(dll_remove_last(&dllist));
             } else {
                 free(ll_remove_last(&llist));
             }
@@ -207,7 +212,7 @@ int main(int argc, char **argv) {
             }
             // Remove the element
             if (doubly_linked) {
-                free(dll_remove((DLList **) &list, idx));
+                free(dll_remove(&dllist, idx));
             } else {
                 free(ll_remove(&llist, idx));
             }
@@ -222,7 +227,7 @@ int main(int argc, char **argv) {
             str[strlen(str) - 1] = '\0';
             // Remove the element
             if (doubly_linked) {
-                free(dll_remove_item((DLList **) &list, str, compare_str));
+                free(dll_remove_item(&dllist, str, compare_str));
             } else {
                 free(ll_remove_item(&llist, str, compare_str));
             }
@@ -237,7 +242,7 @@ int main(int argc, char **argv) {
             str[strlen(str) - 1] = '\0';
             bool contains;
             if (doubly_linked) {
-                contains = dll_contains((DLList *) list, str, compare_str);
+                contains = dll_contains(&dllist, str, compare_str);
             } else {
                 contains = ll_contains(&llist, str, compare_str);
             }
@@ -245,7 +250,7 @@ int main(int argc, char **argv) {
         } else if (strncmp(line, "print", strlen("print")) == 0) {
             // Print all elements
             if (doubly_linked) {
-                dll_foreach((DLList *) list, print_element, NULL, false);
+                dll_foreach(&dllist, print_element, NULL, false);
             } else {
                 ll_foreach(&llist, print_element, NULL);
             }
@@ -253,7 +258,7 @@ int main(int argc, char **argv) {
         } else if (strncmp(line, "reverse", strlen("reverse")) == 0) {
             // Reverse the list
             if (doubly_linked) {
-                dll_reverse((DLList **) &list);
+                dll_reverse(&dllist);
             } else {
                 ll_reverse(&llist);
             }
@@ -266,11 +271,12 @@ int main(int argc, char **argv) {
     // Clean up
 cleanup:
     if (doubly_linked) {
-        while (!dll_is_empty((DLList *) list)) {
-            free(dll_remove_first((DLList **) &list));
+        while (!dll_is_empty(&dllist)) {
+            free(dll_remove_first(&dllist));
         }
+        dll_destroy(&dllist);
     } else {
-        while (!ll_is_empty((LList *) list)) {
+        while (!ll_is_empty(&llist)) {
             free(ll_remove_first(&llist));
         }
         ll_destroy(&llist);

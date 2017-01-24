@@ -2,94 +2,128 @@
 
 #include <stdlib.h>
 
-DLList *dll_create(void *item) {
-    DLList *dll = malloc(sizeof(DLList));
-    if (!dll) {
-        return NULL;
+/**
+ * Remove a node from the doubly linked list.
+ *
+ * @param dll Pointer to the doubly linked list data structure.
+ * @param node Pointer to the node to remove.
+ * @return The item that was removed, or NULL if the item was not found.
+ */
+static void *dll_remove_node(DLList *dll, DLListNode *node) {
+    void *item = node->item;
+    if (node->previous) {
+        node->previous->next = node->next;
+    } else {
+        dll->head = node->next;
     }
-    dll->item = item;
-    dll->next = NULL;
-    dll->previous = NULL;
+    if (node->next) {
+        node->next->previous = node->previous;
+    } else {
+        dll->tail = node->previous;
+    }
+    free(node);
 
-    return dll;
+    return item;
+}
+
+bool dll_init(DLList *dll) {
+    // Initialize the stucture fields
+    dll->head = NULL;
+    dll->tail = NULL;
+
+    return true;
 }
 
 void dll_destroy(DLList *dll) {
-    free(dll);
+    // Loop through all elements and free the nodes.
+    DLListNode *current = dll->head;
+    while (current) {
+        DLListNode *node = current;
+        current = current->next;
+        free(node);
+    }
+
+    // Set pointer to NULL
+    dll->head = NULL;
 }
 
 size_t dll_size(DLList *dll) {
+    // Loop through all the elements to get the size
     size_t size = 0;
-    DLList *current = dll;
+    DLListNode *current = dll->head;
     while (current) {
-        current = current->next;
         size++;
+        current = current->next;
     }
 
     return size;
 }
 
 bool dll_is_empty(DLList *dll) {
-    return dll == NULL;
+    return dll->head == NULL;
 }
 
-bool dll_prepend(DLList **dll, void *item) {
-    // Alocate the node
-    DLList *node = dll_create(item);
+bool dll_prepend(DLList *dll, void *item) {
+    // Create the node
+    DLListNode *node = malloc(sizeof(DLListNode *));
     if (!node) {
         return false;
     }
+    node->item = item;
+    node->previous = NULL;
 
     // Put it at the start of the list
-    node->next = *dll;
-    if (*dll) {
-        (*dll)->previous = node;
+    node->next = dll->head;
+    dll->head = node;
+    if (!dll->tail) {
+        // The list was empty
+        dll->tail = node;
     }
-    *dll = node;
 
     return true;
 }
 
-bool dll_append(DLList **dll, void *item) {
-    // Alocate the node
-    DLList *node = dll_create(item);
+bool dll_append(DLList *dll, void *item) {
+    // Create the node
+    DLListNode *node = malloc(sizeof(DLListNode *));
     if (!node) {
         return false;
     }
+    node->item = item;
+    node->next = NULL;
 
-    if (!*dll) {
-        // List is empty
-        *dll = node;
-    } else {
-        DLList *current = *dll;
-        while (current->next) {
-            current = current->next;
-        }
-        current->next = node;
-        node->previous = current;
+    // Put it at the end of the list
+    node->previous = dll->tail;
+    dll->tail = node;
+    if (!dll->head) {
+        // The list was empty
+        dll->head = node;
     }
 
     return true;
 }
 
-bool dll_insert(DLList **dll, void *item, size_t position) {
+bool dll_insert(DLList *dll, void *item, size_t position) {
     // If empty or position is zero, call prepend.
-    if (!*dll || position == 0) {
+    if (!dll->head || position == 0) {
         return dll_prepend(dll, item);
     }
 
-    // Alocate the node
-    DLList *node = dll_create(item);
+    // Create the node
+    DLListNode *node = malloc(sizeof(DLListNode *));
     if (!node) {
         return false;
     }
+    node->item = item;
 
-    // Put it at the requested position
-    DLList *current = *dll;
+    // Find the node before the requested position
+    DLListNode *current = dll->head;
     size_t index = 0;
-    while (current->next && index++ < position - 1) {
+    while (current->next && index++ < position) {
         current = current->next;
     }
+
+    // Insert the new node
     node->next = current->next;
     node->previous = current;
     if (current->next) {
@@ -100,98 +134,75 @@ bool dll_insert(DLList **dll, void *item, size_t position) {
     return true;
 }
 
-void *dll_remove_first(DLList **dll) {
-    // If list is empty return null.
-    if (!*dll) {
+void *dll_remove_first(DLList *dll) {
+    if (!dll->head) {
+        // The list is emtpy, return NULL
         return NULL;
     }
 
-    // Point the node to the next item and free resources.
-    void *item = (*dll)->item;
-    DLList *node = *dll;
-    *dll = (*dll)->next;
-    if (*dll) {
-        (*dll)->previous = NULL;
+    // Point the head to the next item and free resources.
+    DLListNode *node = dll->head;
+    void *item = node->item;
+    dll->head = dll->head->next;
+    if (dll->head) {
+        // The list is not empty
+        dll->head->previous = NULL;
+    } else {
+        // The list is empty
+        dll->tail = NULL;
     }
     free(node);
 
     return item;
 }
 
-void *dll_remove_last(DLList **dll) {
-    // If list is empty return null.
-    if (!*dll) {
+void *dll_remove_last(DLList *dll) {
+    if (!dll->head) {
+        // The list is emtpy, return NULL
         return NULL;
     }
 
-    // Find and remove the last node
-    DLList *current = *dll;
-    while (current->next) {
-        current = current->next;
-    }
-    void *item = current->item;
-    if (current->previous) {
-        // Point the previous node to NULL
-        current->previous->next = NULL;
+    // Point the node to the next item and free resources.
+    DLListNode *node = dll->head;
+    void *item = node->item;
+    dll->tail = dll->tail->previous;
+    if (dll->tail) {
+        // The list is not empty
+        dll->head->next = NULL;
     } else {
-        // Only one item
-        *dll = NULL;
+        // The list is empty
+        dll->head = NULL;
     }
-    free(current);
+    free(node);
 
     return item;
 }
 
-void *dll_remove(DLList **dll, size_t position) {
+void *dll_remove(DLList *dll, size_t position) {
     // If list is empty or position is zero, remove the first.
-    if (!*dll || position == 0) {
+    if (!dll->head || position == 0) {
         return dll_remove_first(dll);
     }
 
     // Find and remove the node
-    DLList *current = *dll;
+    DLListNode *current = dll->head;
     size_t index = 0;
-    while (current->next && current->next->next && index++ < position - 1) {
+    while (current->next && index++ < position) {
         current = current->next;
     }
-    void *item = NULL;
-    if (current->next == NULL) { // The last element of the list
-        item = current->item;
-        (*dll) = NULL;
-        free(current);
-    } else {
-        DLList *node = current->next;
-        item = node->item;
-        current->next = node->next;
-        if (node->next) {
-            node->next->previous = current;
-        }
-        free(node);
-    }
 
-    return item;
+    return dll_remove_node(dll, current);
 }
 
-void *dll_remove_item(DLList **dll, void *item,
-                     COMPARE_FUNC compare_func) {
-    // Find and remove the node
-    DLList *current = *dll;
+void *dll_remove_item(DLList *dll, void *item, COMPARE_FUNC compare_func) {
+    // Find the node to remove
+    DLListNode *current = dll->head;
     while (current && compare_func(item, current->item) != 0) {
         current = current->next;
     }
 
     if (current) {
-        // Item found
-        void *found = NULL;
-        if (current->previous) {
-            current->previous->next = current->next;
-        }
-        if (current->next) {
-            current->next->previous = current->previous;
-        }
-        free(current);
-
-        return found;
+        return dll_remove_node(dll, current);
     }
 
     // Not found
@@ -200,7 +211,8 @@ void *dll_remove_item(DLList **dll, void *item,
 
 void dll_foreach(DLList *dll, ITERATOR_FUNC iterator_func, void *data,
                 bool reverse) {
-    DLList *current = dll;
+    // Loop through all the elements and call the function
+    DLListNode *current = reverse ? dll->head : dll->tail;
     while (current) {
         iterator_func(current->item, data);
         current = reverse ? current->previous : current->next;
@@ -208,13 +220,12 @@ void dll_foreach(DLList *dll, ITERATOR_FUNC iterator_func, void *data,
 }
 
 bool dll_contains(DLList *dll, void *item, COMPARE_FUNC compare_func) {
-    return dll_find(dll, item, compare_func, false) != NULL ||
-           dll_find(dll, item, compare_func, true) != NULL;
+    return dll_find(dll, item, compare_func, false) != NULL;
 }
 
-DLList *dll_find(DLList *dll, void *item, COMPARE_FUNC compare_func,
+DLListNode *dll_find(DLList *dll, void *item, COMPARE_FUNC compare_func,
                  bool reverse) {
-    DLList *current = dll;
+    DLListNode *current = reverse ? dll->head : dll->tail;
     while (current && compare_func(current->item, item) != 0) {
         current = reverse ? current->previous : current->next;
     }
@@ -222,17 +233,17 @@ DLList *dll_find(DLList *dll, void *item, COMPARE_FUNC compare_func,
     return current;
 }
 
-void dll_reverse(DLList **dll) {
-    if (!*dll || !(*dll)->next) {
+void dll_reverse(DLList *dll) {
+    if (!dll->head || !dll->head->next) {
         // Less than two elements, no need to do anything
         return;
     }
 
-    DLList *current = *dll;
-    DLList *previous = NULL;
+    DLListNode *current = dll->head;
+    DLListNode *previous = NULL;
     while (current->next) {
         // Swap the pointers
-        DLList *temp = current->next;
+        DLListNode *temp = current->next;
         current->next = current->previous;
         current->previous = temp;
         previous = current;
@@ -241,5 +252,6 @@ void dll_reverse(DLList **dll) {
 
     current->next = previous;
     current->previous = NULL;
-    *dll = current;
+    dll->tail = dll->head;
+    dll->head = current;
 }
