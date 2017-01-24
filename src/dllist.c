@@ -74,6 +74,9 @@ bool dll_prepend(DLList *dll, void *item) {
 
     // Put it at the start of the list
     node->next = dll->head;
+    if (dll->head) {
+        dll->head->previous = node;
+    }
     dll->head = node;
     if (!dll->tail) {
         // The list was empty
@@ -94,6 +97,9 @@ bool dll_append(DLList *dll, void *item) {
 
     // Put it at the end of the list
     node->previous = dll->tail;
+    if (dll->tail) {
+        dll->tail->next = node;
+    }
     dll->tail = node;
     if (!dll->head) {
         // The list was empty
@@ -119,7 +125,7 @@ bool dll_insert(DLList *dll, void *item, size_t position) {
     // Find the node before the requested position
     DLListNode *current = dll->head;
     size_t index = 0;
-    while (current->next && index++ < position) {
+    while (current->next && index++ < position - 1) {
         current = current->next;
     }
 
@@ -212,7 +218,7 @@ void *dll_remove_item(DLList *dll, void *item, COMPARE_FUNC compare_func) {
 void dll_foreach(DLList *dll, ITERATOR_FUNC iterator_func, void *data,
                 bool reverse) {
     // Loop through all the elements and call the function
-    DLListNode *current = reverse ? dll->head : dll->tail;
+    DLListNode *current = reverse ? dll->tail : dll->head;
     while (current) {
         iterator_func(current->item, data);
         current = reverse ? current->previous : current->next;
@@ -225,7 +231,7 @@ bool dll_contains(DLList *dll, void *item, COMPARE_FUNC compare_func) {
 
 DLListNode *dll_find(DLList *dll, void *item, COMPARE_FUNC compare_func,
                  bool reverse) {
-    DLListNode *current = reverse ? dll->head : dll->tail;
+    DLListNode *current = reverse ? dll->tail : dll->head;
     while (current && compare_func(current->item, item) != 0) {
         current = reverse ? current->previous : current->next;
     }
