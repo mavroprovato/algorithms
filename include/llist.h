@@ -1,7 +1,7 @@
 #ifndef _LLIST_H
 #define _LLIST_H
 
-#include "util.h"
+#include "common.h"
 
 #include <sys/types.h>
 

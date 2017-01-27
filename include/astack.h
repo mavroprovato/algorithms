@@ -4,7 +4,7 @@
 #include <stddef.h>
 #include <stdbool.h>
 
-#include "util.h"
+#include "common.h"
 
 /**
  * A stack data structure, backed by an array.
