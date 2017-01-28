@@ -64,6 +64,10 @@ bool dll_is_empty(DLList *dll) {
 }
 
 bool dll_prepend(DLList *dll, void *item) {
+    if (!item) {
+        // NULL items cannot be added
+        return false;
+    }
     // Create the node
     DLListNode *node = malloc(sizeof(DLListNode));
     if (!node) {
@@ -87,6 +91,10 @@ bool dll_prepend(DLList *dll, void *item) {
 }
 
 bool dll_append(DLList *dll, void *item) {
+    if (!item) {
+        // NULL items cannot be added
+        return false;
+    }
     // Create the node
     DLListNode *node = malloc(sizeof(DLListNode));
     if (!node) {
@@ -110,6 +118,10 @@ bool dll_append(DLList *dll, void *item) {
 }
 
 bool dll_insert(DLList *dll, void *item, size_t position) {
+    if (!item) {
+        // NULL items cannot be added
+        return false;
+    }
     // If empty or position is zero, call prepend.
     if (!dll->head || position == 0) {
         return dll_prepend(dll, item);

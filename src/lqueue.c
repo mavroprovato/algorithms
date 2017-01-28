@@ -34,6 +34,10 @@ size_t lq_size(LQueue *lq) {
 }
 
 bool lq_enqueue(LQueue *lq, void *item) {
+    if (!item) {
+        // NULL items cannot be added to the queue
+        return false;
+    }
     // Initialize the node
     LQueueNode *node = malloc(sizeof(LQueueNode));
     if (!node) {

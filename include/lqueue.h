@@ -29,66 +29,71 @@ typedef struct {
 } LQueue;
 
 /**
- * Initialize the queue data structure.
+ * Initialize the linked queue data structure.
  *
- * @param lq Pointer to the queue data structure.
- * @return true if the data structure was initialized successfully, false
- * otherwise.
+ * @param lq Pointer to the linked queue data structure.
+ * @return true if the linked queue data structure was initialized successfully,
+ * false otherwise.
  */
 bool lq_init(LQueue *lq);
 
 /**
- * Frees resources associated with the array queue data structure.
+ * Frees resources associated with the linked queue data structure.
  *
- * @param lq Pointer to the array queue data structure to be freed.
+* @param lq Pointer to the linked queue data structure to be freed.
  */
 void lq_destroy(LQueue *lq);
 
 /**
- * Check if the queue contains any elements.
+ * Check if the linked queue contains any elements.
  *
- * @param lq Pointer to the array queue data structure.
- * @return true if the queue contains elements, false otherwise.
+ * @param lq Pointer to the linked queue data structure.
+ * @return true if the linked queue contains elements, false otherwise.
  */
 bool lq_is_empty(LQueue *lq);
 
 /**
- * Return the size of the array queue.
+ * Return the size of the linked queue.
  *
- * @param lq Pointer to the array queue data structure.
- * @return The size of the array queue.
+ * @param lq Pointer to the linked queue data structure.
+ * @return The size of the linked queue.
  */
 size_t lq_size(LQueue *lq);
 
 /**
- * Add an element to the queue.
+ * Add an element to the linked queue.
  *
- * @param lq Pointer to the queue data structure.
- * @param item Pointer to the item to add to the queue.
+ * @param lq Pointer to the linked queue data structure.
+ * @param item Pointer to the item to add to the queue. Note that NULL elements
+ * cannot be added to the queue.
  * @return true if the element was enqueued successfully, false otherwise.
  */
 bool lq_enqueue(LQueue *lq, void *item);
 
 /**
- * Removes and returns the least recent element that was added to the queue.
+ * Removes and returns the least recent element that was added to the linked
+ * queue.
  *
- * @param lq Pointer to the queue data structure.
- * @return The least recent element that was added to the queue.
+ * @param lq Pointer to the linkedqueue data structure.
+ * @return The least recent element that was added to the linked queue, or NULL
+ * if the queue was empty.
  */
 void *lq_dequeue(LQueue *lq);
 
 /**
- * Returns the least recent element that was added to the queue.
+ * Returns the least recent element that was added to the linked queue.
  *
- * @param lq Pointer to the queue data structure.
- * @return The least recent element that was added to the queue.
+ * @param lq Pointer to the linked queue data structure.
+ * @return The least recent element that was added to the linked queue, or NULL
+ * if the queue was empty.
  */
 void *lq_peek(LQueue *lq);
 
 /**
- * Traverse all the items of the queue and call a function for each of them.
+ * Traverse all the items of the linked queue and call a function for each of
+ * them.
  *
- * @param lq Pointer to the queue data structure.
+ * @param lq Pointer to the linked queue data structure.
  * @param iterator_func Pointer to function that is called for every item.
  * @param data Pointer to the custom user data. Can be NULL.
  */

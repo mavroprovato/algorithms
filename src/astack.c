@@ -39,7 +39,9 @@ bool as_init(AStack *as) {
 }
 
 void as_destroy(AStack *as) {
+    // Free the underlying array
     free(as->items);
+    as->items = NULL;
 }
 
 bool as_is_empty(AStack *as) {
@@ -52,17 +54,19 @@ size_t as_size(AStack *as) {
 
 bool as_push(AStack *as, void *item) {
     if (as->size == as->capacity) {
-        if(!as_resize(as, 2 * as->capacity)) {
+        // The array needs to be expanded
+        if (!as_resize(as, 2 * as->capacity)) {
             return false;
         }
     }
-
     as->items[as->size++] = item;
+
     return true;
 }
 
 void *as_pop(AStack *as) {
-    if (as_is_empty(as)) {
+    if (as->size == 0) {
+        // The array is empty
         return NULL;
     }
 
@@ -71,15 +75,16 @@ void *as_pop(AStack *as) {
     as->size--;
 
     if (as->size > 0 && as->size == as->capacity / 4) {
+        // The array needs to be shrinked
         as_resize(as, as->capacity / 2);
     }
-
 
     return item;
 }
 
 void *as_peek(AStack *as) {
-    if (as_is_empty(as)) {
+    if (as->size == 0) {
+        // The array is empty
         return NULL;
     }
 

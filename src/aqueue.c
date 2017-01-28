@@ -52,6 +52,7 @@ bool aq_init(AQueue *aq) {
 
 void aq_destroy(AQueue *aq) {
     free(aq->items);
+    aq->items = NULL;
 }
 
 bool aq_is_empty(AQueue *aq) {
@@ -63,13 +64,19 @@ size_t aq_size(AQueue *aq) {
 }
 
 bool aq_enqueue(AQueue *aq, void *item) {
+    if (!item) {
+        // NULL items cannot be added
+        return false;
+    }
     if (aq->size == aq->capacity) {
+        // The item array needs to be resized
         if (!aq_resize(aq, 2 * aq->capacity)) {
             return false;
         }
     }
     aq->items[aq->tail++] = item;
-    if (aq->tail == aq->capacity) { // wrap around
+    if (aq->tail == aq->capacity) {
+         // Wrap around
         aq->tail = 0;
     }
     aq->size++;
@@ -78,7 +85,8 @@ bool aq_enqueue(AQueue *aq, void *item) {
 }
 
 void *aq_dequeue(AQueue *aq) {
-    if (aq_is_empty(aq)) {
+    if (aq->size == 0) {
+        // The queue is empty
         return NULL;
     }
 
@@ -86,11 +94,13 @@ void *aq_dequeue(AQueue *aq) {
     aq->items[aq->head] = NULL;
     aq->size--;
     aq->head++;
-    if (aq->head == aq->capacity) { // wrap aroung
+    if (aq->head == aq->capacity) {
+        // Wrap around
         aq->head = 0;
     }
 
     if (aq->size > 0 && aq->size == aq->capacity / 4) {
+        // Shrink the item array
         aq_resize(aq, aq->capacity / 2);
     }
 
@@ -98,7 +108,8 @@ void *aq_dequeue(AQueue *aq) {
 }
 
 void *aq_peek(AQueue *aq) {
-    if (aq_is_empty(aq)) {
+    if (aq->size == 0) {
+        // The queue is empty
         return NULL;
     }
 
@@ -110,7 +121,8 @@ void aq_foreach(AQueue *aq, ITERATOR_FUNC iterator_func, void *data) {
         for (size_t i = aq->head; i < aq->tail; i++) {
             iterator_func(aq->items[i], data);
         }
-    } else { // The array has wrapped around.
+    } else {
+        // The array has wrapped around.
         for (size_t i = aq->head; i < aq->capacity; i++) {
             iterator_func(aq->items[i], data);
         }
