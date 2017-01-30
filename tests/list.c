@@ -112,6 +112,11 @@ int main(int argc, char **argv) {
             }
             str++;
             char *s = strndup(str, strlen(str) - 1);
+            if (!s) {
+                fprintf(stderr, "Cannot allocate memory.\n");
+                return_val = 1;
+                goto cleanup;
+            }
             if (doubly_linked) {
                 if (!dll_prepend(&dllist, s)) {
                     fprintf(stderr, "Cannot prepend to list.\n");
@@ -134,6 +139,11 @@ int main(int argc, char **argv) {
             }
             str++;
             char *s = strndup(str, strlen(str) - 1);
+            if (!s) {
+                fprintf(stderr, "Cannot allocate memory.\n");
+                return_val = 1;
+                goto cleanup;
+            }
             if (doubly_linked) {
                 if (!dll_append(&dllist, s)) {
                     fprintf(stderr, "Cannot append to list.\n");
@@ -169,6 +179,11 @@ int main(int argc, char **argv) {
             }
             str++;
             char *s = strndup(str, strlen(str) - 1);
+            if (!s) {
+                fprintf(stderr, "Cannot allocate memory.\n");
+                return_val = 1;
+                goto cleanup;
+            }
             if (doubly_linked) {
                 if (!dll_insert(&dllist, s, idx)) {
                     fprintf(stderr, "Cannot insert to list.\n");
