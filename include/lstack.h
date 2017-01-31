@@ -1,5 +1,5 @@
-#ifndef _LINKED_STACK_H
-#define _LINKED_STACK_H
+#ifndef _L_STACK_H
+#define _L_STACK_H
 
 #include <stddef.h>
 #include <stdbool.h>
@@ -95,4 +95,4 @@ void *ls_peek(LStack *ls);
  */
 void ls_foreach(LStack *ls, ITERATOR_FUNC iterator_func, void *data);
 
-#endif // _LINKED_STACK_H
+#endif // _L_STACK_H

@@ -1,5 +1,5 @@
-#ifndef _SORT_H
-#define _SORT_H
+#ifndef _SORTING_H
+#define _SORTING_H
 
 #include "common.h"
 
@@ -76,4 +76,4 @@ void merge_sort(void *base, size_t n, size_t size, COMPARE_FUNC compare);
  */
 void quick_sort(void *base, size_t n, size_t size, COMPARE_FUNC compare);
 
-#endif // _SORT_H
+#endif // _SORTING_H

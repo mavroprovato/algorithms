@@ -1,5 +1,5 @@
-#ifndef _LLIST_H
-#define _LLIST_H
+#ifndef _L_LIST_H
+#define _L_LIST_H
 
 #include "common.h"
 
@@ -161,4 +161,4 @@ LListNode *ll_find(LList *ll, void *item, COMPARE_FUNC compare_func);
  */
 void ll_reverse(LList *ll);
 
-#endif // _LLIST_H
+#endif // _L_LIST_H

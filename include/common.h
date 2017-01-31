@@ -1,5 +1,5 @@
-#ifndef _UTIL_H
-#define _UTIL_H
+#ifndef _COMMON_H
+#define _COMMON_H
 
 /**
  * Prototype for a function that compares two elements.
@@ -20,4 +20,4 @@ typedef int (*COMPARE_FUNC) (const void *first, const void *second);
  */
 typedef void (*ITERATOR_FUNC) (void *item, void *data);
 
-#endif // _UTIL_H
+#endif // _COMMON_H
