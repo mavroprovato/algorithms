@@ -1,7 +1,35 @@
+#include <assert.h>
 #include <stddef.h>
 #include <stdlib.h>
 
 #include "bstset.h"
+
+/**
+ * Check whether this tree is a valid binary search tree. The invariant is that
+ * each node should be greater that all the elements in the left subtree and
+ * less than all elements in the right subtree.
+ *
+ * @param node The start node to check. Should be called with the root node
+ * initially.
+ * @param min The tree node value should be strictly greater than this value.
+ * Initially, this value is NULL and no check if performed.
+ * @param max The tree node value should be strictly less than this value.
+ * Initially, this value is NULL and no check if performed.
+ */
+static bool bs_is_bst(BSTSet *bs, BSTNode *node, void *min, void *max) {
+    if (!node) {
+        return true;
+    }
+    if (min && bs->compare_func(min, node->item) >= 0) {
+        return false;
+    }
+    if (max && bs->compare_func(max, node->item) <= 0) {
+        return false;
+    }
+
+    return bs_is_bst(bs, node->left, min, node->item) &&
+           bs_is_bst(bs, node->right, node->item, max);
+}
 
 /**
  * Recursively free the recourses associated with a node and all of its
@@ -110,6 +138,9 @@ bool bs_add(BSTSet *bs, void *item) {
     (*node)->item = item;
     (*node)->left = NULL;
     (*node)->right = NULL;
+
+    // Check the invariants
+    assert(bs_is_bst(bs, bs->root, NULL, NULL));
 
     return true;
 }
