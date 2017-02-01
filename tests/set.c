@@ -63,6 +63,10 @@ int main(void) {
                 return_val = 1;
                 goto cleanup;
             }
+        } else if (strncmp(line, "remove_min", strlen("remove_min")) == 0) {
+            free(bs_remove_min(&bs));
+        } else if (strncmp(line, "remove_max", strlen("remove_max")) == 0) {
+            free(bs_remove_max(&bs));
         } else if (strncmp(line, "contains ", strlen("contains ")) == 0) {
             // Get the string to check
             char *str = strchr(line, ' ');

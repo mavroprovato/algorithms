@@ -72,6 +72,22 @@ size_t bs_size(BSTSet *bs);
 bool bs_add(BSTSet *bs, void *item);
 
 /**
+ * Remove the minimum item contained in the binary search tree set.
+ *
+ * @param bs Pointer to the binary search tree set data structure.
+ * @return The item removed or NULL if the tree was empty.
+ */
+void *bs_remove_min(BSTSet *bs);
+
+/**
+ * Remove the maximum item contained in the binary search tree set.
+ *
+ * @param bs Pointer to the binary search tree set data structure.
+ * @return The item removed or NULL if the tree was empty.
+ */
+void *bs_remove_max(BSTSet *bs);
+
+/**
  * Check if the binary search tree set contains an item.
  *
  * @param bs Pointer to the binary search tree set data structure.

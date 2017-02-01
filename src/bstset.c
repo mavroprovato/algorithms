@@ -47,7 +47,6 @@ static void bs_destroy_node(BSTNode *node) {
     bs_destroy_node(node->right);
 
     // Free the node
-    free(node->item);
     free(node);
 }
 
@@ -143,6 +142,70 @@ bool bs_add(BSTSet *bs, void *item) {
     assert(bs_is_bst(bs, bs->root, NULL, NULL));
 
     return true;
+}
+
+#include <stdio.h>
+
+void *bs_remove_min(BSTSet *bs) {
+    if (!bs->root) {
+        // The tree was empty
+        return NULL;
+    }
+
+    // Find the left-most node, and keep track of its parent
+    BSTNode *node = bs->root;
+    BSTNode *parent = NULL;
+    while (node->left) {
+        parent = node;
+        node = node->left;
+    }
+
+    // Remove the node
+    if (parent) {
+        parent->left = node->right;
+    } else {
+        // The root node must be removed
+        bs->root = node->right;
+    }
+
+    void *item = node->item;
+    free(node);
+
+    // Check the invariants
+    assert(bs_is_bst(bs, bs->root, NULL, NULL));
+
+    return item;
+}
+
+void *bs_remove_max(BSTSet *bs) {
+    if (!bs->root) {
+        // The tree was empty
+        return NULL;
+    }
+
+    // Find the right-most node, and keep track of its parent
+    BSTNode *node = bs->root;
+    BSTNode *parent = NULL;
+    while (node->right) {
+        parent = node;
+        node = node->right;
+    }
+
+    // Remove the node
+    if (parent) {
+        parent->right = node->left;
+    } else {
+        // The root node must be removed
+        bs->root = node->left;
+    }
+
+    void *item = node->item;
+    free(node);
+
+    // Check the invariants
+    assert(bs_is_bst(bs, bs->root, NULL, NULL));
+
+    return item;
 }
 
 bool bs_contains(BSTSet *bs, void *item) {
