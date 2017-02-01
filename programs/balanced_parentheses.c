@@ -84,17 +84,16 @@ int main(int argc, char **argv) {
         goto cleanup;
     }
 
-    // Clean up
 cleanup:
-    while(!as_is_empty(&stack)) {
+    // Clean up
+    while (!as_is_empty(&stack)) {
         char *c = as_pop(&stack);
         free(c);
     }
     as_destroy(&stack);
     fclose(fp);
-    if (line) {
-        free(line);
-    }
+    free(line);
+
 
     return return_value;
 }
