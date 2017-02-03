@@ -53,4 +53,29 @@ bool bh_is_empty(BHeap *bh);
  */
 size_t bh_size(BHeap *bh);
 
+/**
+ * Insert an element to the heap. Note that NULL elements cannot be inserted in the heap.
+ *
+ * @param bh Pointer to the binary heap data structure.
+ * @param item Pointer to the item to be inserted to the heap.
+ * @return true if the element was added successfully, false otherwise.
+ */
+bool bh_insert(BHeap *bh, void *item);
+
+/**
+ * Remove and return the minimum element from the heap.
+ *
+ * @param bh Pointer to the binary heap data structure.
+ * @return The minimum element contained in the heap, or NULL if the heap is empty.
+ */
+void *bh_remove_min(BHeap *bh);
+
+/**
+ * Return the minimum element contained in the heap, or NULL if the heap is empty.
+ *
+ * @param bh Pointer to the binary heap data structure.
+ * @return The minimum element contained in the heap, or NULL if the heap is empty.
+ */
+void *bh_peek(BHeap *bh);
+
 #endif // _B_HEAP_H
