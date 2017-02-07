@@ -69,6 +69,25 @@ static void bh_sink_down(BHeap *bh, size_t pos) {
     }
 }
 
+static bool bh_is_heap(BHeap *bh, size_t pos) {
+    if (pos >= bh->size) {
+        return true;
+    }
+
+    // Check if item is smaller than its children
+    if (LEFT_CHILD(pos) < bh->size &&
+        bh->compare_func(bh->items[pos], bh->items[LEFT_CHILD(pos)]) > 0) {
+        return false;
+    }
+    if (RIGHT_CHILD(pos) < bh->size &&
+        bh->compare_func(bh->items[pos], bh->items[RIGHT_CHILD(pos)]) > 0) {
+        return false;
+    }
+
+    // Recursively check the subtrees
+    return bh_is_heap(bh, LEFT_CHILD(pos)) && bh_is_heap(bh, RIGHT_CHILD(pos));
+}
+
 bool bh_init(BHeap *bh, COMPARE_FUNC compare_func) {
     bh->capacity = 1;
     bh->items = malloc(bh->capacity * sizeof(void *));
@@ -108,6 +127,9 @@ bool bh_insert(BHeap *bh, void *item) {
     bh_swim_up(bh, bh->size);
     bh->size++;
 
+    // Check the heap invariant
+    bh_is_heap(bh, 0);
+
     return true;
 }
 
@@ -127,6 +149,9 @@ void *bh_remove_min(BHeap *bh) {
             bh_resize(bh, bh->capacity / 2);
         }
     }
+
+    // Check the heap invariant
+    bh_is_heap(bh, 0);
 
     return item;
 }
