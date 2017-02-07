@@ -1,36 +1,49 @@
+#include <stdint.h>
 #include <stdio.h>
-#include <string.h>
+#include <stdlib.h>
+#include <time.h>
 
 #include "bheap.h"
 
+#define TEST_SIZE 10000
+
 /**
- * Compares two list elements. The elements should be strings.
+ * Compares two heap elements. The elements should be integers.
  *
- * @param a Pointer to the first element.
- * @param b Pointer to the second element.
+ * @param first Pointer to the first element.
+ * @param second Pointer to the second element.
  * @return A negative value if a appears before b in lexicographical order, zero
  * if a and b are equal or a positive value if a appears after b in
  * lexicographical order.
  */
-int compare_str(const void *a, const void *b) {
-    return strcmp((const char *) a, (const char *) b);
+int compare_int(const void *first, const void *second) {
+    int ifirst = (intptr_t) first;
+    int isecond = (intptr_t) second;
+
+    if (ifirst > isecond) {
+        return 1;
+    } else if (ifirst < isecond) {
+        return -1;
+    } else {
+        return 1;
+    }
 }
 
 int main(void) {
     BHeap heap;
-    if (!bh_init(&heap, compare_str)) {
+    if (!bh_init(&heap, compare_int)) {
         fprintf(stderr, "Cannot create heap.\n");
         return 1;
     }
 
-    bh_insert(&heap, (void *) "Z");
-    bh_insert(&heap, (void *) "M");
-    bh_insert(&heap, (void *) "A");
-    bh_insert(&heap, (void *) "E");
-    bh_insert(&heap, (void *) "J");
+    srand(time(NULL));
+    for (int i = 0; i < TEST_SIZE; i++) {
+        bh_insert(&heap, (void *) (intptr_t) (rand() % (TEST_SIZE * 10)));
+    }
 
     while (!bh_is_empty(&heap)) {
-        printf("%s\n", (char *) bh_remove_min(&heap));
+        int val = (intptr_t) bh_remove_min(&heap);
+        printf("Getting min: %d\n", val);
     }
 
     bh_destroy(&heap);

@@ -15,7 +15,7 @@
  * @param new_capacity The new capacity.
  * @return true if the resizing was successful, false otherwise.
  */
-static bool bs_resize(BHeap *bh, size_t new_capacity) {
+static bool bh_resize(BHeap *bh, size_t new_capacity) {
     // Allocate the new array
     void *new_items = malloc(new_capacity * sizeof(void *));
     if (!new_items) {
@@ -31,6 +31,7 @@ static bool bs_resize(BHeap *bh, size_t new_capacity) {
 
     return true;
 }
+
 
 static void bh_swim_up(BHeap *bh, size_t pos) {
     // Check if the item is smaller than its parent
@@ -48,14 +49,14 @@ static void bh_swim_up(BHeap *bh, size_t pos) {
 static void bh_sink_down(BHeap *bh, size_t pos) {
     while (LEFT_CHILD(pos) < bh->size) {
         // Find the smallest child
-        int smallest = LEFT_CHILD(pos);
+        size_t smallest = LEFT_CHILD(pos);
         if (RIGHT_CHILD(pos) < bh->size &&
             bh->compare_func(bh->items[RIGHT_CHILD(pos)], bh->items[smallest]) < 0) {
             smallest = RIGHT_CHILD(pos);
         }
         // Check if the item is bigger than the smallest child
-        if (bh->compare_func(bh->items[pos], bh->items[smallest]) >= 0) {
-            // It is not, so the heap invariant hold
+        if (bh->compare_func(bh->items[pos], bh->items[smallest]) <= 0) {
+            // It is not, so the heap invariant holds
             return;
         }
         // It is bigger, so swap them
@@ -97,7 +98,7 @@ bool bh_insert(BHeap *bh, void *item) {
         // NULL items cannot be added to the heap
         return false;
     }
-    if (bh->size == bh->capacity && !bs_resize(bh, 2 * bh->capacity)) {
+    if (bh->size == bh->capacity && !bh_resize(bh, 2 * bh->capacity)) {
         // Could not resize the underlying array
         return false;
     }
@@ -118,8 +119,13 @@ void *bh_remove_min(BHeap *bh) {
     bh->size--;
     void *item = bh->items[0];
     if (bh->size > 0) {
+        // Place the element at the root and sink down as needed
         bh->items[0] = bh->items[bh->size];
         bh_sink_down(bh, 0);
+        if (bh->size == bh->capacity / 4) {
+            // The array needs to be shrinked
+            bh_resize(bh, bh->capacity / 2);
+        }
     }
 
     return item;
