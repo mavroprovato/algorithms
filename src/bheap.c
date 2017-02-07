@@ -1,6 +1,7 @@
 
 #include "bheap.h"
 
+#include <assert.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -128,7 +129,7 @@ bool bh_insert(BHeap *bh, void *item) {
     bh->size++;
 
     // Check the heap invariant
-    bh_is_heap(bh, 0);
+    assert(bh_is_heap(bh, 0));
 
     return true;
 }
@@ -151,7 +152,7 @@ void *bh_remove_min(BHeap *bh) {
     }
 
     // Check the heap invariant
-    bh_is_heap(bh, 0);
+    assert(bh_is_heap(bh, 0));
 
     return item;
 }

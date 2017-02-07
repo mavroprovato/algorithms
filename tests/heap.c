@@ -5,7 +5,7 @@
 
 #include "bheap.h"
 
-#define TEST_SIZE 10000
+#define TEST_SIZE 100
 
 /**
  * Compares two heap elements. The elements should be integers.
@@ -25,7 +25,7 @@ int compare_int(const void *first, const void *second) {
     } else if (ifirst < isecond) {
         return -1;
     } else {
-        return 1;
+        return 0;
     }
 }
 
