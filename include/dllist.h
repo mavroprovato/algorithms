@@ -127,11 +127,11 @@ void *dll_remove(DLList *dll, size_t position);
  *
  * @param dll Pointer to the doubly linked list data structure.
  * @param item The item to be removed.
- * @param compare_func The function used to compare the item with the list
+ * @param compare The function used to compare the item with the list
  * items.
  * @return The item that was removed, or NULL if the item was not found.
  */
-void *dll_remove_item(DLList *dll, void *item, COMPARE_FUNC compare_func);
+void *dll_remove_item(DLList *dll, void *item, COMPARE_FUNC compare);
 
 /**
  * Traverse all the items of the doubly linked list and call a function for each
@@ -152,23 +152,23 @@ void dll_foreach(DLList *dll, ITERATOR_FUNC iterator_func, void *data,
  *
  * @param dll Pointer to the doubly linked list data structure.
  * @param item The item to search for.
- * @param compare_func The function used to compare the item with the list
+ * @param compare The function used to compare the item with the list
  * items.
  * @return true if the doubly linked list contains the element, false otherwise.
  */
-bool dll_contains(DLList *dll, void *item, COMPARE_FUNC compare_func);
+bool dll_contains(DLList *dll, void *item, COMPARE_FUNC compare);
 
 /**
  * Search for an element.
  *
  * @param dll Pointer to the doubly linked list data structure.
  * @param item The item to search for.
- * @param compare_func The function used to compare items.
+ * @param compare The function used to compare items.
  * @param reverse Set to true to search in reverse.
  * @return The first occurance of the doubly linked list node that contains the
  * item, or NULL if the item was not found.
  */
-DLListNode *dll_find(DLList *dll, void *item, COMPARE_FUNC compare_func,
+DLListNode *dll_find(DLList *dll, void *item, COMPARE_FUNC compare,
                      bool reverse);
 
 /**

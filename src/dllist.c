@@ -212,10 +212,10 @@ void *dll_remove(DLList *dll, size_t position) {
     return dll_remove_node(dll, current);
 }
 
-void *dll_remove_item(DLList *dll, void *item, COMPARE_FUNC compare_func) {
+void *dll_remove_item(DLList *dll, void *item, COMPARE_FUNC compare) {
     // Find the node to remove
     DLListNode *current = dll->head;
-    while (current && compare_func(item, current->item) != 0) {
+    while (current && compare(item, current->item) != 0) {
         current = current->next;
     }
 
@@ -237,14 +237,14 @@ void dll_foreach(DLList *dll, ITERATOR_FUNC iterator_func, void *data,
     }
 }
 
-bool dll_contains(DLList *dll, void *item, COMPARE_FUNC compare_func) {
-    return dll_find(dll, item, compare_func, false) != NULL;
+bool dll_contains(DLList *dll, void *item, COMPARE_FUNC compare) {
+    return dll_find(dll, item, compare, false) != NULL;
 }
 
-DLListNode *dll_find(DLList *dll, void *item, COMPARE_FUNC compare_func,
+DLListNode *dll_find(DLList *dll, void *item, COMPARE_FUNC compare,
                  bool reverse) {
     DLListNode *current = reverse ? dll->tail : dll->head;
-    while (current && compare_func(current->item, item) != 0) {
+    while (current && compare(current->item, item) != 0) {
         current = reverse ? current->previous : current->next;
     }
 

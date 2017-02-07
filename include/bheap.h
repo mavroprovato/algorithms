@@ -17,7 +17,7 @@ typedef struct {
     /** The heap size. */
     size_t size;
     /** The comparison function. */
-    COMPARE_FUNC compare_func;
+    COMPARE_FUNC compare;
 } BHeap;
 
 /**

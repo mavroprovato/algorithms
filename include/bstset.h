@@ -25,18 +25,18 @@ typedef struct {
     /** The root node. */
     BSTNode *root;
     /** The compare function. */
-    COMPARE_FUNC compare_func;
+    COMPARE_FUNC compare;
 } BSTSet;
 
 /**
  * Initialize the binary search tree set.
  *
  * @param bs Pointer to the binary search tree set data structure to initialize.
- * @param compare_func Function used to compare the items.
+ * @param compare Function used to compare the items.
  * @return true If the binary search tree set was initialized successfully,
  * false otherwise.
  */
-bool bs_init(BSTSet *bs, COMPARE_FUNC compare_func);
+bool bs_init(BSTSet *bs, COMPARE_FUNC compare);
 
 /**
  * Frees resources associated with the binary search tree set data structure.

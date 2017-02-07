@@ -20,10 +20,10 @@ static bool bs_is_bst(BSTSet *bs, BSTNode *node, void *min, void *max) {
     if (!node) {
         return true;
     }
-    if (min && bs->compare_func(min, node->item) >= 0) {
+    if (min && bs->compare(min, node->item) >= 0) {
         return false;
     }
-    if (max && bs->compare_func(max, node->item) <= 0) {
+    if (max && bs->compare(max, node->item) <= 0) {
         return false;
     }
 
@@ -90,9 +90,9 @@ void bs_foreach_node(BSTNode *node, ITERATOR_FUNC iterator_func, void *data,
                     reverse);
 }
 
-bool bs_init(BSTSet *bs, COMPARE_FUNC compare_func) {
+bool bs_init(BSTSet *bs, COMPARE_FUNC compare) {
     bs->root = NULL;
-    bs->compare_func = compare_func;
+    bs->compare = compare;
 
     return true;
 }
@@ -118,7 +118,7 @@ bool bs_add(BSTSet *bs, void *item) {
     // Find the correct position to add the node.
     BSTNode **node = &bs->root;
     while (*node) {
-        int cmp = bs->compare_func(item, (*node)->item);
+        int cmp = bs->compare(item, (*node)->item);
         if (cmp < 0) {
             node = &(*node)->left;
         } else if (cmp > 0) {
@@ -215,7 +215,7 @@ bool bs_contains(BSTSet *bs, void *item) {
     }
     BSTNode *node = bs->root;
     while (node) {
-        int cmp = bs->compare_func(item, node->item);
+        int cmp = bs->compare(item, node->item);
         if (cmp < 0) {
             node = node->left;
         } else if (cmp > 0) {

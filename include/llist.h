@@ -122,7 +122,7 @@ void *ll_remove(LList *ll, size_t position);
  * @param item The item to be removed.
  * @return The item that was removed, or NULL if the item was not found.
  */
-void *ll_remove_item(LList *ll, void *item, COMPARE_FUNC compare_func);
+void *ll_remove_item(LList *ll, void *item, COMPARE_FUNC compare);
 
 /**
  * Traverse all the items of the list and call a function for each of them.
@@ -138,21 +138,21 @@ void ll_foreach(LList *ll, ITERATOR_FUNC iterator_func, void *data);
  *
  * @param ll Pointer to the linked list data structure.
  * @param item The item to search for.
- * @param compare_func The function used to compare items.
+ * @param compare The function used to compare items.
  * @return true if the doubly linked list contains the element, false otherwise.
  */
-bool ll_contains(LList *ll, void *item, COMPARE_FUNC compare_func);
+bool ll_contains(LList *ll, void *item, COMPARE_FUNC compare);
 
 /**
  * Search for an element and return its index in the list.
  *
  * @param ll Pointer to the linked list data structure.
  * @param item The item to search for.
- * @param compare_func The function used to compare items.
+ * @param compare The function used to compare items.
  * @return The first occurance of the linked list node that contains the item,
  * or NULL if the item was not found.
  */
-LListNode *ll_find(LList *ll, void *item, COMPARE_FUNC compare_func);
+LListNode *ll_find(LList *ll, void *item, COMPARE_FUNC compare);
 
 /**
  * Reverse the linked list.

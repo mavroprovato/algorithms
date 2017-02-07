@@ -36,7 +36,7 @@ static bool bh_resize(BHeap *bh, size_t new_capacity) {
 
 static void bh_swim_up(BHeap *bh, size_t pos) {
     // Check if the item is smaller than its parent
-    while (pos != 0 && bh->compare_func(bh->items[pos], bh->items[PARENT(pos)]) < 0) {
+    while (pos != 0 && bh->compare(bh->items[pos], bh->items[PARENT(pos)]) < 0) {
         // It is smaller, so swap them
         void *temp = bh->items[pos];
         bh->items[pos] = bh->items[PARENT(pos)];
@@ -52,11 +52,11 @@ static void bh_sink_down(BHeap *bh, size_t pos) {
         // Find the smallest child
         size_t smallest = LEFT_CHILD(pos);
         if (RIGHT_CHILD(pos) < bh->size &&
-            bh->compare_func(bh->items[RIGHT_CHILD(pos)], bh->items[smallest]) < 0) {
+            bh->compare(bh->items[RIGHT_CHILD(pos)], bh->items[smallest]) < 0) {
             smallest = RIGHT_CHILD(pos);
         }
         // Check if the item is bigger than the smallest child
-        if (bh->compare_func(bh->items[pos], bh->items[smallest]) <= 0) {
+        if (bh->compare(bh->items[pos], bh->items[smallest]) <= 0) {
             // It is not, so the heap invariant holds
             return;
         }
@@ -77,11 +77,11 @@ static bool bh_is_heap(BHeap *bh, size_t pos) {
 
     // Check if item is smaller than its children
     if (LEFT_CHILD(pos) < bh->size &&
-        bh->compare_func(bh->items[pos], bh->items[LEFT_CHILD(pos)]) > 0) {
+        bh->compare(bh->items[pos], bh->items[LEFT_CHILD(pos)]) > 0) {
         return false;
     }
     if (RIGHT_CHILD(pos) < bh->size &&
-        bh->compare_func(bh->items[pos], bh->items[RIGHT_CHILD(pos)]) > 0) {
+        bh->compare(bh->items[pos], bh->items[RIGHT_CHILD(pos)]) > 0) {
         return false;
     }
 
@@ -89,14 +89,14 @@ static bool bh_is_heap(BHeap *bh, size_t pos) {
     return bh_is_heap(bh, LEFT_CHILD(pos)) && bh_is_heap(bh, RIGHT_CHILD(pos));
 }
 
-bool bh_init(BHeap *bh, COMPARE_FUNC compare_func) {
+bool bh_init(BHeap *bh, COMPARE_FUNC compare) {
     bh->capacity = 1;
     bh->items = malloc(bh->capacity * sizeof(void *));
     if (!bh->items) {
         return false;
     }
     bh->size = 0;
-    bh->compare_func = compare_func;
+    bh->compare = compare;
 
     return true;
 }

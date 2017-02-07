@@ -173,7 +173,7 @@ void *ll_remove(LList *ll, size_t position) {
     return item;
 }
 
-void *ll_remove_item(LList *ll, void *item, COMPARE_FUNC compare_func) {
+void *ll_remove_item(LList *ll, void *item, COMPARE_FUNC compare) {
     if (!ll->head) { // Empty list
         return NULL;
     }
@@ -181,7 +181,7 @@ void *ll_remove_item(LList *ll, void *item, COMPARE_FUNC compare_func) {
     // Search for the item
     LListNode *current = ll->head;
     LListNode *previous = NULL;
-    while (current && compare_func(current->item, item) != 0) {
+    while (current && compare(current->item, item) != 0) {
         previous = current;
         current = current->next;
     }
@@ -211,13 +211,13 @@ void ll_foreach(LList *ll, ITERATOR_FUNC iterator_func, void *data) {
     }
 }
 
-bool ll_contains(LList *ll, void *item, COMPARE_FUNC compare_func) {
-    return ll_find(ll, item, compare_func) != NULL;
+bool ll_contains(LList *ll, void *item, COMPARE_FUNC compare) {
+    return ll_find(ll, item, compare) != NULL;
 }
 
-LListNode *ll_find(LList *ll, void *item, COMPARE_FUNC compare_func) {
+LListNode *ll_find(LList *ll, void *item, COMPARE_FUNC compare) {
     LListNode *current = ll->head;
-    while (current && compare_func(current->item, item) != 0) {
+    while (current && compare(current->item, item) != 0) {
         current = current->next;
     }
 
