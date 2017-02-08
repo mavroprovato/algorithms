@@ -48,5 +48,5 @@ int main(void) {
 
     bh_destroy(&heap);
 
-    return 0;
+    return EXIT_SUCCESS;
 }

@@ -100,15 +100,16 @@ int main(int argc, char **argv) {
                 } else if (strcmp(optarg, "quick") == 0) {
                     sort = quick_sort;
                 } else {
-                    printf("Invalid sorting algorithm: %s\n", optarg);
-                    return 1;
+                    fprintf(stderr, "Invalid sorting algorithm: %s\n", optarg);
+                    return EXIT_FAILURE;
                 }
                 break;
             case 'n':
                 num_elements = atoi(optarg);
                 if (num_elements < 0) {
-                    printf("The number of elements to sort must be positive.");
-                    return 1;
+                    fprintf(stderr, "The number of elements to sort must be "
+                                    "positive.");
+                    return EXIT_FAILURE;
                 }
                 break;
             default:
@@ -120,6 +121,11 @@ int main(int argc, char **argv) {
     // Perform sorting and print the running time
     srand(time(NULL));
     void *array = malloc(num_elements * sizeof(int));
+    if (!array) {
+        fprintf(stderr, "Cannot allocate memory.\n");
+        return EXIT_FAILURE;
+    }
+
     init_int_array_random(array, num_elements   );
     printf("Testing sort for random array of size %d\n", num_elements);
     double elapsed = benchmark_search(sort, array, num_elements, sizeof(int),
@@ -129,5 +135,5 @@ int main(int argc, char **argv) {
     // Free memory
     free(array);
 
-    return 0;
+    return EXIT_SUCCESS;
 }

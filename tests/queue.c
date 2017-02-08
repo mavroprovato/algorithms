@@ -37,7 +37,8 @@ int main(int argc, char **argv) {
                 linked = true;
                 break;
             default:
-                return 0;
+                fprintf(stderr, "Invalid option: %c\n", c);
+                return EXIT_FAILURE;
         }
     }
 
@@ -47,26 +48,26 @@ int main(int argc, char **argv) {
         fp = fopen(argv[optind], "r");
         if (!fp) {
             fprintf(stderr, "Could not open file: %s.\n", argv[optind]);
-            return 1;
+            return EXIT_FAILURE;
         }
     } else {
         fp = stdin;
     }
 
     char *line = NULL;
-    int return_val = 0;
+    int return_val = EXIT_SUCCESS;
 
     // Initialize the queues
     AQueue aq;
     if (!aq_init(&aq)) {
         fprintf(stderr, "Could not create the queue data structure.\n");
-        return_val = 1;
+        return_val = EXIT_FAILURE;
         goto cleanup;
     }
     LQueue lq;
     if (!lq_init(&lq)) {
         fprintf(stderr, "Could not create the queue data structure.\n");
-        return_val = 1;
+        return_val = EXIT_FAILURE;
         goto cleanup;
     }
 
@@ -92,19 +93,19 @@ int main(int argc, char **argv) {
             char *s = strndup(space_idx + 1, strlen(space_idx) - 2);
             if (!s) {
                 fprintf(stderr, "Cannot allocate memory.\n");
-                return_val = 1;
+                return_val = EXIT_FAILURE;
                 goto cleanup;
             }
             if (linked) {
                 if (!lq_enqueue(&lq, s)) {
                     fprintf(stderr, "Cannot enqueue element.\n");
-                    return_val = 1;
+                    return_val = EXIT_FAILURE;
                     goto cleanup;
                 }
             } else {
                 if (!aq_enqueue(&aq, s)) {
                     fprintf(stderr, "Cannot enqueue element.\n");
-                    return_val = 1;
+                    return_val = EXIT_FAILURE;
                     goto cleanup;
                 }
             }
@@ -112,7 +113,7 @@ int main(int argc, char **argv) {
             char *s = linked ? lq_dequeue(&lq) : aq_dequeue(&aq);
             if (!s) {
                 fprintf(stderr, "Cannot dequeue element.\n");
-                return_val = 1;
+                return_val = EXIT_FAILURE;
                 goto cleanup;
             }
             printf("%s\n", s);
@@ -121,7 +122,7 @@ int main(int argc, char **argv) {
             char *s = linked ? lq_peek(&lq) : aq_peek(&aq);
             if (!s) {
                 fprintf(stderr, "Cannot peek queue.\n");
-                return_val = 1;
+                return_val = EXIT_FAILURE;
                 goto cleanup;
             }
             printf("%s\n", s);

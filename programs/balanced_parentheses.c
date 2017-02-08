@@ -15,18 +15,18 @@ int main(int argc, char **argv) {
         fp = fopen(argv[1], "r");
         if (!fp) {
             fprintf(stderr, "Could not open file: %s\n", argv[1]);
-            return 1;
+            return EXIT_FAILURE;
         }
     } else {
         fp = stdin;
     }
 
     // Initialize the stack
-    int return_value = 0;
+    int return_value = EXIT_SUCCESS;
     AStack stack;
     if (!as_init(&stack)) {
         fprintf(stderr, "Could not create the stack data structure.\n");
-        return_value = 1;
+        return_value = EXIT_FAILURE;
         goto cleanup;
     }
 
@@ -57,7 +57,7 @@ int main(int argc, char **argv) {
                     if (as_is_empty(&stack)) {
                         fprintf(stderr, "Unbalanced closing %c at line %ld.\n",
                                 line[i], line_number);
-                        return_value = 1;
+                        return_value = EXIT_FAILURE;
                         goto cleanup;
                     }
                     char *c = as_pop(&stack);
@@ -66,7 +66,7 @@ int main(int argc, char **argv) {
                         (*c == '{' && line[i]!= '}')) {
                         fprintf(stderr, "Unexpected %d at line %ld.\n", line[i],
                                 line_number);
-                        return_value = 1;
+                        return_value = EXIT_FAILURE;
                         goto cleanup;
                     }
                     free(c);
@@ -80,7 +80,7 @@ int main(int argc, char **argv) {
     // Check if there are any unclosed parenthesis
     if (!as_is_empty(&stack)) {
         fprintf(stderr, "Unclosed parentheses.\n");
-        return_value = 1;
+        return_value = EXIT_FAILURE;
         goto cleanup;
     }
 

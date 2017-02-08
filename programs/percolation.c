@@ -163,6 +163,7 @@ bool pg_percolates(PercolationGrid *pg) {
 PercolationGrid *pg_read(FILE *fp) {
     // The percolation data structure
     PercolationGrid *pg = NULL;
+
     // Variables to read the next line from the file
     char *line = NULL;
     size_t len = 0;
@@ -174,7 +175,8 @@ PercolationGrid *pg_read(FILE *fp) {
     read = getline(&line, &len, fp);
     int rc = sscanf(line, "%zu %zu", &rows, &columns);
     if (rc != 2) {
-        printf("First row should contain the dimension of the grid.\n");
+        fprintf(stderr, "First row should contain the dimension of the "
+                        "grid.\n");
         goto cleanup;
     }
 
@@ -241,17 +243,17 @@ int main(int argc, char **argv) {
         fp = fopen(argv[1], "r");
         if (!fp) {
             fprintf(stderr, "Could not open file: %s\n", argv[1]);
-            return 1;
+            return EXIT_FAILURE;
         }
     } else {
         fp = stdin;
     }
 
     // Read the grid
-    int return_value = 0;
+    int return_value = EXIT_SUCCESS;
     PercolationGrid *pg = pg_read(fp);
     if (pg == NULL) {
-        return_value = 1;
+        return_value = EXIT_FAILURE;
         goto cleanup;
     }
 

@@ -32,11 +32,11 @@ int compare_str(const void *a, const void *b) {
 int main(void) {
     FILE *fp = stdin;
 
-    int return_val = 0;
+    int return_val = EXIT_SUCCESS;
     BSTSet bs;
     if (!bs_init(&bs, compare_str)) {
         fprintf(stderr, "Cannot initialize set.\n");
-        return_val = 1;
+        return_val = EXIT_FAILURE;
         goto cleanup;
     }
 
@@ -60,7 +60,7 @@ int main(void) {
             char *s = strndup(str, strlen(str) - 1);
             if (!bs_add(&bs, s)) {
                 fprintf(stderr, "Cannot add to list.\n");
-                return_val = 1;
+                return_val = EXIT_FAILURE;
                 goto cleanup;
             }
         } else if (strncmp(line, "remove_min", strlen("remove_min")) == 0) {

@@ -50,7 +50,8 @@ int main(int argc, char **argv) {
                 doubly_linked = true;
                 break;
             default:
-                return 0;
+                fprintf(stderr, "Invalid option: %c\n", c);
+                return EXIT_FAILURE;
         }
     }
 
@@ -60,24 +61,24 @@ int main(int argc, char **argv) {
         fp = fopen(argv[optind], "r");
         if (!fp) {
             fprintf(stderr, "Could not open file: %s.\n", argv[optind]);
-            return 1;
+            return EXIT_FAILURE;
         }
     } else {
         fp = stdin;
     }
 
-    int return_val = 0;
+    int return_val = EXIT_SUCCESS;
 
     LList llist;
     if (!ll_init(&llist)) {
         fprintf(stderr, "Could not create the linked list data structure.\n");
-        return_val = 1;
+        return_val = EXIT_FAILURE;
         goto cleanup;
     }
     DLList dllist;
     if (!dll_init(&dllist)) {
         fprintf(stderr, "Could not create the linked list data structure.\n");
-        return_val = 1;
+        return_val = EXIT_FAILURE;
         goto cleanup;
     }
 
@@ -114,19 +115,19 @@ int main(int argc, char **argv) {
             char *s = strndup(str, strlen(str) - 1);
             if (!s) {
                 fprintf(stderr, "Cannot allocate memory.\n");
-                return_val = 1;
+                return_val = EXIT_FAILURE;
                 goto cleanup;
             }
             if (doubly_linked) {
                 if (!dll_prepend(&dllist, s)) {
                     fprintf(stderr, "Cannot prepend to list.\n");
-                    return_val = 1;
+                    return_val = EXIT_FAILURE;
                     goto cleanup;
                 }
             } else {
                 if (!ll_prepend(&llist, s)) {
                     fprintf(stderr, "Cannot prepend to list.\n");
-                    return_val = 1;
+                    return_val = EXIT_FAILURE;
                     goto cleanup;
                 }
             }
@@ -141,19 +142,19 @@ int main(int argc, char **argv) {
             char *s = strndup(str, strlen(str) - 1);
             if (!s) {
                 fprintf(stderr, "Cannot allocate memory.\n");
-                return_val = 1;
+                return_val = EXIT_FAILURE;
                 goto cleanup;
             }
             if (doubly_linked) {
                 if (!dll_append(&dllist, s)) {
                     fprintf(stderr, "Cannot append to list.\n");
-                    return_val = 1;
+                    return_val = EXIT_FAILURE;
                     goto cleanup;
                 }
             } else {
                 if (!ll_append(&llist, s)) {
                     fprintf(stderr, "Cannot append to list.\n");
-                    return_val = 1;
+                    return_val = EXIT_FAILURE;
                     goto cleanup;
                 }
             }
@@ -181,19 +182,19 @@ int main(int argc, char **argv) {
             char *s = strndup(str, strlen(str) - 1);
             if (!s) {
                 fprintf(stderr, "Cannot allocate memory.\n");
-                return_val = 1;
+                return_val = EXIT_FAILURE;
                 goto cleanup;
             }
             if (doubly_linked) {
                 if (!dll_insert(&dllist, s, idx)) {
                     fprintf(stderr, "Cannot insert to list.\n");
-                    return_val = 1;
+                    return_val = EXIT_FAILURE;
                     goto cleanup;
                 }
             } else {
                 if (!ll_insert(&llist, s, idx)) {
                     fprintf(stderr, "Cannot insert to list.\n");
-                    return_val = 1;
+                    return_val = EXIT_FAILURE;
                     goto cleanup;
                 }
             }
