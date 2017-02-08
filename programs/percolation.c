@@ -43,8 +43,7 @@ typedef struct {
     size_t rows;
     /** The number of columns in the grid. */
     size_t columns;
-    /** The grid that holds the information weather a site is open or not. */
-    // TODO: This should be converted to a bit vector, in order to save memory.
+    /** The grid that holds the information whether a site is open or not. */
     bool *sites;
     /** The union-find data structure to efficiently check if the grid
      * percolates or not. */
@@ -237,7 +236,7 @@ cleanup:
 }
 
 int main(int argc, char **argv) {
-    // Open file
+    // Open file if it is provided as an argument, or read from standard input.
     FILE * fp;
     if (argc == 2) {
         fp = fopen(argv[1], "r");
