@@ -14,6 +14,7 @@ The data structures implemented are:
     * Resizing arrays
     * [Linked lists](https://en.wikipedia.org/wiki/Linked_list)
 * [Queue](https://en.wikipedia.org/wiki/Queue_\(abstract_data_type\)) implementations based on:
+    * Fixed size arrays
     * Resizing arrays
     * [Linked lists](https://en.wikipedia.org/wiki/Linked_list)
 * [Set](https://en.wikipedia.org/wiki/Set_\(abstract_data_type\)) implementations based on:
@@ -39,4 +40,4 @@ Installation
 
 The library is written against C11, so a conforming compliler is needed, like [gcc](https://gcc.gnu.org/) or [clang](https://clang.llvm.org/). Also, for the programs, an implemention conforming to POSIX.1-2008 is required. Currently the project has been tested with GCC version 4.8.2 on Ubuntu 16.04.
 
-To build the library you can use the provided Makefile. `make` creates a debug build. `make realease` creates a build without debug sumbols, and with compiler optimizations enabled.
+To build the library you can use the provided Makefile. `make` creates a debug build. `make release` creates a build without debug sumbols, and with compiler optimizations enabled.
