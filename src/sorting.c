@@ -92,8 +92,8 @@ void insertion_sort(void *base, size_t n, size_t size, COMPARE_FUNC compare) {
     char key[size];
     for (size_t i = 1; i < n; i++) {
         set(key, (char *) base + i * size, size);
-        int j = i - 1;
-        while (j >= 0 && compare((char *) base + j * size, key) > 0) {
+        size_t j = i - 1;
+        while (j <= i - 1 && compare((char *) base + j * size, key) > 0) {
             set((char *) base + (j + 1) * size, (char *) base + j * size, size);
             j--;
         }
