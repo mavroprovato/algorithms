@@ -166,9 +166,9 @@ int main(int argc, char **argv) {
                 continue;
             }
             str++;
-            int idx = -1;
-            int rc = sscanf(str, "%d", &idx);
-            if (rc != 1 || idx < 0) {
+            size_t idx = 0;
+            int rc = sscanf(str, "%zu", &idx);
+            if (rc != 1) {
                 fprintf(stderr, "Invalid index.\n");
                 continue;
             }
@@ -220,9 +220,9 @@ int main(int argc, char **argv) {
                 continue;
             }
             str++;
-            int idx = -1;
-            int rc = sscanf(str, "%d", &idx);
-            if (rc != 1 || idx < 0) {
+            size_t idx = 0;
+            int rc = sscanf(str, "%zu", &idx);
+            if (rc != 1) {
                 fprintf(stderr, "Invalid index.\n");
                 continue;
             }
