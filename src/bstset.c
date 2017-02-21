@@ -32,6 +32,9 @@ static bool bs_is_bst(BSTSet *bs, BSTNode *node, void *min, void *max) {
         return false;
     }
 
+    // Check if both the left and the right subtrees are binary search trees.
+    // The left subtree must be smaller that the current item, and the right
+    // subtree must be bigger than the current item for the invariant to hold.
     return bs_is_bst(bs, node->left, min, node->item) &&
            bs_is_bst(bs, node->right, node->item, max);
 }

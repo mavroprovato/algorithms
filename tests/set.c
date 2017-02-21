@@ -5,15 +5,27 @@
 #include <string.h>
 
 /**
- * Iterator function that prints a list element. The element should be a string.
+ * Iterator function that prints a tree element. The element should be a string.
  *
- * @param item Pointer to the list item.
+ * @param item Pointer to the tree item.
  * @param data unused.
  */
 void print_element(void *item, void *data) {
     (void)(data);
 
     printf("%s ", (char *) item);
+}
+
+/**
+ * Iterator function that frees a tree element. The element should be a string.
+ *
+ * @param item Pointer to the tree item.
+ * @param data unused.
+ */
+void free_element(void *item, void *data) {
+    (void)(data);
+
+    free(item);
 }
 
 /**
@@ -97,6 +109,7 @@ int main(void) {
 
 cleanup:
     // Perform cleanup
+    bs_foreach(&bs, free_element, NULL, false);
     bs_destroy(&bs);
     free(line);
     fclose(fp);
