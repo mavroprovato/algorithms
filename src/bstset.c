@@ -9,6 +9,7 @@
  * each node should be greater that all the elements in the left subtree and
  * less than all elements in the right subtree.
  *
+ * @oaran bs The binary search tree set.
  * @param node The start node to check. Should be called with the root node
  * initially.
  * @param min The tree node value should be strictly greater than this value.
@@ -18,12 +19,16 @@
  */
 static bool bs_is_bst(BSTSet *bs, BSTNode *node, void *min, void *max) {
     if (!node) {
+        // Node is NULL
         return true;
     }
     if (min && bs->compare(min, node->item) >= 0) {
+        // The item is not less than the minimum, so the invariant does not
+        // hold.
         return false;
     }
     if (max && bs->compare(max, node->item) <= 0) {
+        // The item is less than the minimum, so the invariant does not hold.
         return false;
     }
 
@@ -62,7 +67,36 @@ static size_t bs_size_node(BSTNode *node) {
         return 0;
     }
 
+    // The total size is the size of the left and right subtrees plus one
     return bs_size_node(node->left) + 1 + bs_size_node(node->right);
+}
+
+/**
+ * Search for a node in the binary search tree.
+ *
+ * @oaran bs The binary search tree set.
+ * @param node The node from which to start the search.
+ * @param item The item to search for.
+ * @return The tree node that contains the item, or NULL if the item was not
+ * found.
+ */
+static BSTNode *bs_find_node(BSTSet *bs, BSTNode *node, void *item) {
+    BSTNode *current = node;
+    while (node) {
+        int cmp = bs->compare(item, current->item);
+        if (cmp < 0) {
+            // Smaller than the element, search on the left subtree
+            node = node->left;
+        } else if (cmp > 0) {
+            // Bigger than the element, search on the right subtree
+            node = node->right;
+        } else {
+            // Found
+            break;
+        }
+    }
+
+    return current;
 }
 
 /**
@@ -74,9 +108,10 @@ static size_t bs_size_node(BSTNode *node) {
  * @param data Pointer to the custom user data. Can be NULL.
  * @param reverse Set to true to traverse the items in reverse sorted order.
  */
-void bs_foreach_node(BSTNode *node, ITERATOR_FUNC iterator_func, void *data,
-                     bool reverse) {
+static void bs_foreach_node(BSTNode *node, ITERATOR_FUNC iterator_func,
+                            void *data, bool reverse) {
     if (!node) {
+        // Node is NULL, nothing to do
         return;
     }
     // Perform an in-oder traversal of the tree.
@@ -91,6 +126,7 @@ void bs_foreach_node(BSTNode *node, ITERATOR_FUNC iterator_func, void *data,
 }
 
 bool bs_init(BSTSet *bs, COMPARE_FUNC compare) {
+    // Initialize the structure elements
     bs->root = NULL;
     bs->compare = compare;
 
@@ -98,14 +134,17 @@ bool bs_init(BSTSet *bs, COMPARE_FUNC compare) {
 }
 
 void bs_destroy(BSTSet *bs) {
+    // Destroy the nodes recursively
     bs_destroy_node(bs->root);
 }
 
 bool bs_is_empty(BSTSet *bs) {
+    // Tree is empty if the root node is null
     return bs->root == NULL;
 }
 
 size_t bs_size(BSTSet *bs) {
+    // Calculate the size recursively from the root.
     return bs_size_node(bs->root);
 }
 
@@ -144,8 +183,6 @@ bool bs_add(BSTSet *bs, void *item) {
     return true;
 }
 
-#include <stdio.h>
-
 void *bs_remove_min(BSTSet *bs) {
     if (!bs->root) {
         // The tree was empty
@@ -168,6 +205,7 @@ void *bs_remove_min(BSTSet *bs) {
         bs->root = node->right;
     }
 
+    // Free resources
     void *item = node->item;
     free(node);
 
@@ -199,6 +237,7 @@ void *bs_remove_max(BSTSet *bs) {
         bs->root = node->left;
     }
 
+    // Free resources
     void *item = node->item;
     free(node);
 
@@ -213,30 +252,22 @@ bool bs_contains(BSTSet *bs, void *item) {
         // NULL items cannot be added
         return false;
     }
-    BSTNode *node = bs->root;
-    while (node) {
-        int cmp = bs->compare(item, node->item);
-        if (cmp < 0) {
-            node = node->left;
-        } else if (cmp > 0) {
-            node = node->right;
-        } else {
-            // The set contains the element
-            return true;
-        }
-    }
 
-    // Not found
-    return false;
+    // Search for the node
+    BSTNode *node = bs_find_node(bs, bs->root, item);
+
+    // Check if found
+    return node != NULL;
 }
 
 void *bs_min(BSTSet *bs) {
     BSTNode *node = bs->root;
     if (!node) {
-        // The set is emtpy
+        // The set is empty
         return NULL;
     }
 
+    // The minimum is the left-most node
     while (node->left) {
         node = node->left;
     }
@@ -247,10 +278,11 @@ void *bs_min(BSTSet *bs) {
 void *bs_max(BSTSet *bs) {
     BSTNode *node = bs->root;
     if (!node) {
-        // The set is emtpy
+        // The set is empty
         return NULL;
     }
 
+    // The minimum is the right-most node
     while (node->right) {
         node = node->right;
     }
@@ -260,5 +292,6 @@ void *bs_max(BSTSet *bs) {
 
 void bs_foreach(BSTSet *bs, ITERATOR_FUNC iterator_func, void *data,
                 bool reverse) {
+    // Start the iteration from the root node of the tree
     bs_foreach_node(bs->root, iterator_func, data, reverse);
 }
