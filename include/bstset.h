@@ -88,6 +88,15 @@ void *bs_remove_min(BSTSet *bs);
 void *bs_remove_max(BSTSet *bs);
 
 /**
+ * Remove an item contained in the binary search tree set.
+ *
+ * @param bs Pointer to the binary search tree set data structure.
+ * @param item Pointer to the item to be removed.
+ * @return The item removed or NULL if the element was not found.
+ */
+void *bs_remove(BSTSet *bs, void *item);
+
+/**
  * Check if the binary search tree set contains an item.
  *
  * @param bs Pointer to the binary search tree set data structure.

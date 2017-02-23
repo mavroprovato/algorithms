@@ -85,14 +85,14 @@ static size_t bs_size_node(BSTNode *node) {
  */
 static BSTNode *bs_find_node(BSTSet *bs, BSTNode *node, void *item) {
     BSTNode *current = node;
-    while (node) {
+    while (current) {
         int cmp = bs->compare(item, current->item);
         if (cmp < 0) {
             // Smaller than the element, search on the left subtree
-            node = node->left;
+            current = current->left;
         } else if (cmp > 0) {
             // Bigger than the element, search on the right subtree
-            node = node->right;
+            current = current->right;
         } else {
             // Found
             break;
@@ -248,6 +248,64 @@ void *bs_remove_max(BSTSet *bs) {
     assert(bs_is_bst(bs, bs->root, NULL, NULL));
 
     return item;
+}
+
+void *bs_remove(BSTSet *bs, void *item) {
+    // Find the node to remove, and keep track of its parent.
+    BSTNode *current = bs->root;
+    BSTNode *parent = NULL;
+    while (current) {
+        int cmp = bs->compare(item, current->item);
+        if (cmp < 0) {
+            // Smaller than the element, search on the left subtree
+            parent = current;
+            current = current->left;
+        } else if (cmp > 0) {
+            // Bigger than the element, search on the right subtree
+            parent = current;
+            current = current->right;
+        } else {
+            // Found
+            break;
+        }
+    }
+
+    if (!current) {
+        // Node to be deleted not found
+        return NULL;
+    }
+
+    // Find the new child node that will replace the one to be deleted
+    BSTNode *new_child = NULL;
+    if (current->left == NULL) {
+        new_child = current->right;
+    } else if (current->right == NULL) {
+        new_child = current->left;
+    } else {
+        // TODO: Implement
+        abort();
+    }
+
+    if (parent) {
+        // Replace the node
+        if (parent->left == current) {
+            parent->left = new_child;
+        } else {
+            parent->right = new_child;
+        }
+    } else {
+        // We are deleting the root node
+        bs->root = new_child;
+    }
+
+    // Release the resources associated with the node
+    void *removed_item = current->item;
+    free(current);
+
+    // Check the invariants
+    assert(bs_is_bst(bs, bs->root, NULL, NULL));
+
+    return removed_item;
 }
 
 bool bs_contains(BSTSet *bs, void *item) {

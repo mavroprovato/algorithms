@@ -79,6 +79,16 @@ int main(void) {
             free(bs_remove_min(&bs));
         } else if (strncmp(line, "remove_max", strlen("remove_max")) == 0) {
             free(bs_remove_max(&bs));
+        } else if (strncmp(line, "remove ", strlen("remove ")) == 0) {
+            // Remove the provided string
+            char *str = strchr(line, ' ');
+            if (!str) {
+                fprintf(stderr, "Invalid input.\n");
+                continue;
+            }
+            str++;
+            str[strlen(str) - 1] = '\0';
+            free(bs_remove(&bs, str));
         } else if (strncmp(line, "contains ", strlen("contains ")) == 0) {
             // Get the string to check
             char *str = strchr(line, ' ');
