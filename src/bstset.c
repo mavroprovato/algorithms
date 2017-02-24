@@ -5,29 +5,30 @@
 #include "bstset.h"
 
 /**
- * Check whether this tree is a valid binary search tree. The invariant is that
- * each node should be greater that all the elements in the left subtree and
- * less than all elements in the right subtree.
+ * Check whether the tree rooted in this sub-nome is a valid binary search
+ * tree. The invariant is that each node should be greater that all the elements
+ * in the left subtree and less than all elements in the right subtree.
  *
- * @oaran bs The binary search tree set.
  * @param node The start node to check. Should be called with the root node
  * initially.
+ * @param compare The compare function to use
  * @param min The tree node value should be strictly greater than this value.
  * Initially, this value is NULL and no check if performed.
  * @param max The tree node value should be strictly less than this value.
  * Initially, this value is NULL and no check if performed.
  */
-static bool bs_is_bst(BSTSet *bs, BSTNode *node, void *min, void *max) {
+static bool bs_is_bst(BSTNode *node, COMPARE_FUNC compare, void *min,
+                      void *max) {
     if (!node) {
         // Node is NULL
         return true;
     }
-    if (min && bs->compare(min, node->item) >= 0) {
+    if (min && compare(min, node->item) >= 0) {
         // The item is not less than the minimum, so the invariant does not
         // hold.
         return false;
     }
-    if (max && bs->compare(max, node->item) <= 0) {
+    if (max && compare(max, node->item) <= 0) {
         // The item is less than the minimum, so the invariant does not hold.
         return false;
     }
@@ -35,8 +36,8 @@ static bool bs_is_bst(BSTSet *bs, BSTNode *node, void *min, void *max) {
     // Check if both the left and the right subtrees are binary search trees.
     // The left subtree must be smaller that the current item, and the right
     // subtree must be bigger than the current item for the invariant to hold.
-    return bs_is_bst(bs, node->left, min, node->item) &&
-           bs_is_bst(bs, node->right, node->item, max);
+    return bs_is_bst(node->left, compare, min, node->item) &&
+           bs_is_bst(node->right, compare, node->item, max);
 }
 
 /**
@@ -77,16 +78,16 @@ static size_t bs_size_node(BSTNode *node) {
 /**
  * Search for a node in the binary search tree.
  *
- * @oaran bs The binary search tree set.
  * @param node The node from which to start the search.
+ * @param compare The compare function to use for the tree elements.
  * @param item The item to search for.
  * @return The tree node that contains the item, or NULL if the item was not
  * found.
  */
-static BSTNode *bs_find_node(BSTSet *bs, BSTNode *node, void *item) {
+static BSTNode *bs_find_node(BSTNode *node, COMPARE_FUNC compare, void *item) {
     BSTNode *current = node;
     while (current) {
-        int cmp = bs->compare(item, current->item);
+        int cmp = compare(item, current->item);
         if (cmp < 0) {
             // Smaller than the element, search on the left subtree
             current = current->left;
@@ -101,6 +102,47 @@ static BSTNode *bs_find_node(BSTSet *bs, BSTNode *node, void *item) {
 
     return current;
 }
+
+static BSTNode *bs_remove_min_node(BSTNode *node) {
+    if (!node) {
+        return NULL;
+    }
+
+    // Find the left-most node, and keep track of its parent
+    BSTNode *parent = NULL;
+    while (node->left) {
+        parent = node;
+        node = node->left;
+    }
+
+    // Remove the node
+    if (parent) {
+        parent->left = node->right;
+    }
+
+    return node;
+}
+
+static BSTNode *bs_remove_max_node(BSTNode *node) {
+    if (!node) {
+        return NULL;
+    }
+
+    // Find the left-most node, and keep track of its parent
+    BSTNode *parent = NULL;
+    while (node->right) {
+        parent = node;
+        node = node->right;
+    }
+
+    // Remove the node
+    if (parent) {
+        parent->right = node->left;
+    }
+
+    return node;
+}
+
 
 /**
  * Function to iterate a tree node and all of its sub-trees in order and call a
@@ -181,29 +223,18 @@ bool bs_add(BSTSet *bs, void *item) {
     (*node)->right = NULL;
 
     // Check the invariants
-    assert(bs_is_bst(bs, bs->root, NULL, NULL));
+    assert(bs_is_bst(bs->root, bs->compare, NULL, NULL));
 
     return true;
 }
 
 void *bs_remove_min(BSTSet *bs) {
-    if (!bs->root) {
-        // The tree was empty
+    BSTNode *node = bs_remove_min_node(bs->root);
+    if (!node) {
         return NULL;
     }
 
-    // Find the left-most node, and keep track of its parent
-    BSTNode *node = bs->root;
-    BSTNode *parent = NULL;
-    while (node->left) {
-        parent = node;
-        node = node->left;
-    }
-
-    // Remove the node
-    if (parent) {
-        parent->left = node->right;
-    } else {
+    if (node == bs->root) {
         // The root node must be removed
         bs->root = node->right;
     }
@@ -213,29 +244,18 @@ void *bs_remove_min(BSTSet *bs) {
     free(node);
 
     // Check the invariants
-    assert(bs_is_bst(bs, bs->root, NULL, NULL));
+    assert(bs_is_bst(bs->root, bs->compare, NULL, NULL));
 
     return item;
 }
 
 void *bs_remove_max(BSTSet *bs) {
-    if (!bs->root) {
-        // The tree was empty
+    BSTNode *node = bs_remove_max_node(bs->root);
+    if (!node) {
         return NULL;
     }
 
-    // Find the right-most node, and keep track of its parent
-    BSTNode *node = bs->root;
-    BSTNode *parent = NULL;
-    while (node->right) {
-        parent = node;
-        node = node->right;
-    }
-
-    // Remove the node
-    if (parent) {
-        parent->right = node->left;
-    } else {
+    if (node == bs->root) {
         // The root node must be removed
         bs->root = node->left;
     }
@@ -245,7 +265,7 @@ void *bs_remove_max(BSTSet *bs) {
     free(node);
 
     // Check the invariants
-    assert(bs_is_bst(bs, bs->root, NULL, NULL));
+    assert(bs_is_bst(bs->root, bs->compare, NULL, NULL));
 
     return item;
 }
@@ -282,8 +302,12 @@ void *bs_remove(BSTSet *bs, void *item) {
     } else if (current->right == NULL) {
         new_child = current->left;
     } else {
-        // TODO: Implement
-        abort();
+        new_child = bs_remove_min_node(current->right);
+        new_child->left = current->left;
+        if (current->right != new_child) {
+            new_child->right = current->right;
+        }
+
     }
 
     if (parent) {
@@ -303,7 +327,7 @@ void *bs_remove(BSTSet *bs, void *item) {
     free(current);
 
     // Check the invariants
-    assert(bs_is_bst(bs, bs->root, NULL, NULL));
+    assert(bs_is_bst(bs->root, bs->compare, NULL, NULL));
 
     return removed_item;
 }
@@ -315,7 +339,7 @@ bool bs_contains(BSTSet *bs, void *item) {
     }
 
     // Search for the node
-    BSTNode *node = bs_find_node(bs, bs->root, item);
+    BSTNode *node = bs_find_node(bs->root, bs->compare, item);
 
     // Check if found
     return node != NULL;
