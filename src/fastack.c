@@ -3,8 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-bool fas_init(FAStack *fas) {
-    fas->capacity = 2;
+bool fas_init(FAStack *fas, size_t capacity) {
+    fas->capacity = capacity;
     fas->items = malloc(fas->capacity * sizeof(void *));
     if (!fas->items) {
         return false;

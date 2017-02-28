@@ -22,10 +22,11 @@ typedef struct {
  * Initialize the fixed array stack data structure.
  *
  * @param fas Pointer to the fixed array stack data structure.
+ * @param capacity The stack capacity.
  * @return true if the data structure was initialized successfully, false
  * otherwise.
  */
-bool fas_init(FAStack *fas);
+bool fas_init(FAStack *fas, size_t capacity);
 
 /**
  * Frees resources associated with the fixed array stack data structure.
