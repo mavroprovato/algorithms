@@ -42,16 +42,20 @@ int compare_str(const void *a, const void *b) {
 }
 
 int main(void) {
+    // Read from standard input
     FILE *fp = stdin;
 
+    // The return value for the main method
     int return_val = EXIT_SUCCESS;
+
+    // Initalize the set
     BSTSet bs;
     if (!bs_init(&bs, compare_str)) {
         fprintf(stderr, "Cannot initialize set.\n");
-        return_val = EXIT_FAILURE;
-        goto cleanup;
+        return EXIT_FAILURE;
     }
 
+    // Read input line by line
     char *line = NULL;
     size_t len = 0;
     ssize_t read;

@@ -10,7 +10,7 @@
  */
 typedef struct TrieSetNode {
     /** The child nodes. */
-    struct TrieSetNode *children[CHAR_MAX];
+    struct TrieSetNode **children;
     /** True if this is a leaf node. */
     bool leaf;
 } TrieSetNode;
@@ -57,5 +57,13 @@ bool ts_is_empty(TrieSet *ts);
  * @return The size of the trie set.
  */
 size_t ts_size(TrieSet *ts);
+
+/**
+ * Add a string into the trie set.
+ *
+ * @param ts Pointer to the trie set data structure.
+ * @param item The string to insert.
+ */
+bool ts_add(TrieSet *ts, const char *item);
 
 #endif // _TRIE_SET
