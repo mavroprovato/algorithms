@@ -42,6 +42,16 @@ int main(void) {
                 return_val = EXIT_FAILURE;
                 goto cleanup;
             }
+        } else if (strncmp(line, "contains ", strlen("contains ")) == 0) {
+            // Get the string to check
+            char *str = strchr(line, ' ');
+            if (!str) {
+                fprintf(stderr, "Invalid input.\n");
+                continue;
+            }
+            str++;
+            str[strlen(str) - 1] = '\0';
+            printf("%s\n", ts_contains(&ts, str) ? "true" : "false");
         }
     }
 

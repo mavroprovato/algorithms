@@ -63,7 +63,18 @@ size_t ts_size(TrieSet *ts);
  *
  * @param ts Pointer to the trie set data structure.
  * @param item The string to insert.
+ * @param boolean true if the string was added successfully, false otherwise.
  */
 bool ts_add(TrieSet *ts, const char *item);
+
+/**
+ * Check if a string is contained in the trie set.
+ *
+ * @param ts Pointer to the trie set data structure.
+ * @param item The string to check.
+ * @param boolean true if the trie data structure contains the string, false
+ * otherwise.
+ */
+bool ts_contains(TrieSet *ts, const char *item);
 
 #endif // _TRIE_SET

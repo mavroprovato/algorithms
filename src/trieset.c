@@ -53,8 +53,6 @@ size_t ts_size(TrieSet *ts) {
     return ts->size;
 }
 
-
-
 bool ts_add(TrieSet *ts, const char *item) {
     if (!item) {
         // NULL strings are not allowed
@@ -82,4 +80,23 @@ bool ts_add(TrieSet *ts, const char *item) {
     ts->size++;
 
     return true;
+}
+
+bool ts_contains(TrieSet *ts, const char *item) {
+    if (!item) {
+        // NULL strings are not allowed
+        return false;
+    }
+    TrieSetNode *current = ts->root;
+    const char *c = item;
+    while (*c) {
+        size_t index = *c - CHAR_MIN;
+        if (!current->children[index]) {
+            return false;
+        }
+        current = current->children[index];
+        c++;
+    }
+
+    return current->leaf;
 }
