@@ -1,4 +1,3 @@
-
 #include "bheap.h"
 
 #include <assert.h>

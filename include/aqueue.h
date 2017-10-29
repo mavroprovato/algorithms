@@ -55,8 +55,7 @@ bool aq_is_empty(AQueue *aq);
 size_t aq_size(AQueue *aq);
 
 /**
- * Add an element to the array queue. Note that NULL elements cannot be added to
- * the queue.
+ * Add an element to the array queue. Note that NULL elements cannot be added to the queue.
  *
  * @param aq Pointer to the array queue data structure.
  * @param item Pointer to the item to add to the array queue.

@@ -11,7 +11,7 @@ int main(void) {
     // The return value for the main method
     int return_val = EXIT_SUCCESS;
 
-    // Initalize the set
+    // Initialize the set
     TrieSet ts;
     if (!ts_init(&ts)) {
         fprintf(stderr, "Cannot initialize set.\n");
@@ -21,8 +21,7 @@ int main(void) {
     // Read input line by line
     char *line = NULL;
     size_t len = 0;
-    ssize_t read;
-    while ((read = getline(&line, &len, fp)) != -1) {
+    while ((getline(&line, &len, fp)) != -1) {
         // Perform the set operation based on the command
         if (strncmp(line, "is_empty", strlen("is_empty")) == 0) {
             printf("%s\n", ts_is_empty(&ts) ? "empty" : "not empty");

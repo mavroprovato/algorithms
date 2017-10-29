@@ -25,8 +25,7 @@ typedef struct {
  *
  * @param bh Pointer to the binary heap data structure.
  * @param compare_func Function used to compare the items.
- * @return true if the data structure was initialized successfully, false
- * otherwise.
+ * @return true if the data structure was initialized successfully, false otherwise.
  */
 bool bh_init(BHeap *bh, COMPARE_FUNC compare_func);
 

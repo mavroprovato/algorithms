@@ -4,8 +4,6 @@
 
 #include "bheap.h"
 
-#define TEST_SIZE 100
-
 /**
  * Compares two heap elements. The elements should be strings.
  *

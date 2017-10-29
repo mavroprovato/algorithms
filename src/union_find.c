@@ -2,7 +2,6 @@
 
 #include <stdint.h>
 #include <stdlib.h>
-#include <string.h>
 
 /**
  * Initializes the union find data structure.

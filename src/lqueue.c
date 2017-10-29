@@ -1,4 +1,3 @@
-
 #include "lqueue.h"
 
 #include <stdlib.h>
@@ -63,7 +62,7 @@ bool lq_enqueue(LQueue *lq, void *item) {
 
 void *lq_dequeue(LQueue *lq) {
     LQueueNode *node = lq->head;
-    if (node) {
+    if (!node) {
         // The queue is empty
         return NULL;
     }

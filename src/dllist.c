@@ -227,8 +227,7 @@ void *dll_remove_item(DLList *dll, void *item, COMPARE_FUNC compare) {
     return NULL;
 }
 
-void dll_foreach(DLList *dll, ITERATOR_FUNC iterator_func, void *data,
-                bool reverse) {
+void dll_foreach(DLList *dll, ITERATOR_FUNC iterator_func, void *data, bool reverse) {
     // Loop through all the elements and call the function
     DLListNode *current = reverse ? dll->tail : dll->head;
     while (current) {
@@ -241,8 +240,7 @@ bool dll_contains(DLList *dll, void *item, COMPARE_FUNC compare) {
     return dll_find(dll, item, compare, false) != NULL;
 }
 
-DLListNode *dll_find(DLList *dll, void *item, COMPARE_FUNC compare,
-                 bool reverse) {
+DLListNode *dll_find(DLList *dll, void *item, COMPARE_FUNC compare, bool reverse) {
     DLListNode *current = reverse ? dll->tail : dll->head;
     while (current && compare(current->item, item) != 0) {
         current = reverse ? current->previous : current->next;

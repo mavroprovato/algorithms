@@ -1,24 +1,20 @@
 #include <assert.h>
-#include <stddef.h>
 #include <stdlib.h>
 
 #include "bstset.h"
 
 /**
- * Check whether the tree rooted in this sub-nome is a valid binary search
- * tree. The invariant is that each node should be greater that all the elements
- * in the left subtree and less than all elements in the right subtree.
+ * Check whether the tree rooted in this sub-nome is a valid binary search tree. The invariant is that each node should
+ * be greater that all the elements in the left subtree and less than all elements in the right subtree.
  *
- * @param node The start node to check. Should be called with the root node
- * initially.
+ * @param node The start node to check. Should be called with the root node initially.
  * @param compare The compare function to use
- * @param min The tree node value should be strictly greater than this value.
- * Initially, this value is NULL and no check if performed.
- * @param max The tree node value should be strictly less than this value.
- * Initially, this value is NULL and no check if performed.
+ * @param min The tree node value should be strictly greater than this value. Initially, this value is NULL and no check
+ * if performed.
+ * @param max The tree node value should be strictly less than this value. Initially, this value is NULL and no check if
+ * performed.
  */
-static bool bs_is_bst(BSTNode *node, COMPARE_FUNC compare, void *min,
-                      void *max) {
+static bool bs_is_bst(BSTNode *node, COMPARE_FUNC compare, void *min, void *max) {
     if (!node) {
         // Node is NULL
         return true;
@@ -36,13 +32,11 @@ static bool bs_is_bst(BSTNode *node, COMPARE_FUNC compare, void *min,
     // Check if both the left and the right subtrees are binary search trees.
     // The left subtree must be smaller that the current item, and the right
     // subtree must be bigger than the current item for the invariant to hold.
-    return bs_is_bst(node->left, compare, min, node->item) &&
-           bs_is_bst(node->right, compare, node->item, max);
+    return bs_is_bst(node->left, compare, min, node->item) && bs_is_bst(node->right, compare, node->item, max);
 }
 
 /**
- * Recursively free the recourses associated with a node and all of its
- * descendants.
+ * Recursively free the resources associated with a node and all of its descendants.
  *
  * @param node The node for which the resources should be released.
  */
@@ -81,8 +75,7 @@ static size_t bs_size_node(BSTNode *node) {
  * @param node The node from which to start the search.
  * @param compare The compare function to use for the tree elements.
  * @param item The item to search for.
- * @return The tree node that contains the item, or NULL if the item was not
- * found.
+ * @return The tree node that contains the item, or NULL if the item was not found.
  */
 static BSTNode *bs_find_node(BSTNode *node, COMPARE_FUNC compare, void *item) {
     BSTNode *current = node;
@@ -143,31 +136,26 @@ static BSTNode *bs_remove_max_node(BSTNode *node) {
     return node;
 }
 
-
 /**
- * Function to iterate a tree node and all of its sub-trees in order and call a
- * function for each of them.
+ * Function to iterate a tree node and all of its sub-trees in order and call a function for each of them.
  *
  * @param node The node that specifies the tree to iterate.
  * @param iterator_func Pointer to function that is called for every item.
  * @param data Pointer to the custom user data. Can be NULL.
  * @param reverse Set to true to traverse the items in reverse sorted order.
  */
-static void bs_foreach_node(BSTNode *node, ITERATOR_FUNC iterator_func,
-                            void *data, bool reverse) {
+static void bs_foreach_node(BSTNode *node, ITERATOR_FUNC iterator_func, void *data, bool reverse) {
     if (!node) {
         // Node is NULL, nothing to do
         return;
     }
     // Perform an in-oder traversal of the tree.
     // Visit the left subtree (or the right if we traversing in reverse)
-    bs_foreach_node(reverse ? node->right : node->left, iterator_func, data,
-                    reverse);
+    bs_foreach_node(reverse ? node->right : node->left, iterator_func, data, reverse);
     // Visit the node
     iterator_func(node->item, data);
     // Visit the right subtree (or the left if we traversing in reverse)
-    bs_foreach_node(reverse ? node->left : node->right, iterator_func, data,
-                    reverse);
+    bs_foreach_node(reverse ? node->left : node->right, iterator_func, data, reverse);
 }
 
 bool bs_init(BSTSet *bs, COMPARE_FUNC compare) {
@@ -307,7 +295,6 @@ void *bs_remove(BSTSet *bs, void *item) {
         if (current->right != new_child) {
             new_child->right = current->right;
         }
-
     }
 
     if (parent) {
@@ -375,8 +362,7 @@ void *bs_max(BSTSet *bs) {
     return node->item;
 }
 
-void bs_foreach(BSTSet *bs, ITERATOR_FUNC iterator_func, void *data,
-                bool reverse) {
+void bs_foreach(BSTSet *bs, ITERATOR_FUNC iterator_func, void *data, bool reverse) {
     // Start the iteration from the root node of the tree
     bs_foreach_node(bs->root, iterator_func, data, reverse);
 }

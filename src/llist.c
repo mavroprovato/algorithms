@@ -83,7 +83,7 @@ bool ll_insert(LList *ll, void *item, size_t position) {
         return ll_prepend(ll, item);
     }
 
-    // Alocate the node
+    // Allocate the node
     LListNode *node = malloc(sizeof(LListNode));
     if (!node) {
         return false;
@@ -232,10 +232,9 @@ void ll_reverse(LList *ll) {
 
     LListNode *previous = NULL;
     LListNode *current = ll->head;
-    LListNode *next = current->next;
 
     while (current) {
-        next = current->next;
+        LListNode *next = current->next;
         current->next = previous;
         previous = current;
         current = next;

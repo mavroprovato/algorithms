@@ -22,8 +22,7 @@ typedef struct {
  * Initialize the array stack data structure.
  *
  * @param as Pointer to the array stack data structure.
- * @return true if the data structure was initialized successfully, false
- * otherwise.
+ * @return true if the data structure was initialized successfully, false otherwise.
  */
 bool as_init(AStack *as);
 
@@ -51,8 +50,7 @@ bool as_is_empty(AStack *as);
 size_t as_size(AStack *as);
 
 /**
- * Add an element to the array stack. Note that NULL elements cannot be added to
- * the stack.
+ * Add an element to the array stack. Note that NULL elements cannot be added to the stack.
  *
  * @param as Pointer to the array stack data structure.
  * @return true if the element was pushed successfully, false otherwise.
@@ -63,8 +61,7 @@ bool as_push(AStack *as, void *item);
  * Removes and returns the last element that was added to the array stack.
  *
  * @param as Pointer to the array stack data structure.
- * @return The last element that was added to the array stack, or NULL if the
- * stack was empty.
+ * @return The last element that was added to the array stack, or NULL if the stack was empty.
  */
 void *as_pop(AStack *as);
 
@@ -72,14 +69,12 @@ void *as_pop(AStack *as);
  * Returns the last element that was added to the array stack.
  *
  * @param as Pointer to the array stack data structure.
- * @return The last element that was added to the array stack, or NULL if the
- * stack was empty.
+ * @return The last element that was added to the array stack, or NULL if the stack was empty.
  */
 void *as_peek(AStack *as);
 
 /**
- * Traverse all the items of the array stack and call a function for each of
- * them.
+ * Traverse all the items of the array stack and call a function for each of them.
  *
  * @param as Pointer to the array stack data structure.
  * @param iterator_func Pointer to function that is called for every item.

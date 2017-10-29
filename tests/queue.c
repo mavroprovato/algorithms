@@ -29,7 +29,7 @@ int main(int argc, char **argv) {
         {0, 0, 0, 0}
     };
     int option_index = 0;
-    int c = -1;
+    int c;
     bool linked = false;
     while ((c = getopt_long(argc, argv, "l", long_options, &option_index)) != -1) {
         switch (c) {

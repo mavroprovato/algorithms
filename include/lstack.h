@@ -30,8 +30,7 @@ typedef struct {
  * Initialize the linked stack data structure.
  *
  * @param ls Pointer to the linked stack data structure.
- * @return true if the data structure was initialized successfully, false
- * otherwise.
+ * @return true if the data structure was initialized successfully, false otherwise.
  */
 bool ls_init(LStack *ls);
 
@@ -71,8 +70,7 @@ bool ls_push(LStack *ls, void *item);
  * Removes and returns the last element that was added to the linked stack.
  *
  * @param ls Pointer to the linked stack data structure.
- * @return The last element that was added to the stack, or NULL if the stack
- * was empty.
+ * @return The last element that was added to the stack, or NULL if the stack was empty.
  */
 void *ls_pop(LStack *ls);
 
@@ -80,14 +78,12 @@ void *ls_pop(LStack *ls);
  * Returns the last element that was added to the linked stack.
  *
  * @param ls Pointer to the linked stack data structure.
- * @return The last element that was added to the linked stack, or NULL if the
- * stack was empty.
+ * @return The last element that was added to the linked stack, or NULL if the stack was empty.
  */
 void *ls_peek(LStack *ls);
 
 /**
- * Traverse all the items of the linked stack and call a function for each of
- * them.
+ * Traverse all the items of the linked stack and call a function for each of them.
  *
  * @param ls Pointer to the linked stack data structure.
  * @param iterator_func Pointer to function that is called for every item.

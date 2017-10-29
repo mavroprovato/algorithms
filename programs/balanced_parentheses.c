@@ -1,7 +1,6 @@
 /**
- * Reads input from the file passed as the first argument (or the standard input
- * if no argument is passed) and prints whether the parentheses are balanced or
- * not.
+ * Reads input from the file passed as the first argument (or the standard input if no argument is passed) and prints
+ * whether the parentheses are balanced or not.
  */
 #include "astack.h"
 
@@ -55,8 +54,7 @@ int main(int argc, char **argv) {
                     // Pop closing parenthesis from the stack and see if it
                     // matches
                     if (as_is_empty(&stack)) {
-                        fprintf(stderr, "Unbalanced closing %c at line %ld.\n",
-                                line[i], line_number);
+                        fprintf(stderr, "Unbalanced closing %c at line %ld.\n", line[i], line_number);
                         return_value = EXIT_FAILURE;
                         goto cleanup;
                     }
@@ -64,8 +62,7 @@ int main(int argc, char **argv) {
                     if ((*c == '(' && line[i]!= ')') ||
                         (*c == '[' && line[i]!= ']') ||
                         (*c == '{' && line[i]!= '}')) {
-                        fprintf(stderr, "Unexpected %d at line %ld.\n", line[i],
-                                line_number);
+                        fprintf(stderr, "Unexpected %d at line %ld.\n", line[i], line_number);
                         return_value = EXIT_FAILURE;
                         goto cleanup;
                     }
@@ -93,7 +90,6 @@ cleanup:
     as_destroy(&stack);
     fclose(fp);
     free(line);
-
 
     return return_value;
 }

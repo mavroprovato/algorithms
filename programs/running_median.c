@@ -1,4 +1,3 @@
-
 #include "bheap.h"
 
 #include <stdio.h>
@@ -9,9 +8,8 @@
  *
  * @param first Pointer to the first element.
  * @param second Pointer to the second element.
- * @return A negative value if a appears before b in lexicographical order, zero
- * if a and b are equal or a positive value if a appears after b in
- * lexicographical order.
+ * @return A negative value if a appears before b in lexicographical order, zero if a and b are equal or a positive
+ * value if a appears after b in lexicographical order.
  */
 int compare_long(const void *first, const void *second) {
     long ulfirst = *((long *) first);

@@ -1,4 +1,3 @@
-
 #include "lstack.h"
 
 #include <stdlib.h>

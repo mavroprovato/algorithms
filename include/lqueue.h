@@ -32,8 +32,7 @@ typedef struct {
  * Initialize the linked queue data structure.
  *
  * @param lq Pointer to the linked queue data structure.
- * @return true if the linked queue data structure was initialized successfully,
- * false otherwise.
+ * @return true if the linked queue data structure was initialized successfully, false otherwise.
  */
 bool lq_init(LQueue *lq);
 
@@ -64,8 +63,7 @@ size_t lq_size(LQueue *lq);
  * Add an element to the linked queue.
  *
  * @param lq Pointer to the linked queue data structure.
- * @param item Pointer to the item to add to the queue. Note that NULL elements
- * cannot be added to the queue.
+ * @param item Pointer to the item to add to the queue. Note that NULL elements cannot be added to the queue.
  * @return true if the element was enqueued successfully, false otherwise.
  */
 bool lq_enqueue(LQueue *lq, void *item);
@@ -75,8 +73,7 @@ bool lq_enqueue(LQueue *lq, void *item);
  * queue.
  *
  * @param lq Pointer to the linkedqueue data structure.
- * @return The least recent element that was added to the linked queue, or NULL
- * if the queue was empty.
+ * @return The least recent element that was added to the linked queue, or NULL if the queue was empty.
  */
 void *lq_dequeue(LQueue *lq);
 
@@ -84,14 +81,12 @@ void *lq_dequeue(LQueue *lq);
  * Returns the least recent element that was added to the linked queue.
  *
  * @param lq Pointer to the linked queue data structure.
- * @return The least recent element that was added to the linked queue, or NULL
- * if the queue was empty.
+ * @return The least recent element that was added to the linked queue, or NULL if the queue was empty.
  */
 void *lq_peek(LQueue *lq);
 
 /**
- * Traverse all the items of the linked queue and call a function for each of
- * them.
+ * Traverse all the items of the linked queue and call a function for each of them.
  *
  * @param lq Pointer to the linked queue data structure.
  * @param iterator_func Pointer to function that is called for every item.

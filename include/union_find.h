@@ -49,8 +49,7 @@ bool uf_union(UnionFind *uf, size_t p, size_t q);
  *
  * @param uf Pointer to the union find data structure.
  * @param p The identifier of the element.
- * @return The identifier of the connected component, or SIZE_MAX if the element
- * identifiers are not in range.
+ * @return The identifier of the connected component, or SIZE_MAX if the element identifiers are not in range.
  */
 size_t uf_find(UnionFind *uf, size_t p);
 

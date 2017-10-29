@@ -19,13 +19,10 @@ static bool aq_resize(AQueue *aq, size_t new_capacity) {
 
     // Copy the items to the new array.
     if (aq->head < aq->tail) {
-        memcpy(new_items, aq->items + aq->head,
-               (aq->tail - aq->head) * sizeof(void *));
+        memcpy(new_items, aq->items + aq->head, (aq->tail - aq->head) * sizeof(void *));
     } else { // The array has wrapped around.
-        memcpy(new_items, aq->items + aq->head,
-               (aq->capacity - aq->head) * sizeof(void *));
-        memcpy((char *) new_items + (aq->capacity - aq->head) * sizeof(void *),
-               aq->items, aq->tail * sizeof(void *));
+        memcpy(new_items, aq->items + aq->head, (aq->capacity - aq->head) * sizeof(void *));
+        memcpy((char *) new_items + (aq->capacity - aq->head) * sizeof(void *), aq->items, aq->tail * sizeof(void *));
     }
 
     free(aq->items);

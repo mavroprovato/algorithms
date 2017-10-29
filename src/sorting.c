@@ -51,8 +51,7 @@ static bool sorted(void *base, size_t n, size_t size, COMPARE_FUNC compare) {
         return true;
     }
     for (size_t i = 0; i < n - 1; i++) {
-        if (compare((char *) base + i * size,
-                    (char *) base + (i + 1) * size) > 0) {
+        if (compare((char *) base + i * size, (char *) base + (i + 1) * size) > 0) {
             return false;
         }
     }
@@ -71,8 +70,7 @@ static bool sorted(void *base, size_t n, size_t size, COMPARE_FUNC compare) {
 static bool hsorted(void *base, size_t n, size_t h, size_t size,
                     COMPARE_FUNC compare) {
     for (size_t i = h; i < n - 1; i++) {
-        if (compare((char *) base + i * size,
-                    (char *) base + (i - h) * size) < 0) {
+        if (compare((char *) base + i * size, (char *) base + (i - h) * size) < 0) {
             return false;
         }
     }
@@ -145,10 +143,9 @@ void bubble_sort(void *base, size_t n, size_t size, COMPARE_FUNC compare) {
  */
 void selection_sort(void *base, size_t n, size_t size, COMPARE_FUNC compare) {
     for (size_t i = 0; i < n; i++) {
-        int min = i;
+        size_t min = i;
         for (size_t j = i + 1; j < n; j++) {
-            if (compare((char *) base + j * size,
-                        (char *) base + min * size) < 0) {
+            if (compare((char *) base + j * size, (char *) base + min * size) < 0) {
                 min = j;
             }
         }
@@ -177,8 +174,7 @@ void shell_sort(void *base, size_t n, size_t size, COMPARE_FUNC compare) {
     while (h >= 1) {
         for (size_t i = h; i < n; i++) {
             for (size_t j = i;
-                 j >= h && compare((char *) base + j * size,
-                                   (char *) base + (j - h) * size) < 0;
+                 j >= h && compare((char *) base + j * size, (char *) base + (j - h) * size) < 0;
                  j -= h) {
                 swap(base, j, (j - h), size);
             }
@@ -199,19 +195,17 @@ void shell_sort(void *base, size_t n, size_t size, COMPARE_FUNC compare) {
  * @param aux The auxiliary array.
  * @param low The index of the first array element to merge.
  * @param mid The index of the element that splits the sorted halves.
- * @param high
+ * @param high The index of the last array element to merge.
  * @param size The size in bytes of each element in the array.
  * @param compare Pointer to a function that compares two elements.
  */
-static void merge(void *base, void *aux, size_t low, size_t mid, size_t high,
-                  size_t size, COMPARE_FUNC compare) {
+static void merge(void *base, void *aux, size_t low, size_t mid, size_t high, size_t size, COMPARE_FUNC compare) {
     // Assertion: The array from low to mid must be sorted
     assert(sorted((char *) base + low * size, mid - low, size, compare));
     // Assertion: The array from mid + 1 to high must be sorted
     assert(sorted((char *) base + (mid + 1) * size, high - mid, size, compare));
     // Copy to the auxiliary array
-    memcpy((char *) aux + low * size, (char *) base + low * size,
-           (high - low + 1) * size);
+    memcpy((char *) aux + low * size, (char *) base + low * size, (high - low + 1) * size);
     // Merge the two halves
     size_t i = low;
     size_t j = mid + 1;
@@ -222,8 +216,7 @@ static void merge(void *base, void *aux, size_t low, size_t mid, size_t high,
         } else if (j > high) {
             // The right half is exhausted, take from the left half.
             set((char *) base + size * k, (char *) aux + size * i++, size);
-        } else if (compare((char *) aux + j * size,
-                           (char *) aux + i * size) < 0) {
+        } else if (compare((char *) aux + j * size, (char *) aux + i * size) < 0) {
             // The element from the right part is smaller
             set((char *) base + size * k, (char *) aux + size * j++, size);
         } else {
@@ -243,12 +236,10 @@ static void merge(void *base, void *aux, size_t low, size_t mid, size_t high,
  * @param size The size in bytes of each element in the array.
  * @param compare Pointer to a function that compares two elements.
  */
-static void merge_sort_impl(void *base, void *aux, size_t low, size_t high,
-                            size_t size, COMPARE_FUNC compare) {
+static void merge_sort_impl(void *base, void *aux, size_t low, size_t high, size_t size, COMPARE_FUNC compare) {
     // For small arrays, cutoff to insertion sort
     if (high < low + CUTOFF) {
-        insertion_sort((char *) base + low * size, high - low + 1, size,
-                       compare);
+        insertion_sort((char *) base + low * size, high - low + 1, size, compare);
         return;
     }
     // Find the mid point
@@ -258,8 +249,7 @@ static void merge_sort_impl(void *base, void *aux, size_t low, size_t high,
     merge_sort_impl(base, aux, mid + 1, high, size, compare);
     // Check if the two sub-arrays are already sorted, so that we don't need to
     // merge
-    if (compare((char *) base + (mid + 1) * size,
-                (char *) base + mid * size) > 0) {
+    if (compare((char *) base + (mid + 1) * size, (char *) base + mid * size) > 0) {
         return;
     }
     // Merge the sorted halves
@@ -286,9 +276,8 @@ void merge_sort(void *base, size_t n, size_t size, COMPARE_FUNC compare) {
 }
 
 /**
- * Partition the array to two parts: The left one (from low to p - 1) is less
- * than or equal to the partitioning element (p) and the right one (from p + 1
- * to high) is greater than or equal to the partitioning element.
+ * Partition the array to two parts: The left one (from low to p - 1) is less than or equal to the partitioning element
+ * (p) and the right one (from p + 1 to high) is greater than or equal to the partitioning element.
  *
  * @param base A pointer to the first element of the array to be sorted.
  * @param low The index of the first array element to sort.
@@ -297,8 +286,7 @@ void merge_sort(void *base, size_t n, size_t size, COMPARE_FUNC compare) {
  * @param compare Pointer to a function that compares two elements.
  * @return The index of the partitioning element.
  */
-static size_t quick_sort_partition(void *base, size_t low, size_t high,
-                                   size_t size, COMPARE_FUNC compare) {
+static size_t quick_sort_partition(void *base, size_t low, size_t high, size_t size, COMPARE_FUNC compare) {
     size_t i = low;
     size_t j = high + 1;
 
@@ -337,8 +325,7 @@ static size_t quick_sort_partition(void *base, size_t low, size_t high,
  * @param size The size in bytes of each element in the array.
  * @param compare Pointer to a function that compares two elements.
  */
-static void quick_sort_impl(void *base, size_t low, size_t high, size_t size,
-                            COMPARE_FUNC compare) {
+static void quick_sort_impl(void *base, size_t low, size_t high, size_t size, COMPARE_FUNC compare) {
     // For small arrays, cutoff to insertion sort
     if (high < low + CUTOFF) {
         insertion_sort((char *) base + low * size, high - low + 1, size, compare);

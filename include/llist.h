@@ -30,8 +30,7 @@ typedef struct {
  * Initialize the linked list data structure.
  *
  * @param ll Pointer to the linked list data structure to initialize.
- * @return true if the linked list data structure was initialized successfully,
- * false otherwise.
+ * @return true if the linked list data structure was initialized successfully, false otherwise.
  */
 bool ll_init(LList *ll);
 
@@ -43,8 +42,8 @@ bool ll_init(LList *ll);
 void ll_destroy(LList *ll);
 
 /**
- * Return the size of the linked list. In order to get the size, all the list
- * items are visited, so the performance of the function is linear.
+ * Return the size of the linked list. In order to get the size, all the list items are visited, so the performance of
+ * the function is linear.
  *
  * @param ll Pointer to the linked list data structure.
  * @return The size of the linked list.
@@ -60,8 +59,7 @@ size_t ll_size(LList *ll);
 bool ll_is_empty(LList *ll);
 
 /**
- * Add an item as the first element of the linked list. Note that NULL items
- * cannot be added to the list.
+ * Add an item as the first element of the linked list. Note that NULL items cannot be added to the list.
  *
  * @param ll Pointer to the linked list data structure.
  * @param item Pointer to the item to add.
@@ -70,8 +68,7 @@ bool ll_is_empty(LList *ll);
 bool ll_prepend(LList *ll, void *item);
 
 /**
- * Add an item as the last element of the linked list. Note that NULL items
- * cannot be added to the list.
+ * Add an item as the last element of the linked list. Note that NULL items cannot be added to the list.
  *
  * @param ll Pointer to the linked list data structure.
  * @param item Pointer to the item to add.
@@ -80,8 +77,7 @@ bool ll_prepend(LList *ll, void *item);
 bool ll_append(LList *ll, void *item);
 
 /**
- * Insert an item at the specified position of the linked list. Note that NULL
- * items cannot be added to the list.
+ * Insert an item at the specified position of the linked list. Note that NULL items cannot be added to the list.
  *
  * @param ll Pointer to the linked list data structure.
  * @param item Pointer to the item to add.

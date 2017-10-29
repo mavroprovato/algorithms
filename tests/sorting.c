@@ -65,8 +65,7 @@ static void init_int_array_random(int *array, size_t size) {
  * @param compare Pointer to a function that compares two elements.
  * @return The number of milliseconds that sorting took.
  */
-double benchmark_search(SORT_FUNC sort, void *array, size_t n, size_t size,
-                        COMPARE_FUNC compare) {
+double benchmark_search(SORT_FUNC sort, void *array, size_t n, size_t size, COMPARE_FUNC compare) {
     double start = get_time();
     sort(array, n, size, compare);
     double end = get_time();
@@ -81,9 +80,9 @@ int main(int argc, char **argv) {
         {0, 0, 0, 0}
     };
     int option_index = 0;
-    int c = -1;
-    SORT_FUNC sort;
-    int num_elements = 0;
+    int c;
+    SORT_FUNC sort = NULL;
+    size_t num_elements = 0;
     while ((c = getopt_long(argc, argv, "a:n:", long_options, &option_index)) != -1) {
         switch(c) {
             case 'a':
@@ -105,7 +104,7 @@ int main(int argc, char **argv) {
                 }
                 break;
             case 'n':
-                num_elements = atoi(optarg);
+                num_elements = (size_t) atoi(optarg);
                 if (num_elements < 0) {
                     fprintf(stderr, "The number of elements to sort must be "
                                     "positive.");
@@ -126,10 +125,9 @@ int main(int argc, char **argv) {
         return EXIT_FAILURE;
     }
 
-    init_int_array_random(array, num_elements   );
-    printf("Testing sort for random array of size %d\n", num_elements);
-    double elapsed = benchmark_search(sort, array, num_elements, sizeof(int),
-                                      compare_int);
+    init_int_array_random(array, num_elements);
+    printf("Testing sort for random array of size %zu\n", num_elements);
+    double elapsed = benchmark_search(sort, array, num_elements, sizeof(int), compare_int);
     printf("Total time: %.3f\n", elapsed);
 
     // Free memory

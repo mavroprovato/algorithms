@@ -27,8 +27,7 @@ typedef struct {
  *
  * @param faq Pointer to the fixed array queue data structure.
  * @param capacity The maximum capacity of the queue.
- * @return true if the data structure was initialized successfully, false
- * otherwise.
+ * @return true if the data structure was initialized successfully, false otherwise.
  */
 bool faq_init(FAQueue *faq, size_t capacity);
 
@@ -69,8 +68,7 @@ bool faq_enqueue(FAQueue *faq, void *item);
  * Removes and returns the least recently added fixed array queue element.
  *
  * @param faq Pointer to the fixed array queue data structure.
- * @return The least recently added fixed array queue element or NULL if the
- * queue was empty.
+ * @return The least recently added fixed array queue element or NULL if the queue was empty.
  */
 void *faq_dequeue(FAQueue *faq);
 
@@ -78,14 +76,12 @@ void *faq_dequeue(FAQueue *faq);
  * Returns the least recently added fixed array queue element.
  *
  * @param faq Pointer to the fixed array queue data structure.
- * @return The least recently added fixed array queue element or NULL if the
- * queue was empty.
+ * @return The least recently added fixed array queue element or NULL if the queue was empty.
  */
 void *faq_peek(FAQueue *faq);
 
 /**
- * Traverse all the items of the fixed array queue and call a function for each
- * of them.
+ * Traverse all the items of the fixed array queue and call a function for each of them.
  *
  * @param faq Pointer to the fixed array queue data structure.
  * @param iterator_func Pointer to function that is called for every item.

@@ -33,9 +33,8 @@ void free_element(void *item, void *data) {
  *
  * @param a Pointer to the first element.
  * @param b Pointer to the second element.
- * @return A negative value if a appears before b in lexicographical order, zero
- * if a and b are equal or a positive value if a appears after b in
- * lexicographical order.
+ * @return A negative value if a appears before b in lexicographical order, zero if a and b are equal or a positive
+ * value if a appears after b in lexicographical order.
  */
 int compare_str(const void *a, const void *b) {
     return strcmp((const char *) a, (const char *) b);
@@ -48,7 +47,7 @@ int main(void) {
     // The return value for the main method
     int return_val = EXIT_SUCCESS;
 
-    // Initalize the set
+    // Initialize the set
     BSTSet bs;
     if (!bs_init(&bs, compare_str)) {
         fprintf(stderr, "Cannot initialize set.\n");

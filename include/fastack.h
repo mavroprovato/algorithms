@@ -23,8 +23,7 @@ typedef struct {
  *
  * @param fas Pointer to the fixed array stack data structure.
  * @param capacity The stack capacity.
- * @return true if the data structure was initialized successfully, false
- * otherwise.
+ * @return true if the data structure was initialized successfully, false otherwise.
  */
 bool fas_init(FAStack *fas, size_t capacity);
 
@@ -52,8 +51,7 @@ bool fas_is_empty(FAStack *fas);
 size_t fas_size(FAStack *fas);
 
 /**
- * Add an element to the fixed array stack. Note that NULL elements cannot be
- * added to the stack.
+ * Add an element to the fixed array stack. Note that NULL elements cannot be added to the stack.
  *
  * @param fas Pointer to the fixed array stack data structure.
  * @return true if the element was pushed successfully, false otherwise.
@@ -64,8 +62,7 @@ bool fas_push(FAStack *fas, void *item);
  * Removes and returns the last element that was added to the fixed array stack.
  *
  * @param fas Pointer to the fixed array stack data structure.
- * @return The last element that was added to the fixed array stack, or NULL if
- * the stack was empty.
+ * @return The last element that was added to the fixed array stack, or NULL if the stack was empty.
  */
 void *fas_pop(FAStack *fas);
 
@@ -73,14 +70,12 @@ void *fas_pop(FAStack *fas);
  * Returns the last element that was added to the fixed array stack.
  *
  * @param fas Pointer to the fixed array stack data structure.
- * @return The last element that was added to the fixed array stack, or NULL if
- * the stack was empty.
+ * @return The last element that was added to the fixed array stack, or NULL if the stack was empty.
  */
 void *fas_peek(FAStack *fas);
 
 /**
- * Traverse all the items of the fixed array stack and call a function for each
- * of them.
+ * Traverse all the items of the fixed array stack and call a function for each of them.
  *
  * @param fas Pointer to the fixed array stack data structure.
  * @param iterator_func Pointer to function that is called for every item.

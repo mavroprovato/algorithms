@@ -34,8 +34,7 @@ typedef struct DLList {
  * Initialize the doubly linked list data structure.
  *
  * @param dll Pointer to the doubly linked list data to initialize.
- * @return true if the doubly linked list data was initialized successfully,
- * false otherwise.
+ * @return true if the doubly linked list data was initialized successfully, false otherwise.
  */
 bool dll_init(DLList *dll);
 
@@ -47,8 +46,8 @@ bool dll_init(DLList *dll);
 void dll_destroy(DLList *dll);
 
 /**
- * Return the size of the doubly linked list. In order to get the size, all the
- * list items are visited, so the performance of the function is linear.
+ * Return the size of the doubly linked list. In order to get the size, all the list items are visited, so the
+ * performance of the function is linear.
  *
  * @param dll Pointer to the doubly linked list data structure.
  * @return The size of the doubly linked list.
@@ -64,8 +63,7 @@ size_t dll_size(DLList *dll);
 bool dll_is_empty(DLList *dll);
 
 /**
- * Add an item as the first element of the doubly linked list. Note that NULL
- * items cannot be added to the list.
+ * Add an item as the first element of the doubly linked list. Note that NULL items cannot be added to the list.
  *
  * @param dll Pointer to the doubly linked list data structure.
  * @param item Pointer to the item to add.
@@ -74,8 +72,7 @@ bool dll_is_empty(DLList *dll);
 bool dll_prepend(DLList *dll, void *item);
 
 /**
- * Add an item as the last element of the doubly linked list. Note that NULL
- * items cannot be added to the list.
+ * Add an item as the last element of the doubly linked list. Note that NULL items cannot be added to the list.
  *
  * @param dll Pointer to the doubly linked list data structure.
  * @param item Pointer to the item to add.
@@ -84,14 +81,12 @@ bool dll_prepend(DLList *dll, void *item);
 bool dll_append(DLList *dll, void *item);
 
 /**
- * Insert an item at the specified position of the doubly linked list. Note that
- * NULL items cannot be added to the list.
+ * Insert an item at the specified position of the doubly linked list. Note that NULL items cannot be added to the list.
  *
  * @param dll Pointer to the doubly linked list data structure.
  * @param item Pointer to the item to add.
- * @param position The position at which the element should to be inserted. If
- * the position is bigger than or equal to the list size, the element is
- * appended to the end of the list.
+ * @param position The position at which the element should to be inserted. If the position is bigger than or equal to
+ * the list size, the element is* appended to the end of the list.
  * @return true if the element was inserted successfully, false otherwise.
  */
 bool dll_insert(DLList *dll, void *item, size_t position);
@@ -116,8 +111,8 @@ void *dll_remove_last(DLList *dll);
  * Remove an item from the doubly linked list by position.
  *
  * @param dll Pointer to the doubly linked list data structure.
- * @param position The position of the element to be removed. If the position
- * is bigger than or equal to the list size, the last element is removed.
+ * @param position The position of the element to be removed. If the position is bigger than or equal to the list size,
+ * the last element is removed.
  * @return The item that was removed, or NULL if the item was empty.
  */
 void *dll_remove(DLList *dll, size_t position);
@@ -127,8 +122,7 @@ void *dll_remove(DLList *dll, size_t position);
  *
  * @param dll Pointer to the doubly linked list data structure.
  * @param item The item to be removed.
- * @param compare The function used to compare the item with the list
- * items.
+ * @param compare The function used to compare the item with the list` items.
  * @return The item that was removed, or NULL if the item was not found.
  */
 void *dll_remove_item(DLList *dll, void *item, COMPARE_FUNC compare);
@@ -168,8 +162,7 @@ bool dll_contains(DLList *dll, void *item, COMPARE_FUNC compare);
  * @return The first occurance of the doubly linked list node that contains the
  * item, or NULL if the item was not found.
  */
-DLListNode *dll_find(DLList *dll, void *item, COMPARE_FUNC compare,
-                     bool reverse);
+DLListNode *dll_find(DLList *dll, void *item, COMPARE_FUNC compare, bool reverse);
 
 /**
  * Reverse the doubly linked list.

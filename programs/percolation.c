@@ -1,12 +1,10 @@
 /**
- * Read a grid of sites from the file passed as the first argument (or the
- * standard input if no argument is passed) and print whether the grid
- * percolates or not.
+ * Read a grid of sites from the file passed as the first argument (or the standard input if no argument is passed) and
+ * print whether the grid percolates or not.
  */
 #include "union_find.h"
 
 #include <ctype.h>
-#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -45,8 +43,7 @@ typedef struct {
     size_t columns;
     /** The grid that holds the information whether a site is open or not. */
     bool *sites;
-    /** The union-find data structure to efficiently check if the grid
-     * percolates or not. */
+    /** The union-find data structure to efficiently check if the grid percolates or not. */
     UnionFind *uf;
 } PercolationGrid;
 
@@ -56,8 +53,7 @@ typedef struct {
  * @param pg Pointer to the percolation grid.
  * @param rows The number of rows in the grid.
  * @param columns The number of columns in the grid.
- * @return true if the data structure has been initialized correctly, false
- * otherwise.
+ * @return true if the data structure has been initialized correctly, false otherwise.
  */
 bool pg_init(PercolationGrid *pg, size_t rows, size_t columns) {
     // Set the rows and columns
@@ -174,8 +170,7 @@ PercolationGrid *pg_read(FILE *fp) {
     read = getline(&line, &len, fp);
     int rc = sscanf(line, "%zu %zu", &rows, &columns);
     if (rc != 2) {
-        fprintf(stderr, "First row should contain the dimension of the "
-                        "grid.\n");
+        fprintf(stderr, "First row should contain the dimension of the grid.\n");
         goto cleanup;
     }
 
