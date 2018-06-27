@@ -54,7 +54,6 @@ int main(int argc, char **argv) {
         fp = stdin;
     }
 
-    char *line = NULL;
     int return_val = EXIT_SUCCESS;
 
     // Initialize the stacks
@@ -72,6 +71,7 @@ int main(int argc, char **argv) {
     }
 
     // Read the input line by line
+    char *line = NULL;
     size_t len = 0;
     ssize_t read;
     while ((read = getline(&line, &len, fp)) != -1) {
