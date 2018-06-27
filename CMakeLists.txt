@@ -2,8 +2,9 @@ cmake_minimum_required(VERSION 3.2)
 
 project(algorithms)
 
-# Compile flags
+# Set up directories
 include_directories(include)
+
 file(GLOB LIB_SOURCES src/*.c)
 file(GLOB PROGRAMS_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} programs/*.c)
 file(GLOB TESTS_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} tests/*.c)
@@ -16,7 +17,7 @@ if(CMAKE_COMPILER_IS_GNUCC)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -Wfloat-equal -Wundef -Wshadow -Wpointer-arith -Wcast-align -Wstrict-prototypes -Wwrite-strings -Waggregate-return")
 endif()
 
-## Build the library
+# Build the library
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY lib)
 add_library(algorithms STATIC ${LIB_SOURCES})
 
