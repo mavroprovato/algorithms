@@ -10,10 +10,10 @@
 #include <string.h>
 
 // Convert a row and column index to the index of the sites array.
-#define SITES_INDEX(pg, i, j) (i) * (pg)->rows + (j)
+#define SITES_INDEX(pg, i, j) ((i) * (pg)->rows + (j))
 // Convert a row and column index to the index of the union-find data structure
 // used in the percolation structure.
-#define UF_INDEX(pg, i, j) (i) * (pg)->rows + (j) + 1
+#define UF_INDEX(pg, i, j) ((i) * (pg)->rows + (j) + 1)
 
 /**
  * Helper method to check if a string is composed of by whitespace characters
@@ -23,7 +23,7 @@
  * @param n The length of the string.
  * @return true if the string is empty, false otherwise.
  */
-static bool is_empty(const char *s, size_t n) {
+static bool is_empty(const char *s, ssize_t n) {
     for (size_t i = 0; i < n && s[i] != '\n'; i++) {
         if (!isspace(*s)) {
             return false;
@@ -162,12 +162,12 @@ PercolationGrid *pg_read(FILE *fp) {
     // Variables to read the next line from the file
     char *line = NULL;
     size_t len = 0;
-    ssize_t read = -1;
+    ssize_t read;
 
     // Read the dimensions of the grid
     size_t rows = 0;
     size_t columns = 0;
-    read = getline(&line, &len, fp);
+    getline(&line, &len, fp);
     int rc = sscanf(line, "%zu %zu", &rows, &columns);
     if (rc != 2) {
         fprintf(stderr, "First row should contain the dimension of the grid.\n");

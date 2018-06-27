@@ -61,7 +61,7 @@ bool ts_add(TrieSet *ts, const char *item) {
     // Loop through all characters of the string
     const char *c = item;
     while (*c) {
-        size_t index = *c - CHAR_MIN;
+        size_t index = (size_t) (*c - CHAR_MIN);
         if (!current->children[index]) {
             // Child node is null, create it
             current->children[index] = ts_create_node();
@@ -89,7 +89,7 @@ bool ts_contains(TrieSet *ts, const char *item) {
     TrieSetNode *current = ts->root;
     const char *c = item;
     while (*c) {
-        size_t index = *c - CHAR_MIN;
+        size_t index = (size_t) (*c - CHAR_MIN);
         if (!current->children[index]) {
             return false;
         }
