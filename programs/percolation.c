@@ -16,15 +16,14 @@
 #define UF_INDEX(pg, i, j) ((i) * (pg)->rows + (j) + 1)
 
 /**
- * Helper method to check if a string is composed of by whitespace characters
- * only.
+ * Helper method to check if a string is composed of by whitespace characters only.
  *
  * @param s The strings to check.
  * @param n The length of the string.
  * @return true if the string is empty, false otherwise.
  */
 static bool is_empty(const char *s, ssize_t n) {
-    for (size_t i = 0; i < n && s[i] != '\n'; i++) {
+    for (ssize_t i = 0; i < n && s[i] != '\n'; i++) {
         if (!isspace(*s)) {
             return false;
         }
