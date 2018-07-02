@@ -49,7 +49,7 @@ int main(void) {
 
     // Initialize the set
     BSTSet bs;
-    if (!bs_init(&bs, compare_str)) {
+    if (!bsts_init(&bs, compare_str)) {
         fprintf(stderr, "Cannot initialize set.\n");
         return EXIT_FAILURE;
     }
@@ -61,9 +61,9 @@ int main(void) {
     while ((read = getline(&line, &len, fp)) != -1) {
         // Perform the set operation based on the command
         if (strncmp(line, "is_empty", strlen("is_empty")) == 0) {
-            printf("%s\n", bs_is_empty(&bs) ? "empty" : "not empty");
+            printf("%s\n", bsts_is_empty(&bs) ? "empty" : "not empty");
         } else if (strncmp(line, "size", strlen("size")) == 0) {
-            printf("%zu\n", bs_size(&bs));
+            printf("%zu\n", bsts_size(&bs));
         } else if (strncmp(line, "add ", strlen("add ")) == 0) {
             // Add the string after the command
             char *str = strchr(line, ' ');
@@ -73,15 +73,15 @@ int main(void) {
             }
             str++;
             char *s = strndup(str, strlen(str) - 1);
-            if (!bs_add(&bs, s)) {
+            if (!bsts_add(&bs, s)) {
                 fprintf(stderr, "Cannot add to list.\n");
                 return_val = EXIT_FAILURE;
                 goto cleanup;
             }
         } else if (strncmp(line, "remove_min", strlen("remove_min")) == 0) {
-            free(bs_remove_min(&bs));
+            free(bsts_remove_min(&bs));
         } else if (strncmp(line, "remove_max", strlen("remove_max")) == 0) {
-            free(bs_remove_max(&bs));
+            free(bsts_remove_max(&bs));
         } else if (strncmp(line, "remove ", strlen("remove ")) == 0) {
             // Remove the provided string
             char *str = strchr(line, ' ');
@@ -91,7 +91,7 @@ int main(void) {
             }
             str++;
             str[strlen(str) - 1] = '\0';
-            free(bs_remove(&bs, str));
+            free(bsts_remove(&bs, str));
         } else if (strncmp(line, "contains ", strlen("contains ")) == 0) {
             // Get the string to check
             char *str = strchr(line, ' ');
@@ -101,18 +101,18 @@ int main(void) {
             }
             str++;
             str[strlen(str) - 1] = '\0';
-            printf("%s\n", bs_contains(&bs, str) ? "true" : "false");
+            printf("%s\n", bsts_contains(&bs, str) ? "true" : "false");
         } else if (strncmp(line, "min", strlen("min")) == 0) {
-            printf("%s\n", (char *) bs_min(&bs));
+            printf("%s\n", (char *) bsts_min(&bs));
         } else if (strncmp(line, "max", strlen("max")) == 0) {
-            printf("%s\n", (char *) bs_max(&bs));
+            printf("%s\n", (char *) bsts_max(&bs));
         } else if (strncmp(line, "print_reverse", strlen("print_reverse")) == 0) {
             // Print all elements in reverse order
-            bs_foreach(&bs, print_element, NULL, true);
+            bsts_foreach(&bs, print_element, NULL, true);
             puts("");
         } else if (strncmp(line, "print", strlen("print")) == 0) {
             // Print all elements
-            bs_foreach(&bs, print_element, NULL, false);
+            bsts_foreach(&bs, print_element, NULL, false);
             puts("");
         } else {
             fprintf(stderr, "Invalid command: %.*s.\n", (int) read - 1, line);
@@ -122,8 +122,8 @@ int main(void) {
 
 cleanup:
     // Perform cleanup
-    bs_foreach(&bs, free_element, NULL, false);
-    bs_destroy(&bs);
+    bsts_foreach(&bs, free_element, NULL, false);
+    bsts_destroy(&bs);
     free(line);
     fclose(fp);
 

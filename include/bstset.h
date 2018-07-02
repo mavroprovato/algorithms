@@ -33,17 +33,16 @@ typedef struct {
  *
  * @param bs Pointer to the binary search tree set data structure to initialize.
  * @param compare Function used to compare the items.
- * @return true If the binary search tree set was initialized successfully,
- * false otherwise.
+ * @return true If the binary search tree set was initialized successfully, false otherwise.
  */
-bool bs_init(BSTSet *bs, COMPARE_FUNC compare);
+bool bsts_init(BSTSet *bs, COMPARE_FUNC compare);
 
 /**
  * Frees resources associated with the binary search tree set data structure.
  *
  * @param bs Pointer to the binary search tree set data structure to be freed.
  */
-void bs_destroy(BSTSet *bs);
+void bsts_destroy(BSTSet *bs);
 
 /**
  * Check if the binary search tree contains any elements.
@@ -51,7 +50,7 @@ void bs_destroy(BSTSet *bs);
  * @param bs Pointer to the binary search tree set data structure.
  * @return true if the stack contains elements, false otherwise.
  */
-bool bs_is_empty(BSTSet *bs);
+bool bsts_is_empty(BSTSet *bs);
 
 /**
  * Return the size of the binary search tree.
@@ -59,7 +58,7 @@ bool bs_is_empty(BSTSet *bs);
  * @param bs Pointer to the binary search tree set data structure.
  * @return The size of the binary search tree set.
  */
-size_t bs_size(BSTSet *bs);
+size_t bsts_size(BSTSet *bs);
 
 /**
  * Add an item to the binary search tree set. Note that NULL items cannot be added to the set.
@@ -68,7 +67,7 @@ size_t bs_size(BSTSet *bs);
  * @param item Pointer to the item to be added.
  * @return true if the item was added successfully, false otherwise.
  */
-bool bs_add(BSTSet *bs, void *item);
+bool bsts_add(BSTSet *bs, void *item);
 
 /**
  * Remove the minimum item contained in the binary search tree set.
@@ -76,7 +75,7 @@ bool bs_add(BSTSet *bs, void *item);
  * @param bs Pointer to the binary search tree set data structure.
  * @return The item removed or NULL if the tree was empty.
  */
-void *bs_remove_min(BSTSet *bs);
+void *bsts_remove_min(BSTSet *bs);
 
 /**
  * Remove the maximum item contained in the binary search tree set.
@@ -84,7 +83,7 @@ void *bs_remove_min(BSTSet *bs);
  * @param bs Pointer to the binary search tree set data structure.
  * @return The item removed or NULL if the tree was empty.
  */
-void *bs_remove_max(BSTSet *bs);
+void *bsts_remove_max(BSTSet *bs);
 
 /**
  * Remove an item contained in the binary search tree set.
@@ -93,7 +92,7 @@ void *bs_remove_max(BSTSet *bs);
  * @param item Pointer to the item to be removed.
  * @return The item removed or NULL if the element was not found.
  */
-void *bs_remove(BSTSet *bs, void *item);
+void *bsts_remove(BSTSet *bs, void *item);
 
 /**
  * Check if the binary search tree set contains an item.
@@ -102,7 +101,7 @@ void *bs_remove(BSTSet *bs, void *item);
  * @param item Pointer to the item.
  * @return true if the binary search tree set contains the item, false otherwise.
  */
-bool bs_contains(BSTSet *bs, void *item);
+bool bsts_contains(BSTSet *bs, void *item);
 
 /**
  * Return the minimum item contained in the binary search tree set.
@@ -110,7 +109,7 @@ bool bs_contains(BSTSet *bs, void *item);
  * @param bs Pointer to the binary search tree set data structure.
  * @return The minimum item contained in the binary search tree set, or NULL if the set is empty.
  */
-void *bs_min(BSTSet *bs);
+void *bsts_min(BSTSet *bs);
 
 /**
  * Return the maximum item contained in the binary search tree set.
@@ -118,7 +117,7 @@ void *bs_min(BSTSet *bs);
  * @param bs Pointer to the binary search tree set data structure.
  * @return The maximum item contained in the binary search tree set, or NULL if the set is empty.
  */
-void *bs_max(BSTSet *bs);
+void *bsts_max(BSTSet *bs);
 
 /**
  * Traverse all the items of the binary search tree set in sorted order (or in reverse sorted order) and call a function
@@ -129,6 +128,6 @@ void *bs_max(BSTSet *bs);
  * @param data Pointer to the custom user data. Can be NULL.
  * @param reverse Set to true to traverse the items in reverse sorted order.
  */
-void bs_foreach(BSTSet *bs, ITERATOR_FUNC iterator_func, void *data, bool reverse);
+void bsts_foreach(BSTSet *bs, ITERATOR_FUNC iterator_func, void *data, bool reverse);
 
 #endif // _BST_SET_H
