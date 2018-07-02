@@ -21,7 +21,6 @@ The data structures implemented are:
     * [Binary Search Trees](https://en.wikipedia.org/wiki/Binary_search_tree)
     * [Tries](https://en.wikipedia.org/wiki/Trie)
 
-
 The algorithms implemented are:
 
 * Various sorting algorithms:
@@ -41,10 +40,18 @@ Also, some programs are included which use those data structures and solve some 
 Installation
 ============
 
-The library is written against C11, so a conforming compliler is needed, like [gcc](https://gcc.gnu.org/) or [clang](https://clang.llvm.org/). Also, for the programs, an implemention conforming to POSIX.1-2008 is required. Currently the project has been tested with GCC version 4.8.2 on Ubuntu 16.04.
+The library is written against C11, so a conforming compiler is needed, like [gcc](https://gcc.gnu.org/) or
+[clang](https://clang.llvm.org/). Also, for the programs, an implementation conforming to POSIX.1-2008 is required.
+Currently the project has been tested with GCC version 7.3.0 on Ubuntu 18.04.
 
-To build the library you can use the provided Makefile. `make` creates a debug build. `make release` creates a build without debug sumbols, and with compiler optimizations enabled.
+The project uses [CMake](https://cmake.org/) as the build system. In order to build it, run the following commands:
 
+```$bash
+mkdir cmake-build-debug
+cd cmake-build-debug
+cmake ..
+make
+```
 
 Bibliography
 ============
