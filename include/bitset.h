@@ -39,9 +39,18 @@ void bs_destroy(BitSet *bs);
  *
  * @param bs Pointer to the bit set data structure.
  * @param n The position to set.
- * @return true if
+ * @return true if the bit was set successfully, false otherwise.
  */
 bool bs_set(BitSet *bs, size_t n);
+
+/**
+ * Clear a bit at the specified position.
+ *
+ * @param bs Pointer to the bit set data structure.
+ * @param n The position to clear.
+ * @return true if the bit was cleared successfully, false otherwise.
+ */
+bool bs_clear(BitSet *bs, size_t n);
 
 /**
  * Print the bit set to a stream.

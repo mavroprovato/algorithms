@@ -37,9 +37,17 @@ bool bs_set(BitSet *bs, size_t n) {
         return false;
     }
 
-    size_t word = n / BITS_PER_WORD;
-    size_t mask = 1u << n % BITS_PER_WORD;
-    bs->bits[word] |= mask;
+    bs->bits[n / BITS_PER_WORD] |= 1u << n % BITS_PER_WORD;
+
+    return true;
+}
+
+bool bs_clear(BitSet *bs, size_t n) {
+    if (n > bs->n) {
+        return false;
+    }
+
+    bs->bits[n / BITS_PER_WORD] &= ~(1u << n % BITS_PER_WORD);
 
     return true;
 }
