@@ -35,6 +35,15 @@ bool bs_init(BitSet *bs, size_t n);
 void bs_destroy(BitSet *bs);
 
 /**
+ * Set a bit at the specified position.
+ *
+ * @param bs Pointer to the bit set data structure.
+ * @param n The position to set.
+ * @return true if
+ */
+bool bs_set(BitSet *bs, size_t n);
+
+/**
  * Print the bit set to a stream.
  *
  * @param bs Pointer to the bit set data structure.

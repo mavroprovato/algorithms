@@ -32,6 +32,18 @@ void bs_destroy(BitSet *bs) {
     free(bs->bits);
 }
 
+bool bs_set(BitSet *bs, size_t n) {
+    if (n > bs->n) {
+        return false;
+    }
+
+    size_t word = n / BITS_PER_WORD;
+    size_t mask = 1u << n % BITS_PER_WORD;
+    bs->bits[word] |= mask;
+
+    return true;
+}
+
 void bs_print(BitSet *bs, FILE *f) {
     for (size_t i = WORDS_FOR_BITS(bs->n); i-- > 0; ) {
         for (size_t j = BITS_PER_WORD; j-- > 0; ) {
