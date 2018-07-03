@@ -1,15 +1,19 @@
 #ifndef _BITSET_H
 #define _BITSET_H
 
-#include <stddef.h>
 #include <stdbool.h>
+#include <stddef.h>
+#include <stdio.h>
+
+/** Defines the base unit of storage used. */
+typedef unsigned int BS_WORD;
 
 /**
  * The bit set structure
  */
 typedef struct {
     /** The storage. */
-    void *bits;
+    BS_WORD *bits;
     /** The number of bits that the set holds. */
     size_t n;
 } BitSet;
@@ -29,5 +33,13 @@ bool bs_init(BitSet *bs, size_t n);
  * @param bs Pointer to the bit set data structure to be freed.
  */
 void bs_destroy(BitSet *bs);
+
+/**
+ * Print the bit set to a stream.
+ *
+ * @param bs Pointer to the bit set data structure.
+ * @param f The stream.
+ */
+void bs_print(BitSet *bs, FILE *f);
 
 #endif // _BITSET_H

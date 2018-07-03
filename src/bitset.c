@@ -1,10 +1,15 @@
 #include "bitset.h"
 
+#include <limits.h>
 #include <stdlib.h>
 #include <string.h>
+#include <bitset.h>
 
-/** Defines the base unit of storage used. */
-typedef unsigned int BS_WORD;
+/** The number of bits for the base storage. */
+#define BITS_PER_WORD (sizeof(BS_WORD) * CHAR_BIT)
+
+/** The number of words needed to represent the number of bits. */
+#define WORDS_FOR_BITS(n) ((n) / BITS_PER_WORD + ((n) % BITS_PER_WORD == 0 ? 0 : 1))
 
 bool bs_init(BitSet *bs, size_t n) {
     // Make sure that the requested size is greater than zero
@@ -12,18 +17,12 @@ bool bs_init(BitSet *bs, size_t n) {
         return false;
     }
 
-    // Calculate the number of words we must allocate
-    size_t size = (n / (sizeof(BS_WORD) * 8)) + 1;
-    if ((n % (sizeof(BS_WORD) * 8)) == 0) {
-        size--;
-    }
-
-    // Allocate the storage
-    bs->bits = malloc(size * sizeof(BS_WORD));
+    // Initialize the storage
+    bs->bits = malloc(WORDS_FOR_BITS(n) * sizeof(BS_WORD));
     if (!bs->bits) {
         return false;
     }
-    memset(bs->bits, 0, size * 8);
+    memset(bs->bits, 0, WORDS_FOR_BITS(n) * sizeof(BS_WORD));
     bs->n = n;
 
     return true;
@@ -31,4 +30,12 @@ bool bs_init(BitSet *bs, size_t n) {
 
 void bs_destroy(BitSet *bs) {
     free(bs->bits);
+}
+
+void bs_print(BitSet *bs, FILE *f) {
+    for (size_t i = WORDS_FOR_BITS(bs->n); i-- > 0; ) {
+        for (size_t j = BITS_PER_WORD; j-- > 0; ) {
+            fputs((bs->bits[i] >> j) & 1u ? "1" : "0", f);
+        }
+    }
 }
