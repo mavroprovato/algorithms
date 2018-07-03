@@ -53,6 +53,15 @@ bool bs_set(BitSet *bs, size_t n);
 bool bs_clear(BitSet *bs, size_t n);
 
 /**
+ * Check if the bit is set in the specified position.
+ *
+ * @param bs Pointer to the bit set data structure.
+ * @param n The position to check.
+ * @return true if the bit is set, false otherwise.
+ */
+bool bs_is_set(BitSet *bs, size_t n);
+
+/**
  * Print the bit set to a stream.
  *
  * @param bs Pointer to the bit set data structure.

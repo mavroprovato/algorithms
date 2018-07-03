@@ -52,6 +52,14 @@ bool bs_clear(BitSet *bs, size_t n) {
     return true;
 }
 
+bool bs_is_set(BitSet *bs, size_t n) {
+    if (n > bs->n) {
+        return false;
+    }
+
+    return (bool) (bs->bits[n / BITS_PER_WORD] & (1u << n % BITS_PER_WORD));
+}
+
 void bs_print(BitSet *bs, FILE *f) {
     for (size_t i = WORDS_FOR_BITS(bs->n); i-- > 0; ) {
         for (size_t j = BITS_PER_WORD; j-- > 0; ) {
